@@ -7,16 +7,22 @@ export const beforeResolver = (rules) => {
 }
 
 export const users = () => {
-  return db.user.findMany({ take: 100 })
+  return db.user.findMany()
 }
 
-export const user = ({ id }) => {
+export const user = ({ address }) => {
   return db.user.findUnique({
-    where: { id },
+    where: { address },
   })
 }
 
 export const User = {
   authDetail: (_obj, { root }) =>
     db.user.findUnique({ where: { id: root.id } }).authDetail(),
+  guilds: (_obj, { root }) =>
+    db.user.findUnique({ where: { id: root.id } }).guilds(),
+  roles: (_obj, { root }) =>
+    db.user.findUnique({ where: { id: root.id } }).roles(),
+  currentSessionGuild: (_obj, { root }) =>
+    db.user.findUnique({ where: { id: root.id } }).currentSessionGuild(),
 }

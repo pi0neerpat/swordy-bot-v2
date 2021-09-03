@@ -61,29 +61,25 @@ const UsersList = ({ users }) => {
       <table className="rw-table">
         <thead>
           <tr>
-            <th>Id</th>
             <th>Address</th>
-            <th>Auth detail id</th>
-            <th>&nbsp;</th>
+            <th>Platform id</th>
+            <th>Platform</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              <td>{truncate(user.id)}</td>
-              <td>{truncate(user.address)}</td>
-              <td>{truncate(user.authDetailId)}</td>
               <td>
-                <nav className="rw-table-actions">
-                  <Link
-                    to={routes.user({ id: user.id })}
-                    title={'Show user ' + user.id + ' detail'}
-                    className="rw-button rw-button-small"
-                  >
-                    Show
-                  </Link>
-                </nav>
+                <Link
+                  to={routes.user({ address: user.address })}
+                  title={'Show user ' + user.address + ' detail'}
+                  className="rw-button rw-button-small"
+                >
+                  {truncate(user.address)}
+                </Link>
               </td>
+              <td>{truncate(user.platformId)}</td>
+              <td>{truncate(user.platform)}</td>
             </tr>
           ))}
         </tbody>

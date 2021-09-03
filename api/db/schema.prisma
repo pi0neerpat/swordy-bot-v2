@@ -1,6 +1,6 @@
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE")
+  provider          = "postgresql"
+  url               = env("DATABASE")
   shadowDatabaseUrl = env("SHADOW_DATABASE")
 }
 
@@ -9,16 +9,60 @@ generator client {
   binaryTargets = "native"
 }
 
-model User {
-  id           String     @id @default(uuid())
-  address      String     @unique
-  authDetail   AuthDetail @relation(fields: [authDetailId], references: [id])
-  authDetailId String
-}
-
 model AuthDetail {
   id        String   @id @default(uuid())
   nonce     String
   timestamp DateTime @default(now())
   User      User?
+}
+
+model User {
+  id                  String     @id @default(uuid())
+  address             String     @unique
+  authDetail          AuthDetail @relation(fields: [authDetailId], references: [id])
+  authDetailId        String
+  platformId          String?    @unique
+  platform            String?
+  guilds              Guild[]    @relation(name: "userGuilds")
+  roles               Role[]     @relation(name: "userRoles")
+  ephemeralId         String?
+  currentSessionGuild Guild?     @relation(fields: [currentSessionGuildPlatformId], references: [platformId])
+  currentSessionGuildPlatformId     String?
+}
+
+model Guild {
+  platformId  String  @id
+  platform    String
+  name        String
+  iconUrl     String?
+  description String?
+  roles       Role[]  @relation(name: "guildRoles")
+  users       User[]  @relation(name: "userGuilds")
+  User        User[]
+}
+
+model Role {
+  id              String  @id @default(uuid())
+  guild           Guild   @relation(name: "guildRoles", fields: [guildPlatformId], references: [platformId])
+  name            String
+  platformId      String
+  description     String?
+  token           Token   @relation(fields: [tokenId], references: [id])
+  balance         String
+  users           User[]  @relation(name: "userRoles")
+  purchaseUrl     String?
+  guildPlatformId String
+  tokenId         String
+}
+
+model Token {
+  id              String  @id @default(uuid())
+  chainId         String
+  contractAddress String
+  type            String // erc721, erc20, loot
+  tokenId         Int? // only for erc721
+  uri             String? // only for erc721
+  website         String?
+  iconUrl         String?
+  Role            Role[]
 }

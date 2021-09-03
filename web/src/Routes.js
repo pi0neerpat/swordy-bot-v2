@@ -15,12 +15,13 @@ const Routes = () => {
   return (
     <Router>
       <Set wrap={DefaultLayout}>
-        <Route path="/" page={HomePage} name="home" />
-        <Route path="/login" page={LoginPage} name="login" />
         <Set private unauthenticated="login" wrap={UsersLayout}>
-          <Route path="/users/{id}" page={UserUserPage} name="user" />
+          <Route path="/users/{address}" page={UserUserPage} name="user" />
           <Route path="/users" page={UserUsersPage} name="users" />
         </Set>
+        <Route path="/" page={HomePage} name="home" />
+        <Route path="/login" page={LoginPage} name="login" />
+
         <Route notfound page={NotFoundPage} />
       </Set>
     </Router>

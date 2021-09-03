@@ -55,16 +55,16 @@ const User = ({ user }) => {
         <table className="rw-table">
           <tbody>
             <tr>
-              <th>Id</th>
-              <td>{user.id}</td>
-            </tr>
-            <tr>
               <th>Address</th>
               <td>{user.address}</td>
             </tr>
             <tr>
-              <th>Auth detail id</th>
-              <td>{user.authDetailId}</td>
+              <th>Platform id</th>
+              <td>{user.platformId}</td>
+            </tr>
+            <tr>
+              <th>Platform</th>
+              <td>{user.platform}</td>
             </tr>
           </tbody>
         </table>

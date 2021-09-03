@@ -1,11 +1,12 @@
 import User from 'src/components/User/User'
 
 export const QUERY = gql`
-  query FindUserById($id: String!) {
-    user: user(id: $id) {
+  query FindUserById($address: String!) {
+    user: user(address: $address) {
       id
       address
-      authDetailId
+      platformId
+      platform
     }
   }
 `

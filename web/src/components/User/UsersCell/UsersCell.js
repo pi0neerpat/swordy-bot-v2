@@ -7,7 +7,8 @@ export const QUERY = gql`
     users {
       id
       address
-      authDetailId
+      platformId
+      platform
     }
   }
 `

@@ -1,5 +1,5 @@
 import { db } from 'src/lib/db'
-import { requireAuth } from 'src/lib/auth'
+import { requireAuth, getCurrentUser } from 'src/lib/auth'
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
@@ -14,6 +14,22 @@ export const user = ({ address }) => {
   return db.user.findUnique({
     where: { address },
   })
+}
+
+export const loginSuccess = async () => {
+  // TODO: Get user ephemeralId from JWT auth
+  const user = getCurrentUser()
+  console.log(user)
+  // console.log(getCurrentUser());
+  // // Remove the ephemeralId from the user
+  // const user = await db.user.update({
+  //   where: { id },
+  //   data: {
+  //     ephemeralId: null,
+  //   },
+  // })
+
+  return { id: 'abc123' }
 }
 
 export const User = {

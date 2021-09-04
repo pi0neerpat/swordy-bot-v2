@@ -4,5 +4,6 @@ module.exports = {
   plugins: [
     require('tailwindcss')(path.resolve(__dirname, 'tailwind.config.js')),
     require('autoprefixer'),
+    require('@tailwindcss/typography'),
   ],
 }

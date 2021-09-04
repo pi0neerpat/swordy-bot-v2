@@ -67,7 +67,7 @@ In order to collect all the required environment variables, you'll need to deplo
 
 Create a new Vercel app using your forked repo. The build commands are automatically detected for RedwoodJS projects.
 
-Update the environment variables for what you see in the root `.env` file. You will get `DATABASE_URL` from your Heroku database in the next step.
+Update the environment variables for what you see in the Redwood `.env` file (root of this repo). You will get `DATABASE` from your Heroku database in the next step.
 
 ### Heroku - Bot
 
@@ -75,9 +75,9 @@ Heroku doesn't like apps that aren't in the root folder. To get around this, I a
 
 Once deployed, head to the "Resources" tab for this Heroku app, turn off the `web` Dyno, and turn on the `worker` Dyno. This Dyno is defined in the repo root `Procfile`.
 
-Update the environment variables in "Settings" tab to reflect what you see in the `.env` here.
+Update the config environment variables in "Settings" tab to reflect what you see in the `.template.env` file in `/bot`.
 
-Create a new **postgres add-on** in this Heroku app, and add the url to the Vercel environment as `DATABASE_URL`.
+Create a new **postgres add-on** in this Heroku app, and add the url to the Vercel environment as `DATABASE`.
 
 ### Discord
 
@@ -89,14 +89,12 @@ Leave "Bot Permissions" alone.
 
 Copy the `TOKEN` and add it to your bot app.
 
-Now add the bot to your server. In the Discord Application, in "General Information", copy the `CLIENT ID`. Insert it in this URL, and have the server administrator open it.
+Now add the bot to your server. In the developer portal, in "General Information", copy the `Application ID`. Insert this into this URL, and send it to whoever you want to add the bot.
 
 ```
-
 # Add the bot with role management permissions
 
-https://discord.com/oauth2/authorize?client_id=<clientID>&scope=bot&permissions=268435456
-
+https://discord.com/oauth2/authorize?client_id=<Application ID>&scope=bot&permissions=268435456
 ```
 
 ## Docker option

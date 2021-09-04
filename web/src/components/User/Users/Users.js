@@ -61,7 +61,7 @@ const UsersList = ({ users }) => {
       <table className="rw-table">
         <thead>
           <tr>
-            <th>Address</th>
+            <th>Id</th>
             <th>Platform id</th>
             <th>Platform</th>
           </tr>
@@ -71,11 +71,11 @@ const UsersList = ({ users }) => {
             <tr key={user.id}>
               <td>
                 <Link
-                  to={routes.user({ address: user.address })}
-                  title={'Show user ' + user.address + ' detail'}
+                  to={routes.user({ id: user.id })}
+                  title={'Show user ' + user.id + ' detail'}
                   className="rw-button rw-button-small"
                 >
-                  {truncate(user.address)}
+                  {truncate(user.id)}
                 </Link>
               </td>
               <td>{truncate(user.platformId)}</td>

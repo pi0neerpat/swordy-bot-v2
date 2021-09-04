@@ -1,0 +1,10 @@
+version: '3'
+services:
+  discord-bot:
+    image: pi0neerpat/3box-discord-bot
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - INVOCATION_STRING=${INVOCATION_STRING}
+      - API_URL=${API_URL}
+    ports:
+      - '8080:8080'

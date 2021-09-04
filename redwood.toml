@@ -6,7 +6,7 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
-  title = "Eth Auth Demo"
+  title = "Swordy Bot"
   port = 8910
   apiProxyPath = "/.redwood/functions"
   includeEnvironmentVariables = ['ETHEREUM_JWT_SECRET', 'INFURA_ID', 'DATABASE']

@@ -6,7 +6,6 @@ export const QUERY = gql`
   query FindUsers {
     users {
       id
-      address
       platformId
       platform
     }

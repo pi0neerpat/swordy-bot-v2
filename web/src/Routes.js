@@ -37,7 +37,7 @@ const Routes = () => {
       </Set>
       <Set wrap={DefaultLayout}>
         <Set private unauthenticated="login" wrap={UsersLayout}>
-          <Route path="/users/{address}" page={UserUserPage} name="user" />
+          <Route path="/users/{id}" page={UserUserPage} name="user" />
           <Route path="/users" page={UserUsersPage} name="users" />
         </Set>
         <Route path="/" page={HomePage} name="home" />

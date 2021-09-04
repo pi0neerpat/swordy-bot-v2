@@ -55,10 +55,6 @@ const User = ({ user }) => {
         <table className="rw-table">
           <tbody>
             <tr>
-              <th>Address</th>
-              <td>{user.address}</td>
-            </tr>
-            <tr>
               <th>Platform id</th>
               <td>{user.platformId}</td>
             </tr>

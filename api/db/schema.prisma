@@ -18,10 +18,10 @@ model AuthDetail {
 
 model User {
   id                  String     @id @default(uuid())
-  address             String     @unique
-  authDetail          AuthDetail @relation(fields: [authDetailId], references: [id])
-  authDetailId        String
-  platformId          String?    @unique
+  address             String?    @unique
+  authDetail          AuthDetail? @relation(fields: [authDetailId], references: [id])
+  authDetailId        String?
+  platformId          String    @unique
   platform            String?
   guilds              Guild[]    @relation(name: "userGuilds")
   roles               Role[]     @relation(name: "userRoles")

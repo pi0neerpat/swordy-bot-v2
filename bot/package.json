@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/bot.js",
+    "watch": "nodemon --watch 'src/**/*' --exec node src/bot.js",
     "test": "jest --testPathPattern=src/ --detectOpenHandles --setupFiles dotenv/config"
   },
   "dependencies": {

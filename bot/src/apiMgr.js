@@ -28,6 +28,7 @@ class ApiMgr {
 
   async postMessage({ message }) {
     try {
+      console.log(message.content)
       const res = await this.client.query({
         query: POST_MESSAGE_QUERY,
         variables: {

@@ -1,9 +1,9 @@
 export const schema = gql`
   type User {
     id: String!
-    address: String!
-    authDetail: AuthDetail!
-    authDetailId: String!
+    address: String
+    authDetail: AuthDetail
+    authDetailId: String
     platformId: String
     platform: String
     guilds: [Guild]!
@@ -20,8 +20,8 @@ export const schema = gql`
   }
 
   input CreateUserInput {
-    address: String!
-    authDetailId: String!
+    address: String
+    authDetailId: String
     platformId: String
     platform: String
     ephemeralId: String

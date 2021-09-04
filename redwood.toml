@@ -8,8 +8,9 @@
 [web]
   title = "Swordy Bot"
   port = 8910
+  host = "0.0.0.0"
   apiProxyPath = "/.redwood/functions"
-  includeEnvironmentVariables = ['ETHEREUM_JWT_SECRET', 'INFURA_ID', 'DATABASE']
+  includeEnvironmentVariables = ['ETHEREUM_JWT_SECRET', 'INFURA_ID', 'DATABASE', 'DISCORD_TOKEN']
 [api]
   port = 8911
 [browser]

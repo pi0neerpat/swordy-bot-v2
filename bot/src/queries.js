@@ -7,13 +7,15 @@ const POST_MESSAGE_QUERY = gql`
     $platform: String!
     $guildId: String!
   ) {
-    haveUserAddress(
+    postMessage(
       content: $content
       platformUserId: $platformUserId
       platform: $platform
       guildId: $guildId
     ) {
-      response
+      type
+      text
+      url
     }
   }
 `

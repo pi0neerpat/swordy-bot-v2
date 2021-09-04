@@ -8,7 +8,7 @@ const discordClient = new Discord.Client()
 
 const DISCORD_NO_DM_INVOCATION = 'Sorry, you can only do that from a server'
 const DISCORD_INVALID_PERMISSIONS = `⛈️ Sorry, I'm powerless. Someone must have revoked my permission to manage roles.`
-const DISCORD_SERVER_ERROR = `⛈️ Sorry, something went terribly wrong.`
+const DISCORD_SERVER_ERROR = `⛈️ Sorry, something went terribly wrong with my circuits. If this keeps happening please contact us: https://discord.gg/Nw3y4GtBSh`
 
 const handleInvoke = async (message) => {
   console.log(`New invocation from ${message.author.id}`)
@@ -17,7 +17,7 @@ const handleInvoke = async (message) => {
     if (!message.guild.me.hasPermission(['MANAGE_ROLES']))
       return message.channel.send(DISCORD_INVALID_PERMISSIONS)
 
-    const { text, url, type } = await postMessage({ message })
+    const { text, url, type } = await apiMgr.postMessage({ message })
     if (responseType === 'reply') message.reply(text)
     // TODO: Add embed response type
     // TODO: Add DM message response type

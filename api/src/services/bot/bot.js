@@ -6,4 +6,4 @@ export const beforeResolver = (rules) => {
   rules.skip({ only: ['postMessage'] })
 }
 
-export const postMessage = (input) => handleMessage(input)
+export const postMessage = ({ input }) => handleMessage(input)

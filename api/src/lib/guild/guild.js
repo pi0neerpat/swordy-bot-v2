@@ -5,9 +5,10 @@ import { db } from 'src/lib/db'
 const client = new Discord.Client()
 
 export const fetchGuild = async (guildId) => {
+  console.log(guildId)
   const res = await fetch(`https://discord.com/api/v8/guilds/${guildId}`, {
     headers: {
-      Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`,
+      Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
       'Content-Type': 'application/json',
     },
   })

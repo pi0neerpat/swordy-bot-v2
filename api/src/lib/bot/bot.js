@@ -10,6 +10,7 @@ export const handleMessage = async ({
   platform,
   guildId,
 }) => {
+  console.log({ content, platformUserId, platform, guildId })
   // TODO: is this always an invocation?
   const ephemeralId = uuidv4()
 

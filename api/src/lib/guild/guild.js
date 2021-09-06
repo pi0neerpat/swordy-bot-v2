@@ -4,28 +4,40 @@ import { db } from 'src/lib/db'
 
 const client = new Discord.Client()
 
-export const fetchGuild = async (guildId) => {
-  console.log(guildId)
-  const res = await fetch(`https://discord.com/api/v8/guilds/${guildId}`, {
-    headers: {
-      Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
-      'Content-Type': 'application/json',
-    },
-  })
-  const guildData = await res.text()
+// const url = `https://discord.com/api/v9/guilds/${guildId}`
+// const res = await fetch(url, {
+//   method: 'GET',
+//   headers: {
+//     Authorization: `Bot ${process.env.DISCORD_TOKEN}`,
+//     'Content-Type': 'application/json',
+//   },
+// })
+// const guildData = await res.text()
+// console.log(url)
+// console.log(guildData)
+//
+// await client.login(process.env.DISCORD_TOKEN)
+//
+// return await client.on('ready', async () => {
+//   console.log('Ready!')
+//   console.log(guildId)
+//   const res = await client.api.guilds(guildId)
+//   console.log(res)
+// })
 
-  // const guildData = await client.guilds.cache.get(guildId)
-  if (!guildData) throw "This guild doesn't exist on Discord"
-  console.log(guildData)
-  let guild = await db.guild.findUnique({ where: { platformId: guildId } })
+export const fetchGuild = async (guildObject) => {
+  if (!guildObject) throw 'No guildObject provided for fetchGuild'
+  let guild = await db.guild.findUnique({
+    where: { platformId: guildObject.id },
+  })
   if (!guild)
     guild = await db.guild.create({
       data: {
-        platformId: guildId,
+        platformId: guildObject.id,
         platform: 'discord',
-        name: guildData.name,
-        iconUrl: guildData.icon,
-        description: guildData.description,
+        name: guildObject.name,
+        iconUrl: guildObject.icon,
+        description: guildObject.description,
       },
     })
   return guild

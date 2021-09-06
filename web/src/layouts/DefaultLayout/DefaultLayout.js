@@ -61,16 +61,19 @@ const DefaultLayout = ({ children }) => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
               <div className="flex justify-start  lg:w-0 lg:flex-1">
-                <code>
-                  <a
-                    className="text-blue-600"
-                    href="https://github.com/oneclickdapp/ethereum-auth"
-                  >
-                    @oneclickdapp/ethereum-auth
-                  </a>
-                </code>
-                <p className="ml-4">
+                <p className="mr-4">
                   © {new Date().getFullYear()} One Click Dapp
+                </p>
+                <p>
+                  Powered by{' '}
+                  <code>
+                    <a
+                      className="text-blue-600"
+                      href="https://github.com/oneclickdapp/ethereum-auth"
+                    >
+                      @oneclickdapp/ethereum-auth
+                    </a>
+                  </code>
                 </p>
               </div>
             </div>

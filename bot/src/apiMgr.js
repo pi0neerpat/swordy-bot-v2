@@ -28,7 +28,6 @@ class ApiMgr {
 
   async postMessage({ message }) {
     try {
-      console.log(message.content)
       const res = await this.client.query({
         query: POST_MESSAGE_QUERY,
         variables: {
@@ -36,9 +35,10 @@ class ApiMgr {
           platformUserId: message.member.id,
           platform: 'discord',
           guildId: message.guild.id,
+          guild: message.guild,
         },
       })
-      return res.data
+      return res.data.postMessage
     } catch (e) {
       console.log(e)
       throw new Error(e)

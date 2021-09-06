@@ -94,7 +94,7 @@ Now add the bot to your server. In the developer portal, in "General Information
 ```
 # Add the bot with role management permissions
 
-https://discord.com/oauth2/authorize?client_id=<Application ID>&scope=bot&permissions=8
+https://discord.com/api/oauth2/authorize?client_id=<Application ID>&permissions=8&scope=bot%20applications.commands
 ```
 
 ## Docker option

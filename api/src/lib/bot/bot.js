@@ -9,13 +9,14 @@ export const handleMessage = async ({
   platformUserId,
   platform,
   guildId,
+  guild: guildObject,
 }) => {
   // TODO: is this always an invocation?
   const ephemeralId = uuidv4()
 
   // Create the guild if it doesn't exist
-  const guild = await fetchGuild(guildId)
-
+  const guild = await fetchGuild(guildObject)
+  console.log(guild)
   // Create the user in the database
   const user = await db.user.upsert({
     where: { platformId: platformUserId },
@@ -23,13 +24,13 @@ export const handleMessage = async ({
       platformId: platformUserId,
       platform,
       currentSessionGuild: {
-        connect: { platformId: guild.id },
+        connect: { platformId: guild.platformId },
       },
       ephemeralId,
     },
     update: {
       currentSessionGuild: {
-        connect: { platformId: guildId },
+        connect: { platformId: guild.platformId },
       },
       ephemeralId,
     },

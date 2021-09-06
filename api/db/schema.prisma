@@ -21,7 +21,7 @@ model User {
   address             String?    @unique
   authDetail          AuthDetail? @relation(fields: [authDetailId], references: [id])
   authDetailId        String?
-  platformId          String    @unique
+  platformId          String?    @unique
   platform            String?
   guilds              Guild[]    @relation(name: "userGuilds")
   roles               Role[]     @relation(name: "userRoles")

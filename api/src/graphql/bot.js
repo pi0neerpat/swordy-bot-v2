@@ -10,6 +10,7 @@ export const schema = gql`
       platformUserId: String!
       platform: String!
       guildId: String!
+      guild: JSON!
     ): Response!
   }
 `

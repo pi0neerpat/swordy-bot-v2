@@ -11,7 +11,7 @@ export const fetchGuild = async (guildId) => {
       'Content-Type': 'application/json',
     },
   })
-  const guildData = res.text()
+  const guildData = await res.text()
 
   // const guildData = await client.guilds.cache.get(guildId)
   if (!guildData) throw "This guild doesn't exist on Discord"

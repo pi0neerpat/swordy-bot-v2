@@ -1,8 +1,8 @@
 import { render } from '@redwoodjs/testing/web'
-import { Loading, Empty, Failure, Success } from './LoginCell'
-import { standard } from './LoginCell.mock'
+import { Loading, Empty, Failure, Success } from './RedirectCell'
+import { standard } from './RedirectCell.mock'
 
-describe('LoginCell', () => {
+describe('RedirectCell', () => {
   it('renders Loading successfully', () => {
     expect(() => {
       render(<Loading />)
@@ -29,7 +29,7 @@ describe('LoginCell', () => {
 
   it('renders Success successfully', async () => {
     expect(() => {
-      render(<Success login={standard().login} />)
+      render(<Success redirect={standard().redirect} />)
     }).not.toThrow()
   })
 })

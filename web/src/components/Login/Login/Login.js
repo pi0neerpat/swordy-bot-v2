@@ -12,31 +12,31 @@ const ERROR = 'error'
 const Login = () => {
   const [status, setStatus] = React.useState(READY)
   const { logIn, logOut, isAuthenticated, loading, currentUser } = useAuth()
-  const { redirectTo, ephemeralId } = useParams()
+  const { state, platformId } = useParams()
 
-  const LOGIN_SUCCESS_QUERY = gql`
-    query loginSuccess {
-      loginSuccess {
-        id
-      }
-    }
-  `
-  const [loginSuccess, { _, error: queryError }] = useQuery(
-    LOGIN_SUCCESS_QUERY,
-    {
-      onCompleted: () => {
-        setStatus(COMPLETE)
-        setTimeout(function () {
-          navigate(routes.user({ address: currentUser?.address }))
-        }, 5000)
-      },
-    }
-  )
+  // const LOGIN_SUCCESS_QUERY = gql`
+  //   query loginSuccess {
+  //     loginSuccess {
+  //       id
+  //     }
+  //   }
+  // `
+  // const [loginSuccess, { _, error: queryError }] = useQuery(
+  //   LOGIN_SUCCESS_QUERY,
+  //   {
+  //     onCompleted: () => {
+  //       setStatus(COMPLETE)
+  //       setTimeout(function () {
+  //         navigate(routes.user({ address: currentUser?.address }))
+  //       }, 5000)
+  //     },
+  //   }
+  // )
 
   const onLogIn = async (type) => {
     setStatus(LOADING)
     try {
-      await logIn(type)
+      await logIn({ type, state, platformId })
       // if (id) {
       //   // TODO: if it makes sense, move this to backend
       //   await loginSuccess()
@@ -52,17 +52,19 @@ const Login = () => {
   }
 
   const renderCallToAction = () => {
-    if (queryError)
+    // if (queryError)
+    if (false)
       return (
         <p className="mt-8 text-xl">
           We had a problem! Please let us know in our Discord server if this
           keeps happening.
         </p>
       )
-    if (!ephemeralId)
+    if (!state)
       return (
         <p className="mt-8 text-xl">
-          Uh oh! Looks like your url is missing an ID value. Please start over.
+          Uh oh! Looks like your url is missing a state value. Please start over
+          in Discord.
         </p>
       )
     // Happy case

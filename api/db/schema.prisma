@@ -17,21 +17,20 @@ model AuthDetail {
 }
 
 model User {
-  id                  String     @id @default(uuid())
-  address             String?    @unique
-  authDetail          AuthDetail? @relation(fields: [authDetailId], references: [id])
-  authDetailId        String?
-  platformId          String?    @unique
-  platform            String?
-  guilds              Guild[]    @relation(name: "userGuilds")
-  roles               Role[]     @relation(name: "userRoles")
-  ephemeralId         String?
-  currentSessionGuild Guild?     @relation(fields: [currentSessionGuildPlatformId], references: [platformId])
-  currentSessionGuildPlatformId     String?
+  id                      String     @id @default(uuid())
+  address                 String?    @unique
+  authDetail              AuthDetail? @relation(fields: [authDetailId], references: [id])
+  authDetailId            String?
+  platform                String?
+  guilds                  Guild[]    @relation(name: "userGuilds")
+  roles                   Role[]     @relation(name: "userRoles")
+  oauthState              String?
+  currentSessionGuild     Guild?     @relation(fields: [currentSessionGuildId], references: [id])
+  currentSessionGuildId   String?
 }
 
 model Guild {
-  platformId  String  @id
+  id          String  @id @default(uuid())
   platform    String
   name        String
   iconUrl     String?
@@ -43,7 +42,7 @@ model Guild {
 
 model Role {
   id              String  @id @default(uuid())
-  guild           Guild   @relation(name: "guildRoles", fields: [guildPlatformId], references: [platformId])
+  guild           Guild   @relation(name: "guildRoles", fields: [guildId], references: [id])
   name            String
   platformId      String
   description     String?
@@ -51,7 +50,7 @@ model Role {
   balance         String
   users           User[]  @relation(name: "userRoles")
   purchaseUrl     String?
-  guildPlatformId String
+  guildId         String
   tokenId         String
 }
 

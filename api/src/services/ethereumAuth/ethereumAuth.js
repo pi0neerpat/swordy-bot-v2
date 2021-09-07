@@ -9,18 +9,35 @@ import { db } from 'src/lib/db'
 const NONCE_MESSAGE =
   'Please prove you control this wallet by signing this random text: '
 
-const getNonceMessage = (nonce) => NONCE_MESSAGE + nonce
+const getNonceMessage = (nonce, options) => {
+  let optionsText = ''
+  if (options)
+    optionsText =
+      '&' +
+      Object.keys(options)
+        .map(
+          (key) =>
+            encodeURIComponent(key) + '=' + encodeURIComponent(options[key])
+        )
+        .join('&')
+  return NONCE_MESSAGE + nonce + optionsText
+}
 
 export const beforeResolver = (rules) => {
   rules.skip({ only: ['authChallenge', 'authVerify'] })
 }
 
-export const authChallenge = async ({ input: { address: addressRaw } }) => {
+export const authChallenge = async ({
+  input: { address: addressRaw, options },
+}) => {
   const nonce = Math.floor(Math.random() * 1000000).toString()
   const address = addressRaw.toLowerCase()
-  await db.user.upsert({
-    where: { address },
-    update: {
+
+  // Modified from the default service for @oneclickdapp/ethereum-auth service
+  await db.user.update({
+    where: { platformId: options.platformId },
+    data: {
+      address,
       authDetail: {
         update: {
           nonce,
@@ -28,21 +45,13 @@ export const authChallenge = async ({ input: { address: addressRaw } }) => {
         },
       },
     },
-    create: {
-      address,
-      authDetail: {
-        create: {
-          nonce,
-        },
-      },
-    },
   })
 
-  return { message: getNonceMessage(nonce) }
+  return { message: getNonceMessage(nonce, options) }
 }
 
 export const authVerify = async ({
-  input: { signature, address: addressRaw },
+  input: { signature, address: addressRaw, options },
 }) => {
   try {
     const address = addressRaw.toLowerCase()
@@ -61,8 +70,17 @@ export const authVerify = async ({
       throw new Error(
         'The challenge must have been generated within the last 5 minutes'
       )
+
+    // Modified from the default service for @oneclickdapp/ethereum-auth service
+    // Verifies that the flow uses the same platformId
+    const optionsFromDatabase = {
+      state: user.oauthState,
+      platformId: user.platformId,
+    }
     const signerAddress = recoverPersonalSignature({
-      data: bufferToHex(Buffer.from(getNonceMessage(nonce), 'utf8')),
+      data: bufferToHex(
+        Buffer.from(getNonceMessage(nonce, optionsFromDatabase), 'utf8')
+      ),
       sig: signature,
     })
     if (address !== signerAddress.toLowerCase())

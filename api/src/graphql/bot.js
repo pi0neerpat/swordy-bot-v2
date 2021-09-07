@@ -4,6 +4,9 @@ export const schema = gql`
     text: String
     url: String
   }
+  type Redirect {
+    url: String!
+  }
   type Query {
     postMessage(
       content: String!
@@ -12,5 +15,6 @@ export const schema = gql`
       guildId: String!
       guild: JSON!
     ): Response!
+    oauthCodeGrant(oauthState: String!, code: String!, type: String!): Redirect
   }
 `

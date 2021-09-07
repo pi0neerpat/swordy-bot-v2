@@ -17,6 +17,7 @@ import DefaultLayout from 'src/layouts/DefaultLayout'
 const Routes = () => {
   return (
     <Router>
+      <Route path="/redirect/{type}" page={RedirectPage} name="redirect" />
       <Set wrap={DefaultLayout}>
         <Route path="/" page={HomePage} name="home" />
         <Route path="/login" page={LoginPage} name="login" />

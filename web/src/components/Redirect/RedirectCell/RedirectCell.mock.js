@@ -1,6 +1,6 @@
 // Define your own mock data here:
 export const standard = () => ({
-  login: {
+  redirect: {
     id: 42,
   },
 })

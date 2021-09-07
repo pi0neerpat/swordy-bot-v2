@@ -8,7 +8,7 @@ export const schema = gql`
     platform: String
     guilds: [Guild]!
     roles: [Role]!
-    ephemeralId: String
+    oauthState: String
     currentSessionGuild: Guild
     currentSessionGuildPlatformId: String
   }
@@ -16,7 +16,6 @@ export const schema = gql`
   type Query {
     users: [User!]!
     user(id: String!): User
-    loginSuccess: User
   }
 
   input CreateUserInput {
@@ -24,7 +23,7 @@ export const schema = gql`
     authDetailId: String
     platformId: String
     platform: String
-    ephemeralId: String
+    oauthState: String
     currentSessionGuildPlatformId: String
   }
 
@@ -33,7 +32,7 @@ export const schema = gql`
     authDetailId: String
     platformId: String
     platform: String
-    ephemeralId: String
+    oauthState: String
     currentSessionGuildPlatformId: String
   }
 

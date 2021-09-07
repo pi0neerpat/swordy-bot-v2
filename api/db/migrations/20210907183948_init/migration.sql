@@ -10,25 +10,24 @@ CREATE TABLE "AuthDetail" (
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
-    "address" TEXT NOT NULL,
-    "authDetailId" TEXT NOT NULL,
-    "platformId" TEXT,
+    "address" TEXT,
+    "authDetailId" TEXT,
     "platform" TEXT,
-    "ephemeralId" TEXT,
-    "currentSessionGuildPlatformId" TEXT,
+    "oauthState" TEXT,
+    "currentSessionGuildId" TEXT,
 
     PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Guild" (
-    "platformId" TEXT NOT NULL,
+    "id" TEXT NOT NULL,
     "platform" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "iconUrl" TEXT,
     "description" TEXT,
 
-    PRIMARY KEY ("platformId")
+    PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -39,7 +38,7 @@ CREATE TABLE "Role" (
     "description" TEXT,
     "balance" TEXT NOT NULL,
     "purchaseUrl" TEXT,
-    "guildPlatformId" TEXT NOT NULL,
+    "guildId" TEXT NOT NULL,
     "tokenId" TEXT NOT NULL,
 
     PRIMARY KEY ("id")
@@ -75,9 +74,6 @@ CREATE TABLE "_userRoles" (
 CREATE UNIQUE INDEX "User.address_unique" ON "User"("address");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User.platformId_unique" ON "User"("platformId");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_authDetailId_unique" ON "User"("authDetailId");
 
 -- CreateIndex
@@ -93,19 +89,19 @@ CREATE UNIQUE INDEX "_userRoles_AB_unique" ON "_userRoles"("A", "B");
 CREATE INDEX "_userRoles_B_index" ON "_userRoles"("B");
 
 -- AddForeignKey
-ALTER TABLE "User" ADD FOREIGN KEY ("authDetailId") REFERENCES "AuthDetail"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "User" ADD FOREIGN KEY ("authDetailId") REFERENCES "AuthDetail"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD FOREIGN KEY ("currentSessionGuildPlatformId") REFERENCES "Guild"("platformId") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "User" ADD FOREIGN KEY ("currentSessionGuildId") REFERENCES "Guild"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Role" ADD FOREIGN KEY ("guildPlatformId") REFERENCES "Guild"("platformId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Role" ADD FOREIGN KEY ("guildId") REFERENCES "Guild"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Role" ADD FOREIGN KEY ("tokenId") REFERENCES "Token"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_userGuilds" ADD FOREIGN KEY ("A") REFERENCES "Guild"("platformId") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "_userGuilds" ADD FOREIGN KEY ("A") REFERENCES "Guild"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_userGuilds" ADD FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

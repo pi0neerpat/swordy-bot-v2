@@ -3,7 +3,7 @@ import { requireAuth, getCurrentUser } from 'src/lib/auth'
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
-  rules.skip({ only: ['loginSuccess'] })
+  rules.skip({ only: ['loginSuccess', 'loginEphemeralIdValid'] })
 }
 
 export const users = () => {
@@ -30,6 +30,11 @@ export const loginSuccess = async () => {
   // })
 
   return { id: 'abc123' }
+}
+export const loginEphemeralIdValid = ({ ephemeralId }) => {
+  return db.user.findFirst({
+    where: { ephemeralId },
+  })
 }
 
 export const User = {

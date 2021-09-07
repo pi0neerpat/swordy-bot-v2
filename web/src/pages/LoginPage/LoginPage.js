@@ -1,11 +1,9 @@
 import { useParams } from '@redwoodjs/router'
 
-import LoginCell from 'src/components/Login/LoginCell'
+import Login from 'src/components/Login/Login'
 
 const LoginPage = () => {
-  const { redirectTo, ephemeralId } = useParams()
-
-  return <LoginCell ephemeralId={ephemeralId} />
+  return <Login />
 }
 
 export default LoginPage

@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import { db } from 'src/lib/db'
 
 const NONCE_MESSAGE =
-  'Please prove you control this wallet by signing this random text: '
+  'Please prove you control this wallet by signing this text: salt='
 
 const getNonceMessage = (nonce, options) => {
   let optionsText = ''
@@ -34,7 +34,7 @@ export const authChallenge = async ({
   const address = addressRaw.toLowerCase()
   // Modified from the default service for @oneclickdapp/ethereum-auth service
   await db.user.update({
-    where: { id: options.id },
+    where: { id: options.id, address },
     data: {
       address,
       authDetail: {
@@ -61,7 +61,7 @@ export const authVerify = async ({
   try {
     const address = addressRaw.toLowerCase()
     const user = await db.user.findUnique({
-      where: { id: options.id },
+      where: { id: options.id, address },
     })
     if (!user) throw new Error('No authentication started')
     const { nonce, timestamp } = await db.user
@@ -78,10 +78,12 @@ export const authVerify = async ({
 
     // Modified from the default service for @oneclickdapp/ethereum-auth service
     // Verifies that the flow uses the same platformId
-    const optionsFromDatabase = {
-      state: user.oauthState,
-      id: user.id,
-    }
+    let optionsFromDatabase
+    if (options.state !== null)
+      optionsFromDatabase = {
+        state: user.oauthState,
+        id: user.id,
+      }
     const signerAddress = recoverPersonalSignature({
       data: bufferToHex(
         Buffer.from(getNonceMessage(nonce, optionsFromDatabase), 'utf8')

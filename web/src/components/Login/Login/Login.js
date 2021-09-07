@@ -36,7 +36,7 @@ const Login = () => {
   const onLogIn = async (type) => {
     setStatus(LOADING)
     try {
-      await logIn({ type, state, id })
+      await logIn({ type, ...(state && { state, id }) })
       // if (id) {
       //   // TODO: if it makes sense, move this to backend
       //   await loginSuccess()
@@ -58,13 +58,6 @@ const Login = () => {
         <p className="mt-8 text-xl">
           We had a problem! Please let us know in our Discord server if this
           keeps happening.
-        </p>
-      )
-    if (!state)
-      return (
-        <p className="mt-8 text-xl">
-          Uh oh! Looks like your url is missing a state value. Please start over
-          in Discord.
         </p>
       )
     // Happy case

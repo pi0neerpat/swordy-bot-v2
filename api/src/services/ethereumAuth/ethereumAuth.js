@@ -32,16 +32,21 @@ export const authChallenge = async ({
 }) => {
   const nonce = Math.floor(Math.random() * 1000000).toString()
   const address = addressRaw.toLowerCase()
-
   // Modified from the default service for @oneclickdapp/ethereum-auth service
   await db.user.update({
-    where: { platformId: options.platformId },
+    where: { id: options.id },
     data: {
       address,
       authDetail: {
-        update: {
-          nonce,
-          timestamp: new Date(),
+        upsert: {
+          create: {
+            nonce,
+            timestamp: new Date(),
+          },
+          update: {
+            nonce,
+            timestamp: new Date(),
+          },
         },
       },
     },
@@ -56,7 +61,7 @@ export const authVerify = async ({
   try {
     const address = addressRaw.toLowerCase()
     const user = await db.user.findUnique({
-      where: { address },
+      where: { id: options.id },
     })
     if (!user) throw new Error('No authentication started')
     const { nonce, timestamp } = await db.user
@@ -75,7 +80,7 @@ export const authVerify = async ({
     // Verifies that the flow uses the same platformId
     const optionsFromDatabase = {
       state: user.oauthState,
-      platformId: user.platformId,
+      id: user.id,
     }
     const signerAddress = recoverPersonalSignature({
       data: bufferToHex(

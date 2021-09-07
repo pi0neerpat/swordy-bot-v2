@@ -44,7 +44,6 @@ model Role {
   id              String  @id @default(uuid())
   guild           Guild   @relation(name: "guildRoles", fields: [guildId], references: [id])
   name            String
-  platformId      String
   description     String?
   token           Token   @relation(fields: [tokenId], references: [id])
   balance         String

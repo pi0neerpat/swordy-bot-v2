@@ -28,12 +28,12 @@ const client = new Discord.Client()
 export const fetchGuild = async (guildObject) => {
   if (!guildObject) throw 'No guildObject provided for fetchGuild'
   let guild = await db.guild.findUnique({
-    where: { platformId: guildObject.id },
+    where: { id: guildObject.id },
   })
   if (!guild)
     guild = await db.guild.create({
       data: {
-        platformId: guildObject.id,
+        id: guildObject.id,
         platform: 'discord',
         name: guildObject.name,
         iconUrl: guildObject.icon,

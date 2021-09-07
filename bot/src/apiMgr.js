@@ -2,7 +2,29 @@ const { ApolloClient } = require('apollo-client')
 const { InMemoryCache } = require('apollo-cache-inmemory')
 const { HttpLink } = require('apollo-link-http')
 const fetch = require('cross-fetch')
-const { POST_MESSAGE_QUERY } = require('./queries')
+const gql = require('graphql-tag')
+
+const POST_MESSAGE_QUERY = gql`
+  query POST_MESSAGE_QUERY(
+    $content: String!
+    $userId: String!
+    $platform: String!
+    $guildId: String!
+    $guild: JSON!
+  ) {
+    postMessage(
+      content: $content
+      userId: $userId
+      platform: $platform
+      guildId: $guildId
+      guild: $guild
+    ) {
+      type
+      text
+      url
+    }
+  }
+`
 
 class ApiMgr {
   constructor() {
@@ -32,7 +54,7 @@ class ApiMgr {
         query: POST_MESSAGE_QUERY,
         variables: {
           content: message.content,
-          platformUserId: message.member.id,
+          userId: message.member.id,
           platform: 'discord',
           guildId: message.guild.id,
           guild: message.guild,

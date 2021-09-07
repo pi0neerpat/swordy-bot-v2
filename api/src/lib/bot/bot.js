@@ -11,7 +11,7 @@ import { LOGIN_URL, DISCORD_INITIAL_AUTH } from 'src/lib/bot/constants'
 
 export const handleMessage = async ({
   content,
-  platformUserId,
+  userId,
   platform,
   guildId,
   guild: guildObject,
@@ -24,18 +24,18 @@ export const handleMessage = async ({
 
   // Create the user in the database
   const user = await db.user.upsert({
-    where: { platformId: platformUserId },
+    where: { id: userId },
     create: {
-      platformId: platformUserId,
+      id: userId,
       platform,
       currentSessionGuild: {
-        connect: { platformId: guild.platformId },
+        connect: { id: guild.id },
       },
       oauthState,
     },
     update: {
       currentSessionGuild: {
-        connect: { platformId: guild.platformId },
+        connect: { id: guild.id },
       },
       oauthState,
     },
@@ -49,21 +49,30 @@ export const handleMessage = async ({
 }
 
 export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
+  if (type === 'unlock') {
+    // User is coming from purchase on Unlock Protocl
+    // TODO: Verify the unlock was completed
+    throw "Unlock isn't implemented yet"
+  }
   if (type === 'discord') {
+    // User is coming from Discord
     const accessToken = await getDiscordAccessToken(code)
     if (!accessToken)
       throw 'Oauth access not valid or has already been used. Please restart the flow in Discord'
     const profile = await getDiscordProfile(accessToken)
 
-    // Fetch user by platformId and validate state
-    const user = await db.user.findUnique({ where: { platformId: profile.id } })
+    // Fetch user and validate state
+    const user = await db.user.findUnique({ where: { id: profile.id } })
     if (user.oauthState !== oauthState)
       throw 'handleOauthCodeGrant() oauthState does not match'
+
+    // TODO: Check currentSessionGuild for where to redirect the user
+    // Either: 1) login here, or 2) purchase lock from unlockprotocol.com
 
     const newOauthState = uuidv4()
     // Direct the user to
     await db.user.update({
-      where: { platformId: profile.id },
+      where: { id: profile.id },
       data: {
         oauthState: newOauthState,
       },
@@ -71,7 +80,7 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
 
     // Redirect to Ethereum auth
     return {
-      url: `/login?state=${oauthState}&platformId=${profile.id}`,
+      url: `/login?state=${newOauthState}&id=${profile.id}`,
     }
   } else {
     throw 'handleOauthCodeGrant() No type provided or invalid type'

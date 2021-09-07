@@ -12,7 +12,7 @@ const ERROR = 'error'
 const Login = () => {
   const [status, setStatus] = React.useState(READY)
   const { logIn, logOut, isAuthenticated, loading, currentUser } = useAuth()
-  const { state, platformId } = useParams()
+  const { state, id } = useParams()
 
   // const LOGIN_SUCCESS_QUERY = gql`
   //   query loginSuccess {
@@ -36,7 +36,7 @@ const Login = () => {
   const onLogIn = async (type) => {
     setStatus(LOADING)
     try {
-      await logIn({ type, state, platformId })
+      await logIn({ type, state, id })
       // if (id) {
       //   // TODO: if it makes sense, move this to backend
       //   await loginSuccess()

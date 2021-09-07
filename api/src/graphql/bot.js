@@ -10,7 +10,7 @@ export const schema = gql`
   type Query {
     postMessage(
       content: String!
-      platformUserId: String!
+      userId: String!
       platform: String!
       guildId: String!
       guild: JSON!

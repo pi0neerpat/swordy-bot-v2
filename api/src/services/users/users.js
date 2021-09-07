@@ -1,39 +1,29 @@
 import { db } from 'src/lib/db'
 import { requireAuth, getCurrentUser } from 'src/lib/auth'
+import { context } from '@redwoodjs/api'
+import { UserInputError } from '@redwoodjs/api'
+
+const verifyOwnership = (name, { id }) => {
+  if (context.currentUser.id !== id) {
+    throw new UserInputError('User does not own this user data')
+  }
+}
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
-  rules.skip({ only: ['loginSuccess', 'loginEphemeralIdValid'] })
+  rules.add(requireAuth)
+  rules.add(() => requireAuth({ roles: ['admin'] }), { only: ['users'] })
+  rules.add(verifyOwnership, { only: ['user'] })
 }
 
 export const users = () => {
   return db.user.findMany()
 }
 
-export const user = ({ address }) => {
+export const user = ({ id }) => {
+  requireAuth()
   return db.user.findUnique({
-    where: { address },
-  })
-}
-
-export const loginSuccess = async () => {
-  // TODO: Get user ephemeralId from JWT auth
-  const user = getCurrentUser()
-  console.log(user)
-  // console.log(getCurrentUser());
-  // // Remove the ephemeralId from the user
-  // const user = await db.user.update({
-  //   where: { id },
-  //   data: {
-  //     ephemeralId: null,
-  //   },
-  // })
-
-  return { id: 'abc123' }
-}
-export const loginEphemeralIdValid = ({ ephemeralId }) => {
-  return db.user.findFirst({
-    where: { ephemeralId },
+    where: { id },
   })
 }
 

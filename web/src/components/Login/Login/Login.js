@@ -1,7 +1,7 @@
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
-import { MetaTags, useQuery } from '@redwoodjs/web'
+import { MetaTags } from '@redwoodjs/web'
 import { MobileWalletIcon, MetamaskIcon } from 'src/components/Icons'
 
 const READY = 'ready'
@@ -13,35 +13,18 @@ const Login = () => {
   const [status, setStatus] = React.useState(READY)
   const { logIn, logOut, isAuthenticated, loading, currentUser } = useAuth()
   const { state, id } = useParams()
-
-  // const LOGIN_SUCCESS_QUERY = gql`
-  //   query loginSuccess {
-  //     loginSuccess {
-  //       id
-  //     }
-  //   }
-  // `
-  // const [loginSuccess, { _, error: queryError }] = useQuery(
-  //   LOGIN_SUCCESS_QUERY,
-  //   {
-  //     onCompleted: () => {
-  //       setStatus(COMPLETE)
-  //       setTimeout(function () {
-  //         navigate(routes.user({ address: currentUser?.address }))
-  //       }, 5000)
-  //     },
-  //   }
-  // )
-
   const onLogIn = async (type) => {
     setStatus(LOADING)
     try {
       await logIn({ type, ...(state && { state, id }) })
-      // if (id) {
-      //   // TODO: if it makes sense, move this to backend
-      //   await loginSuccess()
-      // }
-      // send mutation with id
+      if (currentUser) {
+        setStatus(COMPLETE)
+        setTimeout(function () {
+          navigate(routes.user({ id: currentUser.id }))
+        }, 5000)
+      } else {
+        setStatus(ERROR)
+      }
     } catch (e) {
       console.log(e)
       setStatus(ERROR)

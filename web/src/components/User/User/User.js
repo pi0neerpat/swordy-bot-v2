@@ -48,15 +48,13 @@ const User = ({ user }) => {
     <>
       <div className="rw-segment">
         <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">
-            User {user.id} Detail
-          </h2>
+          <h2 className="rw-heading rw-heading-secondary">User Detail</h2>
         </header>
         <table className="rw-table">
           <tbody>
             <tr>
-              <th>Platform id</th>
-              <td>{user.platformId}</td>
+              <th>id</th>
+              <td>{user.id}</td>
             </tr>
             <tr>
               <th>Platform</th>

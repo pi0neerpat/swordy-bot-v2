@@ -2,74 +2,61 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import GuildCell from 'src/components/Guild/GuildCell'
-
-const DELETE_USER_MUTATION = gql`
-  mutation DeleteUserMutation($id: String!) {
-    deleteUser(id: $id) {
-      id
-    }
-  }
-`
-
-const jsonDisplay = (obj) => {
-  return (
-    <pre>
-      <code>{JSON.stringify(obj, null, 2)}</code>
-    </pre>
-  )
-}
-
-const timeTag = (datetime) => {
-  return (
-    <time dateTime={datetime} title={datetime}>
-      {new Date(datetime).toUTCString()}
-    </time>
-  )
-}
-
-const checkboxInputTag = (checked) => {
-  return <input type="checkbox" checked={checked} disabled />
-}
+import { PlusIcon } from 'src/components/Icons'
+import { ADD_BOT_LINK } from 'src/constants'
 
 const User = ({ user }) => {
-  const [deleteUser] = useMutation(DELETE_USER_MUTATION, {
-    onCompleted: () => {
-      toast.success('User deleted')
-      navigate(routes.users())
-    },
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete user ' + id + '?')) {
-      deleteUser({ variables: { id } })
-    }
-  }
-
   return (
     <>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <img
-            className="w-16 h-16 overflow-hidden"
-            src={user.iconUrl}
-            alt={`Profile image for ${user.username}`}
-          />
-          <h1 className="tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
+      <div className="flex items-center">
+        <img
+          className="w-16 h-16 overflow-hidden"
+          src={user.iconUrl}
+          alt={`Profile image for ${user.username}`}
+        />
+        <div className="ml-4">
+          <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
             {user.username}
           </h1>
         </div>
       </div>
-      <p className="mt-4">
-        Here are all the guilds you've used with Swordy Bot:
-      </p>
+      <p className="mt-8">Guilds you've used with Swordy Bot:</p>
 
-      <div className="mt-8">
+      <div className="mt-4">
         <GuildCell id={user.currentSessionGuild.id} />
       </div>
       <div className="mt-8">
         {user.guilds.map((guildId, i) => (
           <GuildCell key={i} id={guildId} />
         ))}
+      </div>
+      <div>
+        <p className="mt-8">Do you run a Discord Server?</p>
+        <div className="mt-4 p-4 rw-segment">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center">
+                <PlusIcon
+                  className="overflow-hidden"
+                  width="2rem"
+                  height="2rem"
+                />
+                <div className="ml-4">
+                  <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
+                    New guild
+                  </h1>
+                </div>
+              </div>
+            </div>
+            <a
+              href={ADD_BOT_LINK}
+              type="submit"
+              className=" rw-button rw-button-green"
+            >
+              Add Bot
+            </a>
+          </div>
+        </div>
       </div>
     </>
   )

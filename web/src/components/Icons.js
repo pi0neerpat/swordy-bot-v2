@@ -125,3 +125,22 @@ export const MetamaskIcon = () => {
     </svg>
   )
 }
+
+export const PlusIcon = ({
+  width = '12',
+  height = '12',
+  color = '#030314',
+}) => {
+  return (
+    <svg
+      aria-hidden
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      fill="none"
+      viewBox="0 0 12 12"
+    >
+      <path fill={color} d="M12 4H8V0H4v4H0v4h4v4h4V8h4V4z"></path>
+    </svg>
+  )
+}

@@ -15,8 +15,8 @@ const DefaultLayout = ({ children }) => {
     navigate(routes.home())
   }
 
-  const loginButton = isAuthenticated ? (
-    <>
+  const loginButtons = isAuthenticated ? (
+    <div className="flex items-center">
       <button
         onClick={() => navigate(routes.user({ id: currentUser.id }))}
         to="login"
@@ -24,10 +24,12 @@ const DefaultLayout = ({ children }) => {
       >
         {truncate(currentUser?.address, 7)}
       </button>
-      <button onClick={onLogOut}>Logout</button>
-    </>
+      <button className="ml-4 rw-button rw-button-small" onClick={onLogOut}>
+        Logout
+      </button>
+    </div>
   ) : (
-    <div className="md:flex items-center justify-end md:flex-1 lg:w-0">
+    <div className="justify-end">
       <button
         onClick={() => navigate(routes.login())}
         to="login"
@@ -42,13 +44,13 @@ const DefaultLayout = ({ children }) => {
     <div className="flex flex-col min-h-screen">
       <header className="relative bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+          <div className="flex justify-between items-center border-b-2 border-gray-100 py-6  md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
               <Link to="/">
                 <Logo />
               </Link>
             </div>
-            {loginButton}
+            {loginButtons}
           </div>
         </div>
       </header>

@@ -13,6 +13,7 @@ const Login = () => {
   const [status, setStatus] = React.useState(READY)
   const { logIn, logOut, isAuthenticated, loading, currentUser } = useAuth()
   const { state, id } = useParams()
+  console.log(currentUser)
   const onLogIn = async (type) => {
     setStatus(LOADING)
     try {
@@ -95,11 +96,11 @@ const Login = () => {
     You can look at this documentation for best practices : https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets */
       />
 
-      <div className="mt-8 sm:text-center lg:text-left">
-        <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+      <div className="mt-8 text-center ">
+        <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
           👋 Are you worthy? 🔮
         </h1>
-        <p className="mt-4">Sign-in with your wallet</p>
+        <p className="mt-8">Sign-in with your wallet</p>
         {renderCallToAction()}
         <p className="mt-12 text-s text-grey-600">
           Having trouble? Try clicking <button onClick={onLogOut}>here</button>{' '}

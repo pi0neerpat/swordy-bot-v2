@@ -11,9 +11,11 @@ const Guild = ({ guild }) => {
             src={guild.iconUrl}
             alt={`Guild icon for ${guild.name}`}
           />
-          <h1 className="tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
-            {guild.name}
-          </h1>
+          <div className="ml-4">
+            <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
+              {guild.name}
+            </h1>
+          </div>
         </div>
         <Link
           to={routes.editGuild({ id: guild.id })}

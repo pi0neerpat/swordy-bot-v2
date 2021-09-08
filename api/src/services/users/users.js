@@ -1,6 +1,5 @@
 import { db } from 'src/lib/db'
 import { requireAuth, getCurrentUser } from 'src/lib/auth'
-import { context } from '@redwoodjs/api'
 import { UserInputError } from '@redwoodjs/api'
 
 const verifyOwnership = (name, { id }) => {

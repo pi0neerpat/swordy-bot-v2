@@ -5,6 +5,16 @@ export const QUERY = gql`
     user: user(id: $id) {
       id
       platform
+      address
+      roles {
+        id
+      }
+      guilds {
+        id
+      }
+      currentSessionGuild {
+        id
+      }
     }
   }
 `

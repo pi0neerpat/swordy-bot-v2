@@ -1,6 +1,7 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
+import GuildCell from 'src/components/Guild/GuildCell'
 
 const DELETE_USER_MUTATION = gql`
   mutation DeleteUserMutation($id: String!) {
@@ -60,9 +61,17 @@ const User = ({ user }) => {
               <th>Platform</th>
               <td>{user.platform}</td>
             </tr>
+            <tr>
+              <th>Address</th>
+              <td>{user.address}</td>
+            </tr>
           </tbody>
         </table>
       </div>
+      <GuildCell id={user.currentSessionGuild.id} />
+      {user.guilds.map((guildId, i) => (
+        <GuildCell key={i} id={guildId} />
+      ))}
     </>
   )
 }

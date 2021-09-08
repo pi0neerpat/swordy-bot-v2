@@ -27,10 +27,8 @@ const Routes = () => {
           <Route path="/users" page={UserUsersPage} name="users" />
         </Set>
         <Set wrap={GuildsLayout}>
-          <Route path="/guilds/new" page={GuildNewGuildPage} name="newGuild" />
           <Route path="/guilds/{id}/edit" page={GuildEditGuildPage} name="editGuild" />
           <Route path="/guilds/{id}" page={GuildGuildPage} name="guild" />
-          <Route path="/guilds" page={GuildGuildsPage} name="guilds" />
         </Set>
         <Set wrap={RolesLayout}>
           <Route path="/roles/new" page={RoleNewRolePage} name="newRole" />

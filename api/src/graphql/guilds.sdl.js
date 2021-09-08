@@ -1,6 +1,6 @@
 export const schema = gql`
   type Guild {
-    platformId: String!
+    id: String!
     platform: String!
     name: String!
     iconUrl: String
@@ -16,7 +16,7 @@ export const schema = gql`
   }
 
   input CreateGuildInput {
-    platformId: String!
+    id: String!
     platform: String!
     name: String!
     iconUrl: String
@@ -24,7 +24,7 @@ export const schema = gql`
   }
 
   input UpdateGuildInput {
-    platformId: String
+    id: String
     platform: String
     name: String
     iconUrl: String

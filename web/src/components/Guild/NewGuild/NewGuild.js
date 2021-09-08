@@ -15,7 +15,7 @@ const NewGuild = () => {
   const [createGuild, { loading, error }] = useMutation(CREATE_GUILD_MUTATION, {
     onCompleted: () => {
       toast.success('Guild created')
-      navigate(routes.guilds())
+      navigate('/')
     },
   })
 

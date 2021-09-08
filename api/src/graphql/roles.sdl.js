@@ -9,7 +9,7 @@ export const schema = gql`
     balance: String!
     users: [User]!
     purchaseUrl: String
-    guildPlatformId: String!
+    guildId: String!
     tokenId: String!
   }
 
@@ -24,7 +24,7 @@ export const schema = gql`
     description: String
     balance: String!
     purchaseUrl: String
-    guildPlatformId: String!
+    guildId: String!
     tokenId: String!
   }
 
@@ -34,7 +34,7 @@ export const schema = gql`
     description: String
     balance: String
     purchaseUrl: String
-    guildPlatformId: String
+    guildId: String
     tokenId: String
   }
 

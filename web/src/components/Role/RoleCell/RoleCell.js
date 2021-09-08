@@ -5,11 +5,10 @@ export const QUERY = gql`
     role: role(id: $id) {
       id
       name
-      platformId
       description
       balance
       purchaseUrl
-      guildPlatformId
+      guildId
       tokenId
     }
   }

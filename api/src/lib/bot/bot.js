@@ -6,6 +6,7 @@ import {
   getDiscordAccessToken,
   getDiscordProfile,
 } from 'src/lib/discord'
+import { UserInputError } from '@redwoodjs/api'
 
 import { LOGIN_URL, DISCORD_INITIAL_AUTH } from 'src/lib/bot/constants'
 
@@ -58,7 +59,9 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
     // User is coming from Discord
     const accessToken = await getDiscordAccessToken(code)
     if (!accessToken)
-      throw 'Oauth access not valid or has already been used. Please restart the flow in Discord'
+      throw new UserInputError(
+        'Oauth access not valid or has already been used'
+      )
     const profile = await getDiscordProfile(accessToken)
 
     // Fetch user and validate state

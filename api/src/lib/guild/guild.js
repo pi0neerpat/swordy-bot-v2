@@ -36,7 +36,7 @@ export const fetchGuild = async (guildObject) => {
         id: guildObject.id,
         platform: 'discord',
         name: guildObject.name,
-        iconUrl: guildObject.icon,
+        iconUrl: guildObject.iconURL,
         description: guildObject.description,
       },
     })

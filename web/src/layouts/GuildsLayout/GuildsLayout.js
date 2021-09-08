@@ -6,11 +6,7 @@ const GuildsLayout = ({ children }) => {
     <div className="rw-scaffold">
       <Toaster />
       <header className="rw-header">
-        <h1 className="rw-heading rw-heading-primary">
-          <Link to={routes.guilds()} className="rw-link">
-            Guilds
-          </Link>
-        </h1>
+        <h1 className="rw-heading rw-heading-primary">Guilds</h1>
         <Link to={routes.newGuild()} className="rw-button rw-button-green">
           <div className="rw-button-icon">+</div> New Guild
         </Link>

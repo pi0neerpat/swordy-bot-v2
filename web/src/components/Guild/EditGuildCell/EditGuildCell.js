@@ -37,7 +37,7 @@ export const Success = ({ guild }) => {
   const [updateGuild, { loading, error }] = useMutation(UPDATE_GUILD_MUTATION, {
     onCompleted: () => {
       toast.success('Guild updated')
-      navigate(routes.guilds())
+      navigate('/')
     },
   })
 

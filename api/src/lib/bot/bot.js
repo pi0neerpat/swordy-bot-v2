@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { fetchGuild } from 'src/lib/guild'
 import {
   getDiscordOauthURL,
-  getDiscordAccessToken,
+  getDiscordAccessTokenFromCode,
   getDiscordProfile,
 } from 'src/lib/discord'
 import { UserInputError } from '@redwoodjs/api'
@@ -57,29 +57,41 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
   }
   if (type === 'discord') {
     // User is coming from Discord
-    const accessToken = await getDiscordAccessToken(code)
+    const tokenData = await getDiscordAccessTokenFromCode(code)
+    const { accessToken, refreshToken, expiration } = tokenData
     if (!accessToken)
-      throw new UserInputError(
-        'Oauth access not valid or has already been used'
-      )
+      throw new UserInputError('Oauth access invalid or has already been used')
     const profile = await getDiscordProfile(accessToken)
 
     // Fetch user and validate state
     const user = await db.user.findUnique({ where: { id: profile.id } })
     if (user.oauthState !== oauthState)
       throw 'handleOauthCodeGrant() oauthState does not match'
-
-    // TODO: Check currentSessionGuild for where to redirect the user
-    // Either: 1) login here, or 2) purchase lock from unlockprotocol.com
-
+    // Save the Discord auth credentials and update state
     const newOauthState = uuidv4()
-    // Direct the user to
     await db.user.update({
       where: { id: profile.id },
       data: {
         oauthState: newOauthState,
+        discordAuth: {
+          upsert: {
+            create: {
+              accessToken,
+              refreshToken,
+              expiration,
+            },
+            update: {
+              accessToken,
+              refreshToken,
+              expiration,
+            },
+          },
+        },
       },
     })
+
+    // TODO: Check currentSessionGuild for where to redirect the user
+    // Either: 1) login here, or 2) purchase lock from unlockprotocol.com
 
     // Redirect to Ethereum auth
     return {

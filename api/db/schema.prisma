@@ -16,17 +16,27 @@ model AuthDetail {
   User      User?
 }
 
+model DiscordAuth {
+  id           String   @id @default(uuid())
+  accessToken  String
+  refreshToken String
+  expiration   DateTime
+  User         User?
+}
+
 model User {
-  id                      String     @id @default(uuid())
-  address                 String?    @unique
-  authDetail              AuthDetail? @relation(fields: [authDetailId], references: [id])
-  authDetailId            String?
-  platform                String?
-  guilds                  Guild[]    @relation(name: "userGuilds")
-  roles                   Role[]     @relation(name: "userRoles")
-  oauthState              String?
-  currentSessionGuild     Guild?     @relation(fields: [currentSessionGuildId], references: [id])
-  currentSessionGuildId   String?
+  id                    String       @id @default(uuid())
+  address               String?      @unique
+  authDetail            AuthDetail?  @relation(fields: [authDetailId], references: [id])
+  authDetailId          String?
+  platform              String?
+  oauthState            String?
+  guilds                Guild[]      @relation(name: "userGuilds")
+  roles                 Role[]       @relation(name: "userRoles")
+  currentSessionGuild   Guild?       @relation(fields: [currentSessionGuildId], references: [id])
+  currentSessionGuildId String?
+  discordAuth           DiscordAuth? @relation(fields: [discordAuthId], references: [id])
+  discordAuthId         String?
 }
 
 model Guild {
@@ -41,24 +51,24 @@ model Guild {
 }
 
 model Role {
-  id              String  @id @default(uuid())
-  name            String
-  balance         String  // Units of wei
-  token           Token   @relation(fields: [tokenId], references: [id])
-  tokenId         String
-  users           User[]  @relation(name: "userRoles")
-  guild           Guild   @relation(name: "guildRoles", fields: [guildId], references: [id])
-  guildId         String
-  description     String?
-  purchaseUrl     String?
+  id          String  @id @default(uuid())
+  name        String
+  balance     String // Units of wei
+  token       Token   @relation(fields: [tokenId], references: [id])
+  tokenId     String
+  users       User[]  @relation(name: "userRoles")
+  guild       Guild   @relation(name: "guildRoles", fields: [guildId], references: [id])
+  guildId     String
+  description String?
+  purchaseUrl String?
 }
 
 model Token {
   id              String  @id @default(uuid())
   chainId         String
   contractAddress String
-  type            String  // erc721, erc20, loot
-  tokenId         Int?    // only for erc721
+  type            String // erc721, erc20, loot
+  tokenId         Int? // only for erc721
   uri             String? // only for erc721
   website         String?
   iconUrl         String?

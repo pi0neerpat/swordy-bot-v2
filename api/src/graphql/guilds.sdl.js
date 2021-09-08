@@ -13,6 +13,7 @@ export const schema = gql`
   type Query {
     guilds: [Guild!]!
     guild(id: String!): Guild
+    guildDiscordRoles(id: String!): [Role!]!
   }
 
   input CreateGuildInput {

@@ -1,7 +1,7 @@
 import UserCell from 'src/components/User/UserCell'
 
-const UserPage = ({ id }) => {
-  return <UserCell id={id} />
+const UserPage = () => {
+  return <UserCell />
 }
 
 export default UserPage

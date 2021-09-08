@@ -34,33 +34,35 @@ const ServerRoles = ({ roles, guildId }) => {
 
   const onSubmit = () => {}
   return (
-    <div className="rw-segment rw-table-wrapper-responsive">
-      <table className="rw-table">
-        <tbody>
-          {roles.map((role) => (
-            <tr key={role.id}>
-              <td className="items-center">{role.name}</td>
-              <td>
-                {selectedRole === role.id ? (
-                  <ServerRoleForm
-                    role={role}
-                    onSave={onSave}
-                    error={error}
-                    loading={loading}
-                  />
-                ) : (
-                  <button
-                    className="rw-button"
-                    onClick={() => setSelectedRole(role.id)}
-                  >
-                    Add Token Access
-                  </button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div>
+      {roles.map((role) => (
+        <>
+          <div className="flex mt-4 justify-between items-center">
+            <div className="items-center">
+              <h2 className="text-2xl">{role.name}</h2>
+            </div>
+            <button
+              type="button"
+              className="rw-button rw-button-green"
+              onClick={() =>
+                setSelectedRole(selectedRole === role.id ? null : role.id)
+              }
+            >
+              Add Token Access
+            </button>
+          </div>
+          {selectedRole === role.id && (
+            <div className="mt-4">
+              <ServerRoleForm
+                role={role}
+                onSave={onSave}
+                error={error}
+                loading={loading}
+              />
+            </div>
+          )}
+        </>
+      ))}
     </div>
   )
 }

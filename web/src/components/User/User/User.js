@@ -2,7 +2,7 @@ import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import GuildCell from 'src/components/Guild/GuildCell'
-import { PlusIcon } from 'src/components/Icons'
+import { PlusIcon, CircleArrowIcon } from 'src/components/Icons'
 import { ADD_BOT_LINK } from 'src/constants'
 
 const User = ({ user }) => {
@@ -18,6 +18,7 @@ const User = ({ user }) => {
           <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
             {user.username}
           </h1>
+          {user.address}
         </div>
       </div>
       <p className="mt-8">Guilds you've used with Swordy Bot:</p>
@@ -31,18 +32,29 @@ const User = ({ user }) => {
         ))}
       </div>
       <div>
-        <p className="mt-8">Do you run a Discord Server?</p>
+        <p className="mt-8">Don't see your server listed?</p>
+        <div className="mt-4 p-4 rw-segment">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <CircleArrowIcon width="2rem" height="2rem" />
+              <div className="ml-4">
+                <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl m:text-4xl l:text-4xl">
+                  Restart by invoking the bot
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p className="mt-8">Manage your own Discord Server?</p>
         <div className="mt-4 p-4 rw-segment">
           <div className="flex items-center justify-between">
             <div>
               <div className="flex items-center">
-                <PlusIcon
-                  className="overflow-hidden"
-                  width="2rem"
-                  height="2rem"
-                />
+                <PlusIcon width="2rem" height="2rem" />
                 <div className="ml-4">
-                  <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
+                  <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl m:text-4xl l:text-4xl">
                     New guild
                   </h1>
                 </div>

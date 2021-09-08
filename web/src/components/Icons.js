@@ -144,3 +144,38 @@ export const PlusIcon = ({
     </svg>
   )
 }
+
+export const CircleArrowIcon = ({ color = '#030314', width, height }) => {
+  return (
+    <svg
+      aria-hidden
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      viewBox="0 0 12 12"
+    >
+      <path
+        d="M12 5.639V0l-1.771 1.752A5.937 5.937 0 006 0a6 6 0 104.8 9.6L9.2 8.4A4 4 0 116 2a3.944 3.944 0 012.794 1.171l-1.919 1.9z"
+        className="0"
+        fill={color}
+      ></path>
+    </svg>
+  )
+}
+
+export const CheckmarkIcon = ({ color = '030314', width, height }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={width}
+      height={height}
+      fill="none"
+      viewBox="0 0 14 11"
+    >
+      <path
+        fill={color}
+        d="M5.134 6.89l-2.56-2.56-1.92 1.92 4.48 4.48 8.32-8.32-1.92-1.92-6.4 6.4z"
+      ></path>
+    </svg>
+  )
+}

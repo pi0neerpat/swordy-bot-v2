@@ -13,23 +13,14 @@ const Login = () => {
   const [status, setStatus] = React.useState(READY)
   const { logIn, logOut, isAuthenticated, loading, currentUser } = useAuth()
   const { state, id } = useParams()
-  console.log(currentUser)
+
   const onLogIn = async (type) => {
     setStatus(LOADING)
-    try {
-      await logIn({ type, ...(state && { state, id }) })
-      if (currentUser) {
-        setStatus(COMPLETE)
-        setTimeout(function () {
-          navigate(routes.user({ id: currentUser.id }))
-        }, 5000)
-      } else {
-        setStatus(ERROR)
-      }
-    } catch (e) {
-      console.log(e)
-      setStatus(ERROR)
-    }
+    await logIn({ type, ...(state && { state, id }) })
+    setStatus(COMPLETE)
+    setTimeout(function () {
+      navigate(routes.profile())
+    }, 3000)
   }
   const onLogOut = async () => {
     await logOut()
@@ -80,7 +71,7 @@ const Login = () => {
           </ul>
         ) : (
           <p className="mt-8 text-xl">
-            🎉 Login complete! Redirecting you to your profile now...
+            🎉 Login complete! Taking you to your profile...
           </p>
         )}
       </>

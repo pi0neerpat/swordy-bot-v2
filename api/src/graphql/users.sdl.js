@@ -17,6 +17,6 @@ export const schema = gql`
 
   type Query {
     users: [User!]!
-    user(id: String!): User
+    ownProfile: User
   }
 `

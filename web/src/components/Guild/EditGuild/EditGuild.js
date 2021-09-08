@@ -54,25 +54,16 @@ const EditGuild = ({ guild }) => {
             View
           </Link>
         </div>
-        <div className="mt-4">
-          {guild?.roles.length
-            ? guild.roles.map((role, i) => (
-                <div key={i} className="mt-4">
-                  <RoleCell isEditing key={i} id={role.id} />
-                </div>
-              ))
-            : `You haven't set up any roles for this Discord server. Click the "ADD TOKEN ACCESS" button below to get started.`}
-        </div>
-      </div>
-      <div className="mt-6 rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">
-            Roles without token access
-          </h2>
-        </header>
-        <div className="rw-segment-main">
-          <ServerRolesCell id={guild.id} />
-        </div>
+        <p className="mt-8">Roles available for token access:</p>
+        {guild?.roles.length
+          ? guild.roles.map((role, i) => (
+              <div key={i} className="mt-4">
+                <RoleCell isEditing key={i} id={role.id} />
+              </div>
+            ))
+          : `You haven't set up any roles for this Discord server. Click the "ADD TOKEN ACCESS" button below to get started.`}
+        <p className="mt-8">Roles without token access:</p>
+        <ServerRolesCell id={guild.id} />
       </div>
     </>
   )

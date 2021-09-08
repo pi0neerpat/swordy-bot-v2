@@ -17,13 +17,16 @@ const Guild = ({ guild }) => {
             </h1>
           </div>
         </div>
-        <Link
-          to={routes.editGuild({ id: guild.id })}
-          className="rw-button rw-button-small"
-        >
-          Edit
-        </Link>
+        {guild.isUserManager && (
+          <Link
+            to={routes.editGuild({ id: guild.id })}
+            className="rw-button rw-button-small"
+          >
+            Edit Guild
+          </Link>
+        )}
       </div>
+      <p className="mt-8">Roles available for token access:</p>
       <div className="mt-4">
         {guild.roles.length ? (
           guild.roles.map((role, i) => (

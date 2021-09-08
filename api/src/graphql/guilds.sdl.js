@@ -8,6 +8,7 @@ export const schema = gql`
     roles: [Role]!
     users: [User]!
     User: [User]!
+    isUserManager: Boolean
   }
 
   type Query {

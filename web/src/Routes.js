@@ -22,8 +22,7 @@ const Routes = () => {
         <Route path="/login" page={LoginPage} name="login" />
         <Route path="/about" page={AboutPage} name="about" />
         <Set private unauthenticated="login" wrap={UsersLayout}>
-          <Route path="/users/{id}" page={UserUserPage} name="user" />
-          <Route path="/users" page={UserUsersPage} name="users" />
+          <Route path="/profile" page={UserUserPage} name="profile" />
         </Set>
         <Set wrap={GuildsLayout}>
           <Route path="/guilds/{id}/edit" page={GuildEditGuildPage} name="editGuild" />

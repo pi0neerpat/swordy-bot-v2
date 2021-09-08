@@ -9,8 +9,11 @@ import {
 import { AuthenticationError } from '@redwoodjs/api'
 
 const verifyManager = async (name, { id }) => {
-  const isOwner = await verifyDiscordServerManager(id, context.currentUser.id)
-  if (!isOwner) {
+  const isUserManager = await verifyDiscordServerManager(
+    id,
+    context.currentUser.id
+  )
+  if (!isUserManager) {
     throw new AuthenticationError(
       'You do not have the appropriate permissions to manage roles for this server'
     )
@@ -29,10 +32,15 @@ export const guilds = () => {
   return db.guild.findMany()
 }
 
-export const guild = ({ id }) => {
-  return db.guild.findUnique({
+export const guild = async ({ id }) => {
+  const isUserManager = await verifyDiscordServerManager(
+    id,
+    context.currentUser.id
+  )
+  const guild = await db.guild.findUnique({
     where: { id },
   })
+  return { isUserManager, ...guild }
 }
 
 export const guildDiscordRoles = async ({ id }) => {

@@ -11,6 +11,7 @@ export const QUERY = gql`
       roles {
         id
       }
+      isUserManager
     }
   }
 `

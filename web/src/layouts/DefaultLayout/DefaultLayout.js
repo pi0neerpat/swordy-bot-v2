@@ -18,7 +18,7 @@ const DefaultLayout = ({ children }) => {
   const loginButtons = isAuthenticated ? (
     <div className="flex items-center">
       <button
-        onClick={() => navigate(routes.user({ id: currentUser.id }))}
+        onClick={() => navigate(routes.profile())}
         to="login"
         className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700"
       >
@@ -67,15 +67,30 @@ const DefaultLayout = ({ children }) => {
                   © {new Date().getFullYear()} One Click Dapp
                 </p>
                 <p>
-                  Powered by{' '}
-                  <code>
-                    <a
-                      className="text-blue-600"
-                      href="https://github.com/oneclickdapp/ethereum-auth"
-                    >
-                      @oneclickdapp/ethereum-auth
-                    </a>
-                  </code>
+                  Made with{' '}
+                  <a
+                    className="text-blue-600"
+                    target="_blank"
+                    href="https://redwoodjs.com"
+                  >
+                    RedwoodJS
+                  </a>
+                  {' & '}
+                  <a
+                    className="text-blue-600"
+                    target="_blank"
+                    href="https://github.com/oneclickdapp/ethereum-auth"
+                  >
+                    @oneclickdapp/ethereum-auth
+                  </a>
+                  {' by '}
+                  <a
+                    href="https://twitter.com/pi0neerpat"
+                    className="text-blue-600"
+                    target="_blank"
+                  >
+                    @pi0neerpat
+                  </a>
                 </p>
               </div>
             </div>

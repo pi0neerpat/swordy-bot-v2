@@ -2,7 +2,7 @@ import { AuthenticationError } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 
 const API_ENDPOINT = 'https://discord.com/api/v8/'
-
+const SCOPES = 'identify guilds.join'
 // https://discord.com/developers/docs/topics/oauth2
 
 const getExpiration = (expiresIn) =>
@@ -21,7 +21,7 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
     client_secret: process.env.DISCORD_CLIENT_SECRET,
     redirect_uri: process.env.DISCORD_PUBLIC_REDIRECT_URI,
     grant_type: 'authorization_code',
-    scope: 'identify guilds.join',
+    scope: SCOPES,
     code,
   }
   const encodedBody = Object.keys(body)
@@ -44,12 +44,16 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
   }
 }
 
-export const refreshDiscordAccessToken = async (refreshToken: string) => {
+export const refreshDiscordAccessToken = async (
+  refreshToken: string,
+  id: string
+) => {
   const body = {
     client_id: process.env.DISCORD_PUBLIC_CLIENT_ID,
     client_secret: process.env.DISCORD_CLIENT_SECRET,
     grant_type: 'refresh_token',
     refresh_token: refreshToken,
+    // scope: SCOPES,
   }
   const encodedBody = Object.keys(body)
     .map(
@@ -64,6 +68,9 @@ export const refreshDiscordAccessToken = async (refreshToken: string) => {
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
     },
   }).then((res) => res.json())
+  console.log(response)
+  console.log(refreshToken)
+
   if (!response.access_token)
     throw new AuthenticationError(
       'User has revoked access to their Discord account. User must start-over by invoking the bot in Discord.'
@@ -73,11 +80,13 @@ export const refreshDiscordAccessToken = async (refreshToken: string) => {
   const newExpiration = getExpiration(response?.expires_in)
   await db.user.update({
     where: { id },
-    discordAuth: {
-      update: {
-        accessToken: newAccessToken,
-        refreshToken: newRefreshToken,
-        expiration: newExpiration,
+    data: {
+      discordAuth: {
+        update: {
+          accessToken: newAccessToken,
+          refreshToken: newRefreshToken,
+          expiration: newExpiration,
+        },
       },
     },
   })
@@ -94,7 +103,7 @@ export const fetchDiscordAccessToken = async (id) => {
   if (profile) return accessToken
 
   // No profile, so token may need refreshing
-  const newAccessToken = await refreshDiscordAccessToken(refreshToken)
+  const newAccessToken = await refreshDiscordAccessToken(refreshToken, id)
   return newAccessToken
 }
 
@@ -107,6 +116,9 @@ export const getDiscordServerRoles = async (
   avatar: string | null
   discriminator: string
 }> => {
+  const profile = await getDiscordProfile(accessToken)
+  console.log(profile)
+
   const data = await fetch(`${API_ENDPOINT}/guilds/${serverId}/roles`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,

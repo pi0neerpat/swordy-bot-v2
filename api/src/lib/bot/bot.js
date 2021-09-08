@@ -1,3 +1,5 @@
+import { AuthenticationError } from '@redwoodjs/api'
+
 import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchGuild } from 'src/lib/guild'
@@ -6,7 +8,6 @@ import {
   getDiscordAccessTokenFromCode,
   getDiscordProfile,
 } from 'src/lib/discord'
-import { UserInputError } from '@redwoodjs/api'
 
 import { LOGIN_URL, DISCORD_INITIAL_AUTH } from 'src/lib/bot/constants'
 
@@ -58,9 +59,12 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
   if (type === 'discord') {
     // User is coming from Discord
     const tokenData = await getDiscordAccessTokenFromCode(code)
+    console.log(tokenData)
     const { accessToken, refreshToken, expiration } = tokenData
     if (!accessToken)
-      throw new UserInputError('Oauth access invalid or has already been used')
+      throw new AuthenticationError(
+        'Discord OAuth2 code invalid or has already been used'
+      )
     const profile = await getDiscordProfile(accessToken)
 
     // Fetch user and validate state

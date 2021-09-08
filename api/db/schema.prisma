@@ -51,26 +51,20 @@ model Guild {
 }
 
 model Role {
-  id          String  @id @default(uuid())
-  name        String
-  balance     String // Units of wei
-  token       Token   @relation(fields: [tokenId], references: [id])
-  tokenId     String
-  users       User[]  @relation(name: "userRoles")
-  guild       Guild   @relation(name: "guildRoles", fields: [guildId], references: [id])
-  guildId     String
-  description String?
-  purchaseUrl String?
-}
-
-model Token {
   id              String  @id @default(uuid())
+  name            String
+  users           User[]  @relation(name: "userRoles")
+  guild           Guild   @relation(name: "guildRoles", fields: [guildId], references: [id])
+  guildId         String
+  description     String?
+  purchaseUrl     String?
+  // Token details
   chainId         String
   contractAddress String
   type            String // erc721, erc20, loot
+  balance         String? // Units of wei
   tokenId         Int? // only for erc721
   uri             String? // only for erc721
   website         String?
   iconUrl         String?
-  Role            Role[]
 }

@@ -17,6 +17,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ guildDiscordRoles }) => {
-  return <ServerRoles roles={guildDiscordRoles} />
+export const Success = ({ guildDiscordRoles, id }) => {
+  return <ServerRoles roles={guildDiscordRoles} guildId={id} />
 }

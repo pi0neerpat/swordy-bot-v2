@@ -17,12 +17,12 @@ const NewGuild = () => {
         <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
           👋 Let's get started!
         </h1>
-        <p className="mt-4">Add the bot to your server: </p>
-        <div className="mt-8 ">
+        <p className="mt-4">Add the bot to your server 👇👇👇 </p>
+        <div className="mt-8 w-1/4">
           <a
             href={ADD_BOT_LINK}
             type="submit"
-            className="rw-button rw-button-green"
+            className=" rw-button rw-button-green"
           >
             Add Bot
           </a>

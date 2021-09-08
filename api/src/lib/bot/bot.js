@@ -59,7 +59,6 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
   if (type === 'discord') {
     // User is coming from Discord
     const tokenData = await getDiscordAccessTokenFromCode(code)
-    console.log(tokenData)
     const { accessToken, refreshToken, expiration } = tokenData
     if (!accessToken)
       throw new AuthenticationError(

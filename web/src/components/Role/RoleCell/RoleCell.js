@@ -8,8 +8,10 @@ export const QUERY = gql`
       description
       balance
       purchaseUrl
+      chainId
+      contractAddress
+      type
       guildId
-      tokenId
     }
   }
 `
@@ -22,6 +24,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ role }) => {
-  return <Role role={role} />
+export const Success = ({ role, isEditing }) => {
+  return <Role role={role} isEditing={isEditing} />
 }

@@ -43,7 +43,7 @@ const EditGuild = ({ guild }) => {
             <tbody>
               {guild?.roles.length
                 ? guild.roles.map((role, i) => (
-                    <RoleCell key={i} id={role.id} />
+                    <RoleCell isEditing key={i} id={role.id} />
                   ))
                 : 'No roles have been set up for this guild'}
             </tbody>

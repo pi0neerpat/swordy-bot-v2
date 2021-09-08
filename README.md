@@ -83,13 +83,15 @@ Create a new **postgres add-on** in this Heroku app, and add the url to the Verc
 
 Create a new application at https://discord.com/developers. Don't worry about naming here.
 
-Now in your app, navigate to "Bot" and create a bot. Choose a username and Icon for your bot here.
+In the Discord Developer Portal open the "Bot" tab and create a bot. Choose a username and Icon.
 
-Leave "Bot Permissions" alone.
+Copy the `TOKEN` and add it to both the bot and redwood app environment variables `DISCORD_BOT_TOKEN`
 
-Copy the `TOKEN` and add it to your bot app.
+Next open the "OAUTH" tab, and save these variables to the redwood app environment. `CLIENT ID` as `DISCORD_PUBLIC_CLIENT_ID` and `CLIENT SECRET` as `DISCORD_CLIENT_SECRET`
 
-Now add the bot to your server. In the developer portal, in "General Information", copy the `Application ID`. Insert this into this URL, and send it to whoever you want to add the bot.
+Add a REDIRECT for your application eg `http://192.168.4.69:8910/redirect/discord`
+
+Last, you'll add the bot to your server. In the developer portal, in "General Information", copy the `Application ID`. Insert this into this URL, and send it to whoever you want to add the bot.
 
 ```
 # Add the bot with role management permissions

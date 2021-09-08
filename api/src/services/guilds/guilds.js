@@ -1,21 +1,28 @@
 import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
-import { getDiscordServerRoles, fetchDiscordAccessToken } from 'src/lib/discord'
+import {
+  getDiscordServerRoles,
+  fetchDiscordAccessToken,
+  verifyDiscordServerManager,
+} from 'src/lib/discord'
 
-import { UserInputError } from '@redwoodjs/api'
+import { AuthenticationError } from '@redwoodjs/api'
 
-const verifyOwnership = async (name, { id }) => {
-  const guild = await db.guild.findUnique({ where: { id } })
-  // TODO: check the user has admin rights in the guild
-  // if (context.currentUser.id !== id) {
-  //   throw new UserInputError('User does not own this user data')
-  // }
+const verifyManager = async (name, { id }) => {
+  const isOwner = await verifyDiscordServerManager(id, context.currentUser.id)
+  if (!isOwner) {
+    throw new AuthenticationError(
+      'You do not have the appropriate permissions to manage roles for this server'
+    )
+  }
 }
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
   rules.add(requireAuth)
-  rules.add(verifyOwnership, { only: ['updateGuild', 'guildDiscordRoles'] })
+  rules.add(verifyManager, {
+    only: ['addGuildRole', 'removeGuildRole', 'guildDiscordRoles'],
+  })
 }
 
 export const guilds = () => {
@@ -29,18 +36,28 @@ export const guild = ({ id }) => {
 }
 
 export const guildDiscordRoles = async ({ id }) => {
-  const accessToken = await fetchDiscordAccessToken(context.currentUser.id)
-  const roles = await getDiscordServerRoles(accessToken, id)
-  return roles
+  const serverRoles = await getDiscordServerRoles(id)
+  const roles = await db.guild.findUnique({ where: { id } }).roles()
+  const roleIds = roles.reduce((acc, role) => role.id, [])
+  // Remove the roles that are already token-gated
+  return serverRoles.filter((role) => !roleIds.includes(role.id))
 }
 
 export const addGuildRole = async ({ id, input }) => {
-  const guild = await db.guild.findUnique({ where: { id } })
-  if (!guild) throw new UserInputError("Guild doesn't exist")
-  // Fetch some details about this token
-  // Fetch some details about this role
+  // Name must come from Discord
   const roles = await getDiscordServerRoles(id)
-  const role = fetchRole({ role: input.role, token: input.token, guild })
+  const role = roles.filter((role) => role.id === input.id)[0]
+  return db.guild.update({
+    where: { id },
+    data: { roles: { create: { name: role.name, ...input } } },
+  })
+}
+
+export const removeGuildRole = ({ id, roleId }) => {
+  return db.guild.update({
+    where: { id },
+    data: { roles: { delete: [{ id: roleId }] } },
+  })
 }
 
 export const Guild = {

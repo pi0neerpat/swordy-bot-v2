@@ -45,4 +45,4 @@ discordClient.on('message', async (message) => {
   }
 })
 
-discordClient.login(process.env.DISCORD_TOKEN)
+discordClient.login(process.env.DISCORD_BOT_TOKEN)

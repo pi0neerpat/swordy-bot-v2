@@ -1,8 +1,8 @@
 import { AuthenticationError } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 
-const API_ENDPOINT = 'https://discord.com/api/v8/'
-const SCOPES = 'identify guilds.join'
+const API_ENDPOINT = 'https://discord.com/api/v9'
+const SCOPES = 'identify guilds'
 // https://discord.com/developers/docs/topics/oauth2
 
 const getExpiration = (expiresIn) =>
@@ -13,7 +13,7 @@ export const getDiscordOauthURL = (state: string) =>
     process.env.DISCORD_PUBLIC_CLIENT_ID
   }&redirect_uri=${encodeURI(
     process.env.DISCORD_PUBLIC_REDIRECT_URI
-  )}&response_type=code&scope=identify%20guilds.join&state=${state}&prompt=none`
+  )}&response_type=code&scope=${encodeURI(SCOPES)}&state=${state}&prompt=none`
 
 export const getDiscordAccessTokenFromCode = async (code: string) => {
   const body = {
@@ -44,6 +44,112 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
   }
 }
 
+export const getDiscordServerRoles = async (serverId: string) => {
+  const roles = await fetch(`${API_ENDPOINT}/guilds/${serverId}/roles`, {
+    headers: {
+      method: 'GET',
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json())
+  if (!roles)
+    throw new AuthenticationError(
+      'Error fetching guild details from Discord API'
+    )
+  return roles.filter((role) => role.name !== '@everyone')
+}
+
+export const getDiscordServerOwner = async (serverId: string) => {
+  const server = await fetch(`${API_ENDPOINT}/guilds/${serverId}`, {
+    headers: {
+      method: 'GET',
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json())
+  return server.owner_id
+}
+
+export const getDiscordProfile = async (
+  accessToken: string
+): Promise<{
+  id: string
+  username: string
+  avatar: string | null
+  discriminator: string
+}> => {
+  const profile = await fetch(`${API_ENDPOINT}/oauth2/@me`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  }).then((res) => res.json())
+  console.log(profile)
+
+  return profile.user
+}
+
+export const verifyDiscordServerManager = async (serverId, userId) => {
+  const serverOwner = await getDiscordServerOwner(serverId)
+  if (serverOwner === userId) return true
+
+  const roles = await getDiscordUserRoles(serverId, userId)
+  let isRoleManager = false
+  roles.map((role) => {
+    // https://discord.com/developers/docs/topics/permissions
+    if (
+      (role.permissions & 0x0010000000) > 0 || // manage roles
+      (role.permissions & 0x0000000008) > 0 // administrator
+    ) {
+      isRoleManager = true
+    }
+  })
+  return isRoleManager
+}
+
+export const getDiscordUserRoles = async (serverId, userId) => {
+  const serverRoles = await getDiscordServerRoles(serverId)
+  const member = await fetch(
+    `${API_ENDPOINT}/guilds/${serverId}/members/${userId}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  ).then((res) => res.json())
+  return serverRoles.filter((role) => member.roles.includes(role.id))
+}
+
+// Unused
+
+export const addRoleForUser = async (roleId: string, userID: string) => {
+  const resp = await fetch(
+    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userID}/roles/${roleId}`,
+    {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  ).then((res) => res.text())
+  console.log(resp)
+}
+
+export const removeRoleForUser = async (roleId: string, userID: string) => {
+  await fetch(
+    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userID}/roles/${roleId}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  ).then((res) => res.text())
+}
+
 export const refreshDiscordAccessToken = async (
   refreshToken: string,
   id: string
@@ -53,7 +159,6 @@ export const refreshDiscordAccessToken = async (
     client_secret: process.env.DISCORD_CLIENT_SECRET,
     grant_type: 'refresh_token',
     refresh_token: refreshToken,
-    // scope: SCOPES,
   }
   const encodedBody = Object.keys(body)
     .map(
@@ -68,12 +173,9 @@ export const refreshDiscordAccessToken = async (
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
     },
   }).then((res) => res.json())
-  console.log(response)
-  console.log(refreshToken)
-
   if (!response.access_token)
     throw new AuthenticationError(
-      'User has revoked access to their Discord account. User must start-over by invoking the bot in Discord.'
+      "You've revoked Swordy Bot from accessing your Discord account. Please start-over in Discord."
     )
   const newAccessToken = response?.access_token
   const newRefreshToken = response?.refresh_token
@@ -106,146 +208,3 @@ export const fetchDiscordAccessToken = async (id) => {
   const newAccessToken = await refreshDiscordAccessToken(refreshToken, id)
   return newAccessToken
 }
-
-export const getDiscordServerRoles = async (
-  accessToken: string,
-  serverId: string
-): Promise<{
-  id: string
-  username: string
-  avatar: string | null
-  discriminator: string
-}> => {
-  const profile = await getDiscordProfile(accessToken)
-  console.log(profile)
-
-  const data = await fetch(`${API_ENDPOINT}/guilds/${serverId}/roles`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }).then((res) => res.json())
-  console.log(accessToken)
-  console.log(serverId)
-  console.log(data)
-
-  if (!data.roles)
-    throw new AuthenticationError(
-      'Error fetching guild details from Discord API'
-    )
-  return data.roles
-}
-
-export const getDiscordProfile = async (
-  accessToken: string
-): Promise<{
-  id: string
-  username: string
-  avatar: string | null
-  discriminator: string
-}> => {
-  const { user } = await fetch(`${API_ENDPOINT}/oauth2/@me`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  }).then((res) => res.json())
-  return user
-}
-
-/// Unused
-export const addToServer = async (userID: string, accessToken: string) => {
-  const body = {
-    access_token: accessToken,
-  }
-  await fetch(
-    `${API_ENDPOINT}/guilds/${
-      process.env.DISCORD_SERVER_ID as string
-    }/members/${userID}`,
-    {
-      method: 'PUT',
-      body: JSON.stringify(body),
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => {
-    if (res.status == 201) return res.json()
-    else return res.text()
-  })
-}
-
-export const removeFromServer = async (userID: string) => {
-  await fetch(
-    `${API_ENDPOINT}/guilds/${
-      process.env.DISCORD_SERVER_ID as string
-    }/members/${userID}`,
-    {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => {
-    if (res.status == 201) return res.json()
-    else return res.text()
-  })
-}
-
-export const getRolesForUser = async (userId: string) => {
-  return await fetch(
-    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userId}`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => res.json())
-}
-
-export const setRolesForUser = async (roles: string[], userID: string) => {
-  await fetch(
-    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userID}`,
-    {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ roles }),
-    }
-  ).then((res) => res.json())
-}
-export const addRoleForUser = async (roleId: string, userID: string) => {
-  const resp = await fetch(
-    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userID}/roles/${roleId}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => res.text())
-  console.log(resp)
-}
-export const removeRoleForUser = async (roleId: string, userID: string) => {
-  await fetch(
-    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userID}/roles/${roleId}`,
-    {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => res.text())
-}
-
-export const RolesToIDs: Record<string, string> = {
-  'Ser Dragon of The Round Table': `${process.env.DISCORD_ROLE_SER_DRAGON_OF_THE_ROUND_TABLE}`,
-}
-
-export const AdminRoleID = `${process.env.DISCORD_ROLE_ADMIN}`

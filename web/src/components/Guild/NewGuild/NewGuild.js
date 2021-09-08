@@ -1,37 +1,34 @@
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes } from '@redwoodjs/router'
-import GuildForm from 'src/components/Guild/GuildForm'
+import { navigate } from '@redwoodjs/router'
+import { MetaTags } from '@redwoodjs/web'
 
-const CREATE_GUILD_MUTATION = gql`
-  mutation CreateGuildMutation($input: CreateGuildInput!) {
-    createGuild(input: $input) {
-      id
-    }
-  }
-`
+import { ADD_BOT_LINK } from 'src/constants'
 
 const NewGuild = () => {
-  const [createGuild, { loading, error }] = useMutation(CREATE_GUILD_MUTATION, {
-    onCompleted: () => {
-      toast.success('Guild created')
-      navigate('/')
-    },
-  })
-
-  const onSave = (input) => {
-    createGuild({ variables: { input } })
-  }
-
   return (
-    <div className="rw-segment">
-      <header className="rw-segment-header">
-        <h2 className="rw-heading rw-heading-secondary">New Guild</h2>
-      </header>
-      <div className="rw-segment-main">
-        <GuildForm onSave={onSave} loading={loading} error={error} />
+    <>
+      <MetaTags
+        title="New Guild"
+        // description="Home description"
+        /* you should un-comment description and add a unique description, 155 characters or less
+  You can look at this documentation for best practices : https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets */
+      />
+
+      <div className="mt-8 sm:text-center lg:text-left">
+        <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+          👋 Let's get started!
+        </h1>
+        <p className="mt-4">Add the bot to your server: </p>
+        <div className="mt-8 ">
+          <a
+            href={ADD_BOT_LINK}
+            type="submit"
+            className="rw-button rw-button-green"
+          >
+            Add Bot
+          </a>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -19,28 +19,14 @@ export const schema = gql`
   }
 
   input CreateRoleInput {
-    name: String!
-    platformId: String!
-    description: String
+    id: String!
     balance: String!
-    purchaseUrl: String
-    guildId: String!
-    tokenId: String!
-  }
-
-  input UpdateRoleInput {
-    name: String
-    platformId: String
     description: String
-    balance: String
     purchaseUrl: String
-    guildId: String
-    tokenId: String
   }
 
   type Mutation {
     createRole(input: CreateRoleInput!): Role!
-    updateRole(id: String!, input: UpdateRoleInput!): Role!
     deleteRole(id: String!): Role!
   }
 `

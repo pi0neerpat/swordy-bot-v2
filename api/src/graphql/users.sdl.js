@@ -4,6 +4,8 @@ export const schema = gql`
     address: String
     authDetail: AuthDetail
     authDetailId: String
+    iconUrl: String
+    username: String
     platformId: String
     platform: String
     guilds: [Guild]!

@@ -38,7 +38,7 @@ export const guild = ({ id }) => {
 export const guildDiscordRoles = async ({ id }) => {
   const serverRoles = await getDiscordServerRoles(id)
   const roles = await db.guild.findUnique({ where: { id } }).roles()
-  const roleIds = roles.reduce((acc, role) => role.id, [])
+  const roleIds = roles.map((role) => role.id)
   // Remove the roles that are already token-gated
   return serverRoles.filter((role) => !roleIds.includes(role.id))
 }

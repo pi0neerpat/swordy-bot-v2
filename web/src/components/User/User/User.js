@@ -47,31 +47,30 @@ const User = ({ user }) => {
 
   return (
     <>
-      <div className="rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">User Detail</h2>
-        </header>
-        <table className="rw-table">
-          <tbody>
-            <tr>
-              <th>id</th>
-              <td>{user.id}</td>
-            </tr>
-            <tr>
-              <th>Platform</th>
-              <td>{user.platform}</td>
-            </tr>
-            <tr>
-              <th>Address</th>
-              <td>{user.address}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center">
+          <img
+            className="w-16 h-16 overflow-hidden"
+            src={user.iconUrl}
+            alt={`Profile image for ${user.username}`}
+          />
+          <h1 className="tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
+            {user.username}
+          </h1>
+        </div>
       </div>
-      <GuildCell id={user.currentSessionGuild.id} />
-      {user.guilds.map((guildId, i) => (
-        <GuildCell key={i} id={guildId} />
-      ))}
+      <p className="mt-4">
+        Here are all the guilds you've used with Swordy Bot:
+      </p>
+
+      <div className="mt-8">
+        <GuildCell id={user.currentSessionGuild.id} />
+      </div>
+      <div className="mt-8">
+        {user.guilds.map((guildId, i) => (
+          <GuildCell key={i} id={guildId} />
+        ))}
+      </div>
     </>
   )
 }

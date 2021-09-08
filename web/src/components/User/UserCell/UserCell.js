@@ -6,6 +6,8 @@ export const QUERY = gql`
       id
       platform
       address
+      username
+      iconUrl
       roles {
         id
       }

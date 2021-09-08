@@ -70,28 +70,18 @@ export const getDiscordServerOwner = async (serverId: string) => {
   return server.owner_id
 }
 
-export const getDiscordProfile = async (
-  accessToken: string
-): Promise<{
-  id: string
-  username: string
-  avatar: string | null
-  discriminator: string
-}> => {
-  const profile = await fetch(`${API_ENDPOINT}/oauth2/@me`, {
+export const getDiscordProfile = async (accessToken: string) => {
+  const response = await fetch(`${API_ENDPOINT}/oauth2/@me`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   }).then((res) => res.json())
-  console.log(profile)
-
-  return profile.user
+  return response.user
 }
 
 export const verifyDiscordServerManager = async (serverId, userId) => {
   const serverOwner = await getDiscordServerOwner(serverId)
   if (serverOwner === userId) return true
-
   const roles = await getDiscordUserRoles(serverId, userId)
   let isRoleManager = false
   roles.map((role) => {

@@ -9,7 +9,11 @@ import {
   getDiscordProfile,
 } from 'src/lib/discord'
 
-import { LOGIN_URL, DISCORD_INITIAL_AUTH } from 'src/lib/bot/constants'
+import {
+  LOGIN_URL,
+  DISCORD_INITIAL_AUTH,
+  AVATAR_BASE_URL,
+} from 'src/lib/bot/constants'
 
 export const handleMessage = async ({
   content,
@@ -61,11 +65,8 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
     const tokenData = await getDiscordAccessTokenFromCode(code)
     const { accessToken, refreshToken, expiration } = tokenData
     if (!accessToken)
-      throw new AuthenticationError(
-        'Discord OAuth2 code invalid or has already been used'
-      )
+      throw new AuthenticationError('Discord OAuth2 code invalid')
     const profile = await getDiscordProfile(accessToken)
-
     // Fetch user and validate state
     const user = await db.user.findUnique({ where: { id: profile.id } })
     if (user.oauthState !== oauthState)
@@ -75,6 +76,8 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
     await db.user.update({
       where: { id: profile.id },
       data: {
+        iconUrl: `${AVATAR_BASE_URL}${profile.id}/${profile.avatar}.png`,
+        username: profile.username,
         oauthState: newOauthState,
         discordAuth: {
           upsert: {

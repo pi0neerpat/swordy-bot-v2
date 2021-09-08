@@ -12,6 +12,7 @@ const ADD_GUILD_ROLE_MUTATION = gql`
 `
 
 const ServerRoles = ({ roles, guildId }) => {
+  const [selectedRole, setSelectedRole] = React.useState('')
   const [addGuildRole, { loading, error }] = useMutation(
     ADD_GUILD_ROLE_MUTATION,
     {
@@ -38,14 +39,23 @@ const ServerRoles = ({ roles, guildId }) => {
         <tbody>
           {roles.map((role) => (
             <tr key={role.id}>
-              <td>{role.name}</td>
+              <td className="items-center">{role.name}</td>
               <td>
-                <ServerRoleForm
-                  role={role}
-                  onSave={onSave}
-                  error={error}
-                  loading={loading}
-                />
+                {selectedRole === role.id ? (
+                  <ServerRoleForm
+                    role={role}
+                    onSave={onSave}
+                    error={error}
+                    loading={loading}
+                  />
+                ) : (
+                  <button
+                    className="rw-button"
+                    onClick={() => setSelectedRole(role.id)}
+                  >
+                    Add Token Access
+                  </button>
+                )}
               </td>
             </tr>
           ))}

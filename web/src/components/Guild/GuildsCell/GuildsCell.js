@@ -5,7 +5,6 @@ import Guilds from 'src/components/Guild/Guilds'
 export const QUERY = gql`
   query FindGuilds {
     guilds {
-      platformId
       platform
       name
       iconUrl

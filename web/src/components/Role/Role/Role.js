@@ -33,8 +33,19 @@ const Role = ({ role, isEditing }) => {
   return (
     <>
       <div className="rw-segment">
-        <header className="rw-segment-header">
+        <header className=" flex items-center justify-between rw-segment-header">
           <h2 className="rw-heading rw-heading-secondary">{role.name}</h2>
+          {isEditing && (
+            <nav className="rw-button-group">
+              <button
+                type="button"
+                className="rw-button rw-button-red"
+                onClick={onRemoveClick}
+              >
+                Remove token access
+              </button>
+            </nav>
+          )}
         </header>
         <table className="rw-table">
           <tbody>
@@ -57,17 +68,6 @@ const Role = ({ role, isEditing }) => {
           </tbody>
         </table>
       </div>
-      {isEditing && (
-        <nav className="rw-button-group">
-          <button
-            type="button"
-            className="rw-button rw-button-red"
-            onClick={onRemoveClick}
-          >
-            Remove token access
-          </button>
-        </nav>
-      )}
     </>
   )
 }

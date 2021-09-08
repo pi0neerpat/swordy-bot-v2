@@ -33,6 +33,8 @@ model User {
   oauthState            String?
   guilds                Guild[]      @relation(name: "userGuilds")
   roles                 Role[]       @relation(name: "userRoles")
+  iconUrl               String?
+  username              String?
   currentSessionGuild   Guild?       @relation(fields: [currentSessionGuildId], references: [id])
   currentSessionGuildId String?
   discordAuth           DiscordAuth? @relation(fields: [discordAuthId], references: [id])

@@ -39,29 +39,21 @@ const EditGuild = ({ guild }) => {
           </h2>
         </header>
         <div className="rw-segment-main">
-          <table className="rw-table">
-            <tbody>
-              {guild?.roles.length
-                ? guild.roles.map((role, i) => (
-                    <RoleCell isEditing key={i} id={role.id} />
-                  ))
-                : 'No roles have been set up for this guild'}
-            </tbody>
-          </table>
+          {guild?.roles.length
+            ? guild.roles.map((role, i) => (
+                <RoleCell isEditing key={i} id={role.id} />
+              ))
+            : 'No roles have been set up for this guild'}
         </div>
       </div>
       <div className="mt-6 rw-segment">
         <header className="rw-segment-header">
           <h2 className="rw-heading rw-heading-secondary">
-            Roles without token-gating
+            Roles without token access
           </h2>
         </header>
         <div className="rw-segment-main">
-          <table className="rw-table">
-            <tbody>
-              <ServerRolesCell id={guild.id} />
-            </tbody>
-          </table>
+          <ServerRolesCell id={guild.id} />
         </div>
       </div>
     </>

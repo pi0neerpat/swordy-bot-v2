@@ -1,7 +1,7 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
-import { trimAddress } from 'src/helpers/helpers'
+import { trimAddress, getNetworkNameFromId } from 'src/helpers/helpers'
 import { CheckmarkIcon } from 'src/components/Icons'
 
 const REMOVE_GUILD_ROLE_MUTATION = gql`
@@ -94,7 +94,7 @@ const Role = ({ role, isEditing }) => {
             </div>
           )}
           <p className="ml-1 sm:ml-4 text-grey-600">
-            {role.chainId} • {role.type}
+            {getNetworkNameFromId(role.chainId)} • {role.type}
           </p>
         </div>
         <p className="sm:text-lg break-all">{role.contractAddress}</p>

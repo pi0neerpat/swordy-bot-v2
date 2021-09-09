@@ -1,0 +1,1 @@
+export { isLockValid } from './unlockProtocol'

@@ -1,8 +1,4 @@
-import Discord from 'discord.js'
-
 import { db } from 'src/lib/db'
-
-const client = new Discord.Client()
 
 export const fetchGuild = async (guildObject) => {
   if (!guildObject) throw 'No guildObject provided for fetchGuild'

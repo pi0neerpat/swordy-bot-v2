@@ -1,5 +1,5 @@
 import { SelectField } from '@redwoodjs/forms'
-import { availableTokenTypes } from 'src/constants.js'
+import { TOKEN_TYPES } from 'src/helpers/constants.js'
 
 const TypeDropdown = ({ defaultValue, name, validation }) => {
   return (
@@ -10,7 +10,7 @@ const TypeDropdown = ({ defaultValue, name, validation }) => {
       className="rw-input"
       errorClassName="rw-input rw-input-error"
     >
-      {availableTokenTypes.map((type) => (
+      {TOKEN_TYPES.map((type) => (
         <option value={type.value} key={type.value}>
           {type.text}
         </option>

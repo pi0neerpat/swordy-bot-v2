@@ -1,5 +1,5 @@
 import { SelectField } from '@redwoodjs/forms'
-import { availableNetworks } from 'src/constants.js'
+import { EIP_155_NETWORK_SPEC } from 'src/helpers/constants.js'
 
 const NetworkDropdown = ({ defaultValue, name, validation }) => {
   return (
@@ -9,8 +9,10 @@ const NetworkDropdown = ({ defaultValue, name, validation }) => {
       validation={validation}
       className="rw-input"
     >
-      {availableNetworks.map((net) => (
-        <option key={net}>{net}</option>
+      {EIP_155_NETWORK_SPEC.map((net) => (
+        <option value={net.chainId} key={net.chainId}>
+          {net.name}
+        </option>
       ))}
     </SelectField>
   )

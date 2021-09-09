@@ -3,7 +3,7 @@ import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import GuildCell from 'src/components/Guild/GuildCell'
 import { PlusIcon, CircleArrowIcon } from 'src/components/Icons'
-import { ADD_BOT_LINK } from 'src/constants'
+import { ADD_BOT_LINK } from 'src/helpers/constants'
 
 const User = ({ user }) => {
   return (

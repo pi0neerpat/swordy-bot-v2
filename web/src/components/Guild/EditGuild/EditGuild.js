@@ -63,8 +63,8 @@ const EditGuild = ({ guild, refetch }) => {
           ))
         ) : (
           <div className="rw-segment p-4 text-gray-500">
-            You haven't set up any roles for this Discord server. Click the "ADD
-            TOKEN ACCESS" button below to get started.
+            You haven't set up any roles for this Discord server. Click "Add
+            Token Access" to get started.
           </div>
         )}
       </div>

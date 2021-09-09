@@ -1,6 +1,6 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
-import { ADD_BOT_LINK } from 'src/constants'
+import { ADD_BOT_LINK } from 'src/helpers/constants'
 
 const HomePage = () => {
   return (

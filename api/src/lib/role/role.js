@@ -1,10 +1,32 @@
 import { db } from 'src/lib/db'
+import { TOKEN_TYPES } from 'src/lib/role/constants'
+import { checkNftBalance } from 'src/lib/web3/token'
+import { checkUnlockBalance } from 'src/lib/web3/unlock'
 
 export const syncUserRole = async ({ user, role }) => {
   let userHasRole = false
-
+  const { type, chainId, contractAddress } = role
+  const { address: userAddress } = user
   // TODO: check wallet token balance
-  // userHasRole = true
+  userHasRole = true
+  try {
+    if (type === TOKEN_TYPES.ERC721) {
+      userHasRole = await checkNftBalance({
+        userAddress,
+        contractAddress,
+        chainId,
+      })
+    } else if (type === TOKEN_TYPES.UNLOCK) {
+      userHasRole = await checkUnlockBalance({
+        userAddress,
+        contractAddress,
+        chainId,
+      })
+    }
+  } catch (e) {
+    // Break to prevent deleting a role from a user unnecessarily
+    throw new Error('syncUserRole() trouble checking web3 balance: ', e)
+  }
 
   if (userHasRole) {
     await db.user.update({

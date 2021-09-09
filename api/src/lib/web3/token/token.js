@@ -12,34 +12,37 @@ export const checkTokenBalance = async ({
   chainId,
   contractAddress,
   type,
+  balance,
 }) => {
   let tokenId = null // Specific NFTs are not implemented yet
   let userBalance = parseUnits('0', 18)
   const rpcProvider = getProviderByChainId(chainId)
-  if (type === TOKEN_TYPES.ERC20)
+  if (type === TOKEN_TYPES.ERC20) {
     userBalance = await getErc20Balance({
       contractAddress,
       rpcProvider,
       userAddress,
     })
-  if (type === TOKEN_TYPES.ERC721)
+    return userBalance.gte(parseUnits('1', 18))
+  }
+  if (type === TOKEN_TYPES.ERC721) {
     userBalance = await getErc721Balance({
       contractAddress,
       rpcProvider,
       tokenId,
       userAddress,
     })
-  return userBalance.gte(parseUnits('1', 18))
+    return userBalance.gte(parseUnits('1', 0))
+  }
 }
 
 const getErc721Balance = async ({
   contractAddress,
   rpcProvider,
   userAddress,
-  tokenId,
 }) => {
   const contract = new Contract(contractAddress, erc721Abi, rpcProvider)
-  return await contract.balanceOf(userAddress, tokenId)
+  return await contract.balanceOf(userAddress)
 }
 
 const getErc20Balance = async ({

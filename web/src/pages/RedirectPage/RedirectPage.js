@@ -1,7 +1,7 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { useParams } from '@redwoodjs/router'
-import RedirectCell from 'src/components/Redirect/RedirectCell'
+import Redirect from 'src/components/Redirect/Redirect'
 
 const RedirectPage = ({ type }) => {
   const { code, state } = useParams()
@@ -14,7 +14,7 @@ const RedirectPage = ({ type }) => {
         /* you should un-comment description and add a unique description, 155 characters or less
       You can look at this documentation for best practices : https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets */
       />
-      <RedirectCell type={type} code={code} oauthState={state} />
+      <Redirect type={type} code={code} oauthState={state} />
     </>
   )
 }

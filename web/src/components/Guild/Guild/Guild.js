@@ -45,7 +45,7 @@ const Guild = ({ guild }) => {
           inactiveRoles.map((role, i) => <RoleCell id={role.id} key={i} />)
         ) : (
           <div className="rw-segment p-4 text-gray-500">
-            Looks like you have all the available roles managed by Swordy Bot.
+            You have all the roles Swordy Bot manages. Congrats!
           </div>
         )}
       </div>

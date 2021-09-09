@@ -28,7 +28,7 @@ export const syncUserRole = async ({ user, role }) => {
     // Break to prevent deleting a role from a user unnecessarily
     throw new Error('syncUserRole() trouble checking web3 balance')
   }
-  userHasRole = false
+  // userHasRole = false
   if (userHasRole) {
     await addRoleForUser(role.guildId, role.id, user.id)
     // TODO: Ensure role was successfully added in Discord

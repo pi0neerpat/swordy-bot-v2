@@ -6,7 +6,11 @@ export const QUERY = gql`
     $oauthState: String!
     $code: String!
   ) {
-    oauthCodeGrant(oauthState: $oauthState, code: $code, type: $type) {
+    redirect: oauthCodeGrant(
+      oauthState: $oauthState
+      code: $code
+      type: $type
+    ) {
       url
     }
   }
@@ -18,7 +22,7 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => <Redirect message={error.message} />
 
-export const Success = ({ oauthCodeGrant }) => {
-  navigate(oauthCodeGrant.url)
+export const Success = ({ redirect }) => {
+  navigate(redirect.url)
   return <div>Redirecting...</div>
 }

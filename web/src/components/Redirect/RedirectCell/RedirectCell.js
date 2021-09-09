@@ -6,11 +6,7 @@ export const QUERY = gql`
     $oauthState: String!
     $code: String!
   ) {
-    oauthCodeGrant: oauthCodeGrant(
-      oauthState: $oauthState
-      code: $code
-      type: $type
-    ) {
+    oauthCodeGrant(oauthState: $oauthState, code: $code, type: $type) {
       url
     }
   }

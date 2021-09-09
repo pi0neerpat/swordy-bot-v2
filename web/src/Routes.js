@@ -9,7 +9,6 @@
 
 import { Set, Router, Route } from '@redwoodjs/router'
 import GuildsLayout from 'src/layouts/GuildsLayout'
-import RolesLayout from 'src/layouts/RolesLayout'
 import UsersLayout from 'src/layouts/UsersLayout'
 import DefaultLayout from 'src/layouts/DefaultLayout'
 
@@ -26,7 +25,6 @@ const Routes = () => {
         </Set>
         <Set wrap={GuildsLayout}>
           <Route path="/guilds/{id}/edit" page={GuildEditGuildPage} name="editGuild" />
-          <Route path="/guilds/new" page={GuildNewGuildPage} name="newGuild" />
           <Route path="/guilds/{id}" page={GuildGuildPage} name="guild" />
         </Set>
       </Set>

@@ -8,9 +8,6 @@ export const QUERY = gql`
       address
       username
       iconUrl
-      roles {
-        id
-      }
       guilds {
         id
       }

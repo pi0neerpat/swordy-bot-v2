@@ -12,6 +12,7 @@ export const QUERY = gql`
       contractAddress
       type
       guildId
+      userHasRole
     }
   }
 `

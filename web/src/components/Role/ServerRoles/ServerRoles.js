@@ -36,8 +36,8 @@ const ServerRoles = ({ roles, guildId }) => {
   return (
     <div>
       {roles.map((role) => (
-        <>
-          <div className="flex mt-4 justify-between items-center">
+        <div className="rw-segment p-4 mt-4" key={role.id}>
+          <div className="flex  justify-between items-center">
             <div className="items-center">
               <h2 className="text-2xl">{role.name}</h2>
             </div>
@@ -52,7 +52,7 @@ const ServerRoles = ({ roles, guildId }) => {
             </button>
           </div>
           {selectedRole === role.id && (
-            <div className="mt-4">
+            <div className="mt-8">
               <ServerRoleForm
                 role={role}
                 onSave={onSave}
@@ -61,7 +61,7 @@ const ServerRoles = ({ roles, guildId }) => {
               />
             </div>
           )}
-        </>
+        </div>
       ))}
     </div>
   )

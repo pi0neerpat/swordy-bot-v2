@@ -21,4 +21,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ guild }) => <EditGuild guild={guild} />
+export const Success = ({ guild, refetch }) => (
+  <EditGuild guild={guild} refetch={refetch} />
+)

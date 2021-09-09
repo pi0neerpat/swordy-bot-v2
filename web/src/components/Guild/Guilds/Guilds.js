@@ -4,14 +4,6 @@ import { Link, routes } from '@redwoodjs/router'
 
 import { QUERY } from 'src/components/Guild/GuildsCell'
 
-const DELETE_GUILD_MUTATION = gql`
-  mutation DeleteGuildMutation($id: String!) {
-    deleteGuild(id: $id) {
-      id
-    }
-  }
-`
-
 const MAX_STRING_LENGTH = 150
 
 const truncate = (text) => {
@@ -39,23 +31,6 @@ const checkboxInputTag = (checked) => {
 }
 
 const GuildsList = ({ guilds }) => {
-  const [deleteGuild] = useMutation(DELETE_GUILD_MUTATION, {
-    onCompleted: () => {
-      toast.success('Guild deleted')
-    },
-    // This refetches the query on the list page. Read more about other ways to
-    // update the cache over here:
-    // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
-    refetchQueries: [{ query: QUERY }],
-    awaitRefetchQueries: true,
-  })
-
-  const onDeleteClick = (id) => {
-    if (confirm('Are you sure you want to delete guild ' + id + '?')) {
-      deleteGuild({ variables: { id } })
-    }
-  }
-
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
       <table className="rw-table">
@@ -93,14 +68,6 @@ const GuildsList = ({ guilds }) => {
                   >
                     Edit
                   </Link>
-                  <button
-                    type="button"
-                    title={'Delete guild ' + guild.id}
-                    className="rw-button rw-button-small rw-button-red"
-                    onClick={() => onDeleteClick(guild.id)}
-                  >
-                    Delete
-                  </button>
                 </nav>
               </td>
             </tr>

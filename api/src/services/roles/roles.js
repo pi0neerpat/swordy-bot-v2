@@ -1,45 +1,25 @@
 import { db } from 'src/lib/db'
 import { requireAuth } from 'src/lib/auth'
+import { syncUserRole } from 'src/lib/role'
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
   rules.add(requireAuth)
 }
 
-export const roles = () => {
-  return db.role.findMany()
+export const syncRole = async ({ id }) => {
+  const role = await db.role.findUnique({ where: { id } })
+  const userHasRole = await syncUserRole({ user: context.currentUser, role })
+  return { ...role, userHasRole }
 }
 
-export const role = ({ id }) => {
-  return db.role.findUnique({
-    where: { id },
-  })
+export const role = async ({ id }) => {
+  const role = await db.role.findUnique({ where: { id } })
+  const userRoles = await db.user
+    .findUnique({ where: { id: context.currentUser.id } })
+    .roles()
+  const userHasRole = userRoles.map((role) => role.id).includes(id)
+  return { ...role, userHasRole }
 }
 
-export const createRole = ({ input }) => {
-  return db.role.create({
-    data: input,
-  })
-}
-
-export const updateRole = ({ id, input }) => {
-  return db.role.update({
-    data: input,
-    where: { id },
-  })
-}
-
-export const deleteRole = ({ id }) => {
-  return db.role.delete({
-    where: { id },
-  })
-}
-
-export const Role = {
-  guild: (_obj, { root }) =>
-    db.role.findUnique({ where: { id: root.id } }).guild(),
-  token: (_obj, { root }) =>
-    db.role.findUnique({ where: { id: root.id } }).token(),
-  users: (_obj, { root }) =>
-    db.role.findUnique({ where: { id: root.id } }).users(),
-}
+export const Role = {}

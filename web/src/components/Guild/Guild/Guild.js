@@ -2,10 +2,13 @@ import { Link, routes } from '@redwoodjs/router'
 import RoleCell from 'src/components/Role/RoleCell'
 
 const Guild = ({ guild }) => {
+  const inactiveRoles = guild.roles.filter((role) => !role.userHasRole)
+  const activeRoles = guild.roles.filter((role) => role.userHasRole)
+
   return (
     <div className="p-4 rw-segment">
       <div className="flex items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex items-center flex-wrap">
           <img
             className="w-16 h-16 overflow-hidden"
             src={guild.iconUrl}
@@ -26,19 +29,24 @@ const Guild = ({ guild }) => {
           </Link>
         )}
       </div>
-      <p className="mt-8">Roles available for token access:</p>
+      <p className="mt-8">Your roles:</p>
       <div className="mt-4">
-        {guild.roles.length ? (
-          guild.roles.map((role, i) => (
-            <div key={i} className="mt-4">
-              <RoleCell id={role.id} />
-            </div>
-          ))
+        {activeRoles.length ? (
+          activeRoles.map((role, i) => <RoleCell id={role.id} key={i} />)
         ) : (
-          <>
-            Admins for this Discord server have not set up any roles yet. Click
-            the "Edit" button to get started
-          </>
+          <div className="rw-segment p-4 text-gray-500">
+            Click "Sync Role" to add a role
+          </div>
+        )}
+      </div>
+      <p className="mt-8">Available roles:</p>
+      <div className="mt-4">
+        {inactiveRoles.length ? (
+          inactiveRoles.map((role, i) => <RoleCell id={role.id} key={i} />)
+        ) : (
+          <div className="rw-segment p-4 text-gray-500">
+            Looks like you have all the available roles managed by Swordy Bot.
+          </div>
         )}
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { routes, navigate, Link } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import Logo from 'src/components/Logo'
+import { LogoutIcon } from 'src/components/Icons'
 
 const truncate = (text, length = 50) => {
   if (typeof text !== 'string') return ''
@@ -26,6 +27,9 @@ const DefaultLayout = ({ children }) => {
       </button>
       <button className="ml-4 rw-button rw-button-small" onClick={onLogOut}>
         Logout
+        <div className="ml-2">
+          <LogoutIcon color="#718096" />
+        </div>
       </button>
     </div>
   ) : (

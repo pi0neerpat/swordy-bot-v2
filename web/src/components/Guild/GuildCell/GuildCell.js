@@ -10,6 +10,7 @@ export const QUERY = gql`
       description
       roles {
         id
+        userHasRole
       }
       isUserManager
     }

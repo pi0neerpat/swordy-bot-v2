@@ -71,9 +71,4 @@ export const removeGuildRole = ({ id, roleId }) => {
 export const Guild = {
   roles: (_obj, { root }) =>
     db.guild.findUnique({ where: { id: root.id } }).roles(),
-  // Warning: Intentionally blocking these so user data cannot be accessed
-  // users: (_obj, { root }) =>
-  //   db.guild.findUnique({ where: { id: root.id } }).users(),
-  // User: (_obj, { root }) =>
-  //   db.guild.findUnique({ where: { id: root.id } }).User(),
 }

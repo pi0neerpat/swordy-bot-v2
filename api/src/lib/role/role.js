@@ -1,5 +1,29 @@
 import { db } from 'src/lib/db'
 
+export const syncUserRole = async ({ user, role }) => {
+  let userHasRole = false
+
+  // TODO: check wallet token balance
+  // userHasRole = true
+
+  if (userHasRole) {
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        roles: { connect: { id: role.id } },
+      },
+    })
+  } else {
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        roles: { disconnect: { id: role.id } },
+      },
+    })
+  }
+  return userHasRole
+}
+
 export const fetchRole = async ({
   role: roleData,
   token: tokenData,

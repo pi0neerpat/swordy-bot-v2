@@ -8,17 +8,15 @@ import { ADD_BOT_LINK } from 'src/constants'
 const User = ({ user }) => {
   return (
     <>
-      <div className="flex items-center">
-        <img
-          className="w-16 h-16 overflow-hidden"
-          src={user.iconUrl}
-          alt={`Profile image for ${user.username}`}
-        />
+      <div className="flex items-center min-w-min">
+        <div className="min-w-max">
+          <img src={user.iconUrl} alt={`Profile image for ${user.username}`} />
+        </div>
         <div className="ml-4">
-          <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
+          <h1 className="tracking-tight font-extrabold text-gray-900 text-xl sm:text-2xl md:text-4xl">
             {user.username}
           </h1>
-          {user.address}
+          <p className="break-all text-xs sm:text-lg">{user.address}</p>
         </div>
       </div>
       <p className="mt-8">Guilds you've used with Swordy Bot:</p>

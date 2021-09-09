@@ -3,14 +3,8 @@ import { Toaster } from '@redwoodjs/web/toast'
 
 const GuildsLayout = ({ children }) => {
   return (
-    <div className="rw-scaffold">
+    <div className="">
       <Toaster />
-      <header className="rw-header">
-        <h1 className="rw-heading rw-heading-primary">Guilds</h1>
-        <Link to={routes.newGuild()} className="rw-button rw-button-green">
-          <div className="rw-button-icon">+</div> New Guild
-        </Link>
-      </header>
       <main className="rw-main">{children}</main>
     </div>
   )

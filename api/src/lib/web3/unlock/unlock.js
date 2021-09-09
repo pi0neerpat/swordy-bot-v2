@@ -1,17 +1,13 @@
 import fetch from 'node-fetch'
 import { Contract } from '@ethersproject/contracts'
-import CONTRACTS from './contracts'
 import { getProviderByChainId } from 'src/lib/web3/helpers'
+import unlockAbi from './unlockAbi'
 
 const getLockContract = ({ contractAddress, chainId }) => {
-  return new Contract(
-    contractAddress,
-    CONTRACTS.lock.abi,
-    getProviderByChainId(chainId)
-  )
+  return new Contract(contractAddress, unlockAbi, getProviderByChainId(chainId))
 }
 
-export const isLockValid = async ({
+export const checkUnlockBalance = async ({
   contractAddress,
   chainId,
   userAddress,

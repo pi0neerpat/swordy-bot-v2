@@ -10,7 +10,9 @@ export const beforeResolver = (rules) => {
 export const syncRole = async ({ id }) => {
   const role = await db.role.findUnique({ where: { id } })
   const userHasRole = await syncUserRole({ user: context.currentUser, role })
-  return { ...role, userHasRole }
+  if (!userHasRole)
+    throw new Error("Sorry you don't have the right tokens in your wallet")
+  return role
 }
 
 export const role = async ({ id }) => {

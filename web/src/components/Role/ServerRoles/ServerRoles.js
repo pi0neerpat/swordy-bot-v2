@@ -37,13 +37,13 @@ const ServerRoles = ({ roles, guildId }) => {
     <div>
       {roles.map((role) => (
         <div className="rw-segment p-4 mt-4" key={role.id}>
-          <div className="flex  justify-between items-center">
+          <div className="flex flex-wrap justify-between items-center">
             <div className="items-center">
               <h2 className="text-2xl">{role.name}</h2>
             </div>
             <button
               type="button"
-              className="rw-button rw-button-green"
+              className="rw-button rw-button-green mt-4 sm:mt-0"
               onClick={() =>
                 setSelectedRole(selectedRole === role.id ? null : role.id)
               }

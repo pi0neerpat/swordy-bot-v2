@@ -1,32 +1,35 @@
 import { Contract } from '@ethersproject/contracts'
 import { parseUnits } from '@ethersproject/units'
+import { TOKEN_TYPES } from 'src/lib/role/constants'
 
 import { getProviderByChainId } from 'src/lib/web3/helpers'
-import { isLockValid } from 'src/lib/web3/unlock'
 
 import erc721Abi from './erc721Abi'
 import erc20Abi from './erc20Abi'
 
-export const checkTokenBalance = async ({ token, balance, userAddress }) => {
-  const { contractAddress, chainId, tokenId, type } = token
+export const checkTokenBalance = async ({
+  userAddress,
+  chainId,
+  contractAddress,
+  type,
+}) => {
+  let tokenId = null // Specific NFTs are not implemented yet
   let userBalance = parseUnits('0', 18)
   const rpcProvider = getProviderByChainId(chainId)
-  if (type === 'erc20')
+  if (type === TOKEN_TYPES.ERC20)
     userBalance = await getErc20Balance({
       contractAddress,
       rpcProvider,
       userAddress,
     })
-  if (type === 'erc721')
+  if (type === TOKEN_TYPES.ERC721)
     userBalance = await getErc721Balance({
       contractAddress,
       rpcProvider,
       tokenId,
       userAddress,
     })
-  if (type === 'unlock')
-    return await isLockValid({ contractAddress, chainId, userAddress })
-  return userBalance.gte(parseUnits(balance.toString(), 18))
+  return userBalance.gte(parseUnits('1', 18))
 }
 
 const getErc721Balance = async ({
@@ -36,7 +39,7 @@ const getErc721Balance = async ({
   tokenId,
 }) => {
   const contract = new Contract(contractAddress, erc721Abi, rpcProvider)
-  const balance = await contract.balanceOf(userAddress, tokenId)
+  return await contract.balanceOf(userAddress, tokenId)
 }
 
 const getErc20Balance = async ({

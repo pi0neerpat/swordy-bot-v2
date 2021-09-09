@@ -111,11 +111,13 @@ export const getDiscordUserRoles = async (serverId, userId) => {
   return serverRoles.filter((role) => member.roles.includes(role.id))
 }
 
-// Unused
-
-export const addRoleForUser = async (roleId: string, userID: string) => {
-  const resp = await fetch(
-    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userID}/roles/${roleId}`,
+export const addRoleForUser = async (
+  serverId: string,
+  roleId: string,
+  userId: string
+) => {
+  const response = await fetch(
+    `${API_ENDPOINT}/guilds/${serverId}/members/${userId}/roles/${roleId}`,
     {
       method: 'PUT',
       headers: {
@@ -124,12 +126,16 @@ export const addRoleForUser = async (roleId: string, userID: string) => {
       },
     }
   ).then((res) => res.text())
-  console.log(resp)
+  console.log(response)
 }
 
-export const removeRoleForUser = async (roleId: string, userID: string) => {
-  await fetch(
-    `${API_ENDPOINT}/guilds/${process.env.DISCORD_SERVER_ID}/members/${userID}/roles/${roleId}`,
+export const removeRoleForUser = async (
+  serverId: string,
+  roleId: string,
+  userId: string
+) => {
+  const response = await fetch(
+    `${API_ENDPOINT}/guilds/${serverId}/members/${userId}/roles/${roleId}`,
     {
       method: 'DELETE',
       headers: {
@@ -138,7 +144,10 @@ export const removeRoleForUser = async (roleId: string, userID: string) => {
       },
     }
   ).then((res) => res.text())
+  console.log(response)
 }
+
+// Unused
 
 export const refreshDiscordAccessToken = async (
   refreshToken: string,

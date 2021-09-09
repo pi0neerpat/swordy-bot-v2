@@ -6,6 +6,7 @@ export const EIP_155_NETWORK_SPEC = [
   { name: 'rinkeby', chainId: 4 },
   { name: 'goerli', chainId: 5 },
   { name: 'kovan', chainId: 42 },
+  // Not provided by Infura
   { name: 'xdai', chainId: 100 },
   { name: 'matic', chainId: 137 },
   { name: 'mumbai', chainId: 80001 },
@@ -23,16 +24,15 @@ export const getIdFromNetworkName = (name) => {
     .chainId
 }
 
-export const getWalletlessProvider = (chainId) => {
+export const getProviderByChainId = (chainId) => {
   try {
-    if (chainId === 100) {
-      return new JsonRpcProvider(process.env.XDAI_RPC_URL)
-    }
-    if (chainId === 'matic') {
-      return new JsonRpcProvider(maticRpcUrl)
-    }
+    if (chainId == 100) return new JsonRpcProvider(process.env.XDAI_RPC)
+    if (chainId == 137) return new JsonRpcProvider(process.env.MATIC_RPC)
+    if (chainId == 80001) return new JsonRpcProvider(process.env.MUMBAI_RPC)
+    if (chainId == 56) return new JsonRpcProvider(process.env.BSC_MAINNET_RPC)
+    if (chainId == 97) return new JsonRpcProvider(process.env.BSC_TESTNET_RPC)
     return new InfuraProvider(Number(chainId), process.env.INFURA_ID)
   } catch (error) {
-    return getErrorResponse(error, 'getWalletlessProvider')
+    throw new Error(error)
   }
 }

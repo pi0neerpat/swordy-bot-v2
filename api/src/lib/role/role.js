@@ -1,34 +1,37 @@
 import { db } from 'src/lib/db'
 import { TOKEN_TYPES } from 'src/lib/role/constants'
-import { checkNftBalance } from 'src/lib/web3/token'
+import { checkTokenBalance } from 'src/lib/web3/token'
 import { checkUnlockBalance } from 'src/lib/web3/unlock'
+import { addRoleForUser, removeRoleForUser } from 'src/lib/discord'
 
 export const syncUserRole = async ({ user, role }) => {
-  let userHasRole = false
   const { type, chainId, contractAddress } = role
   const { address: userAddress } = user
-  // TODO: check wallet token balance
-  userHasRole = true
+  let userHasRole = false
   try {
-    if (type === TOKEN_TYPES.ERC721) {
-      userHasRole = await checkNftBalance({
+    if (type == TOKEN_TYPES.ERC721 || type == TOKEN_TYPES.ERC20) {
+      userHasRole = await checkTokenBalance({
         userAddress,
-        contractAddress,
         chainId,
+        contractAddress,
+        type,
       })
-    } else if (type === TOKEN_TYPES.UNLOCK) {
+    } else if (type == TOKEN_TYPES.UNLOCK) {
       userHasRole = await checkUnlockBalance({
         userAddress,
-        contractAddress,
         chainId,
+        contractAddress,
       })
     }
   } catch (e) {
+    console.log(e)
     // Break to prevent deleting a role from a user unnecessarily
-    throw new Error('syncUserRole() trouble checking web3 balance: ', e)
+    throw new Error('syncUserRole() trouble checking web3 balance')
   }
-
+  userHasRole = false
   if (userHasRole) {
+    await addRoleForUser(role.guildId, role.id, user.id)
+    // TODO: Ensure role was successfully added in Discord
     await db.user.update({
       where: { id: user.id },
       data: {
@@ -36,6 +39,7 @@ export const syncUserRole = async ({ user, role }) => {
       },
     })
   } else {
+    await removeRoleForUser(role.guildId, role.id, user.id)
     await db.user.update({
       where: { id: user.id },
       data: {

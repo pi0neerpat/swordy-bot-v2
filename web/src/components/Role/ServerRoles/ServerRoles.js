@@ -1,20 +1,23 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
-import ServerRoleForm from 'src/components/Role/ServerRoleForm'
+import RoleUpdateForm from 'src/components/Role/RoleUpdateForm'
 
-const ADD_GUILD_ROLE_MUTATION = gql`
-  mutation addGuildRoleMutation($id: String!, $input: AddGuildRoleInput!) {
-    addGuildRole(id: $id, input: $input) {
+const UPDATE_GUILD_ROLE_MUTATION = gql`
+  mutation updateGuildRoleMutation(
+    $id: String!
+    $input: UpdateGuildRoleInput!
+  ) {
+    updateGuildRole(id: $id, input: $input) {
       id
     }
   }
 `
 
 const ServerRoles = ({ roles, guildId }) => {
-  const [selectedRole, setSelectedRole] = React.useState('')
+  const [selectedRole, setSelectedRole] = React.useState(roles[0].id)
   const [addGuildRole, { loading, error }] = useMutation(
-    ADD_GUILD_ROLE_MUTATION,
+    UPDATE_GUILD_ROLE_MUTATION,
     {
       onCompleted: () => {
         toast.success('Role is now token-gated')
@@ -27,7 +30,7 @@ const ServerRoles = ({ roles, guildId }) => {
     addGuildRole({
       variables: {
         id: guildId,
-        input: { id, ...input },
+        input: { id, input },
       },
     })
   }
@@ -53,7 +56,7 @@ const ServerRoles = ({ roles, guildId }) => {
           </div>
           {selectedRole === role.id && (
             <div className="mt-8">
-              <ServerRoleForm
+              <RoleUpdateForm
                 role={role}
                 onSave={onSave}
                 error={error}

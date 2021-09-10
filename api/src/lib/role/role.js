@@ -71,24 +71,24 @@ export const fetchRole = async ({
       },
     })
   }
-  // Create role
-  const role = await db.role.upsert({
-    where: {
-      id: roleData.id,
-    },
-    update: {
-      name: roleData.name,
-      token: { connect: { id: token.id } },
-      balance,
-      purchaseUrl,
-    },
-    create: {
-      name: roleData.name,
-      token: { connect: { id: token.id } },
-      guild: { connect: { id: guildData.id } },
-      balance,
-      purchaseUrl,
-    },
-  })
+  // // Create role
+  // const role = await db.role.upsert({
+  //   where: {
+  //     id: roleData.id,
+  //   },
+  //   update: {
+  //     name: roleData.name,
+  //     token: { connect: { id: token.id } },
+  //     balance,
+  //     purchaseUrl,
+  //   },
+  //   create: {
+  //     name: roleData.name,
+  //     token: { connect: { id: token.id } },
+  //     guild: { connect: { id: guildData.id } },
+  //     balance,
+  //     purchaseUrl,
+  //   },
+  // })
   return role
 }

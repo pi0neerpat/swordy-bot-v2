@@ -51,13 +51,23 @@ export const guildDiscordRoles = async ({ id }) => {
   return serverRoles.filter((role) => !roleIds.includes(role.id))
 }
 
-export const addGuildRole = async ({ id, input }) => {
-  // Name must come from Discord
+export const updateGuildRole = async ({ id, input }) => {
+  const { token, id: roleId } = input
+  const { contractAddress, chainId, type } = token
+  // Fetch name from Discord API
   const roles = await getDiscordServerRoles(id)
   const role = roles.filter((role) => role.id === input.id)[0]
   return db.guild.update({
     where: { id },
-    data: { roles: { create: { name: role.name, ...input } } },
+    data: {
+      roles: {
+        create: {
+          name: role.name,
+          id: roleId,
+          tokens: { create: { contractAddress, chainId, type } },
+        },
+      },
+    },
   })
 }
 

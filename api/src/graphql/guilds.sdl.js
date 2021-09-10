@@ -25,23 +25,20 @@ export const schema = gql`
     description: String
   }
 
-  input AddGuildRoleInput {
-    id: String!
-    balance: String
-    description: String
-    purchaseUrl: String
+  input UpdateRoleInput {
     chainId: String!
     contractAddress: String!
     type: String!
-    tokenId: Int
-    uri: String
-    website: String
-    iconUrl: String
+  }
+
+  input UpdateGuildRoleInput {
+    id: String!
+    input: UpdateRoleInput!
   }
 
   type Mutation {
     createGuild(input: CreateGuildInput!): Guild!
-    addGuildRole(id: String!, input: AddGuildRoleInput!): Guild!
+    updateGuildRole(id: String!, input: UpdateGuildRoleInput!): Guild!
     removeGuildRole(id: String!, roleId: String!): Guild!
   }
 `

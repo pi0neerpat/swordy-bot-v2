@@ -91,14 +91,26 @@ const Role = ({ role, isEditing }) => {
   const PromptButton = () => {
     if (isEditing)
       return (
-        <button
-          type="button"
-          className="rw-button rw-button-red"
-          onClick={onRemoveClick}
-          disabled={isLoading}
-        >
-          Remove token access
-        </button>
+        <>
+          <button
+            type="button"
+            className="rw-button rw-button-red"
+            onClick={onRemoveClick}
+            disabled={isLoading}
+          >
+            Remove token access
+          </button>
+          <button
+            className="rw-button rw-button-small mt-4 flex"
+            onClick={(input) => {
+              const copy = tokenList
+              copy[tokenList.length] = emptyToken
+              setTokenList(copy)
+            }}
+          >
+            Add token
+          </button>
+        </>
       )
     if (role.userHasRole)
       return (

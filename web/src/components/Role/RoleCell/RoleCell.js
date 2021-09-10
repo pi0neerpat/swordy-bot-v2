@@ -6,13 +6,15 @@ export const QUERY = gql`
       id
       name
       description
-      balance
-      purchaseUrl
-      chainId
-      contractAddress
-      type
       guildId
       userHasRole
+      tokens {
+        type
+        balance
+        purchaseUrl
+        chainId
+        contractAddress
+      }
     }
   }
 `

@@ -4,17 +4,10 @@ export const schema = gql`
     guild: Guild!
     guildId: String!
     name: String!
-    chainId: String!
-    contractAddress: String!
     type: String!
     users: [User]!
     description: String
-    balance: String
-    purchaseUrl: String
-    tokenId: Int
-    uri: String
-    website: String
-    iconUrl: String
+    tokens: [Token]!
     userHasRole: Boolean
   }
 

@@ -22,7 +22,7 @@ export const getUnlockPaywallUrl = ({
     locks,
     icon: guild.iconUrl,
     callToAction: {
-      default: `Join the ${guild.name} community on Discord! Unlock the role "${roleName}"`,
+      default: `Join the ${guild.name} community on Discord by unlocking the role "${roleName}"`,
     },
     referrer: process.env.UNLOCK_REFERRER_ADDRESS,
     pessimistic: true,

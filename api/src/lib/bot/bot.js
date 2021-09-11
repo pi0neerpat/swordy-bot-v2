@@ -9,6 +9,7 @@ import {
   getDiscordAccessTokenFromCode,
   getDiscordProfile,
   getDiscordInviteUrl,
+  verifyDiscordServerManager,
 } from 'src/lib/discord'
 import { getUnlockMessage } from 'src/services/ethereumAuth'
 import {
@@ -93,7 +94,7 @@ export const handleOauthCodeGrant = async ({
     await db.user.update({
       where: { id: user.id },
       data: {
-        address: signerAddress,
+        address: signerAddress.toLowerCase(),
         oauthState: null, // Done with the flow
       },
     })
@@ -155,6 +156,16 @@ export const handleOauthCodeGrant = async ({
     const rolesWithUnlock = await onlyRolesWithUnlock(currentSessionGuildRoles)
 
     if (rolesWithUnlock.length) {
+      // If the user is the server manager, we need to skip the lock purchase
+      const isUserManager = await verifyDiscordServerManager(
+        rolesWithUnlock[0].guildId,
+        profile.id
+      )
+      if (isUserManager)
+        return {
+          url: `/login?state=${newOauthState}&id=${profile.id}`,
+        }
+
       // Redirect to Unlock flow
       const { tokens, name: roleName } = rolesWithUnlock[0] // Just pick the first one, my guy
       const currentSessionGuild = await db.user

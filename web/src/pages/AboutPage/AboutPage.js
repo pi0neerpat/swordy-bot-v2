@@ -20,30 +20,38 @@ const AboutPage = () => {
         </h1>
         <Detail
           title="How does it work?"
-          text="We use complicated machine learning ... just kidding! Its actually pretty straightforward. We just check the user's wallet for a tokens. If they own the right ones, then they earn roles in your community's server."
+          text="We use complicated machine learning ... just kidding! We just check if your wallet has the right tokens. If so, then you earn a role in your community's server."
         />
         <Detail
-          title="How do I add it to my community?"
-          text="Right now only Discord is supported. Simply click the big button on the home page to add the bot to your server."
+          title="How can I get started?"
+          text={
+            <>
+              See the Bot Installation instructions:{' '}
+              <a
+                className="text-blue-600"
+                href="https://pi0neerpat.gitbook.io/one-click-dapp/swordy-bot/swordy-bot"
+                target="_blank"
+              >
+                https://pi0neerpat.gitbook.io/one-click-dapp/swordy-bot/swordy-bot
+              </a>{' '}
+            </>
+          }
         />
         <Detail
-          title="How do I manage roles?"
-          text='Roles are added using the "!add-role" command in your server.'
+          title="Does it work with Unlock Protocol?"
+          text={
+            <>
+              Absolutely! Learn how to create a new Lock here:{' '}
+              <a
+                className="text-blue-600"
+                href="https://docs.unlock-protocol.com/creators/deploying-lock"
+                target="_blank"
+              >
+                https://docs.unlock-protocol.com/creators/deploying-lock
+              </a>{' '}
+            </>
+          }
         />
-        <Detail
-          title="How do I add roles using Unlock Protocol?"
-          text="The flow is the same. We'll automatically detect if your token is using the Unlock Protocl contracts."
-        />
-        <Detail
-          title="What tokens are supported?"
-          text="ERC721 NFTs baby! ERC20 too."
-        />
-        {/*
-        <Detail
-          title="How do I manage roles?"
-          text=""
-        />
-        */}
       </div>
     </>
   )

@@ -6,7 +6,7 @@ const Guild = ({ guild }) => {
   const activeRoles = guild.roles.filter((role) => role.userHasRole)
 
   return (
-    <div className="p-4 rw-segment">
+    <div className="p-4 mt-4 rw-segment">
       <div className="flex items-center justify-between">
         <div className="flex items-center flex-wrap">
           <img

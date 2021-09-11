@@ -12,11 +12,11 @@ const HomePage = () => {
       You can look at this documentation for best practices : https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets */
       />
       <div className="bg-gradient-to-r from-blue-200 to-blue-300 ">
-        <section className="container flex-grow py-32 text-center  justify-center align-middle">
-          <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center ">
+        <section className="container flex-grow py-32 text-center  justify-center items-center">
+          <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center justify-center ">
             ⚔️ Swordy Bot
           </h1>
-          <h3 className="my-4 text-3xl leading-tight">
+          <h3 className="my-4 text-2xl leading-tight">
             Your Kingdom - Your Roles
           </h3>
           <div className="mt-8">
@@ -67,32 +67,34 @@ const HomePage = () => {
           </svg>
         </div>
 
-        <section className="bg-white border-b py-8">
-          <div className="container max-w-5xl mx-auto m-8">
-            <div className="flex flex-wrap">
-              <div className="w-5/6 sm:w-1/2 p-6">
+        <section className="bg-white  py-8">
+          <div className="container max-w-5xl mx-auto m-8 items-center">
+            <div className="flex flex-wrap items-center ">
+              <div className="w-5/6 sm:w-1/2 p-6 ">
                 <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
                   How it works
                 </h3>
                 <div>
-                  <p className="text-gray-600 text-xl mb-8">
+                  <p className="text-gray-600 text-xl ">
                     1. 🔐 Create roles
                     <br />
                     2. 💰 Set token & loot requirements
                     <br />
-                    3. 🏰 Thrive
+                    3. 🏰 Grow your community
                     <br />
                   </p>
                 </div>
-                <Link
-                  className="hover:underline align-center mt-6 bg-white text-gray-800 font-bold rounded-full py-4 px-8 shadow-lg"
-                  to="about"
-                >
-                  Learn more
-                </Link>
+                <div className="mt-16">
+                  <Link
+                    className="hover:underline align-center mt-6 bg-white text-gray-800 font-bold rounded-full py-4 px-8 shadow-lg"
+                    to="/about"
+                  >
+                    Learn more
+                  </Link>
+                </div>
               </div>
-              <div className="w-full sm:w-1/2 p-6">
-                <img src="/example.gif" />
+              <div className="rw-segment w-full sm:w-1/2 ">
+                <img src="/example.png" />
               </div>
             </div>
 
@@ -219,15 +221,15 @@ const HomePage = () => {
         </svg>
 
         {/* CTA block */}
-        <section className="container flex-grow py-32 mx-auto text-center ">
-          <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center ">
+        <div className="h-72 mt-4 text-center items-center">
+          <h2 className="w-full text-4xl font-bold leading-tight text-center ">
             You decide who's worthy
           </h2>
-          <div className="w-full mb-4">
-            <div className="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
+          <div className="w-full ">
+            <div className="h-1 mx-auto bg-white w-1/6 opacity-25 mt-4 py-0 rounded-t"></div>
           </div>
 
-          <h3 className="my-4 text-3xl leading-tight">
+          <h3 className="mt-4 text-2xl leading-tight">
             No credit card required
           </h3>
           <div className="mt-8">
@@ -239,7 +241,7 @@ const HomePage = () => {
               Get Started
             </a>
           </div>
-        </section>
+        </div>
       </div>
     </>
   )

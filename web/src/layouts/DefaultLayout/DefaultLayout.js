@@ -58,12 +58,12 @@ const DefaultLayout = ({ children }) => {
           </div>
         </div>
       </header>
-      <div className="mt-4 flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6">
+      <div className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6">
         {children}
       </div>
 
       <footer>
-        <div className="mt-8 relative bg-gray-100">
+        <div className="relative bg-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
               <div className="flex justify-start  lg:w-0 lg:flex-1">

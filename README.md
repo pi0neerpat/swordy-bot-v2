@@ -71,7 +71,7 @@ Update the environment variables for what you see in the Redwood `.env` file (ro
 
 ### Heroku - Bot
 
-Heroku doesn't like apps that aren't in the root folder. To get around this, I added a `heroku-prebuild` script which installs the bot dependencies. The Procfile runs the `bot.js`
+Heroku doesn't like apps that aren't in the root folder. To get around this, I added a `heroku-prebuild` script in the root `package.json` which installs the bot dependencies. The Procfile runs `bot.js` as a dyno.
 
 Once deployed, head to the "Resources" tab for this Heroku app, turn off the `web` Dyno, and turn on the `worker` Dyno. This Dyno is defined in the repo root `Procfile`.
 

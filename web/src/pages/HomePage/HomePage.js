@@ -11,9 +11,9 @@ const HomePage = () => {
         /* you should un-comment description and add a unique description, 155 characters or less
       You can look at this documentation for best practices : https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets */
       />
-      <div className="text-white bg-gradient-to-r from-green to-green-light ">
+      <div className="bg-gradient-to-r from-blue-200 to-blue-300 ">
         <section className="container flex-grow py-32 text-center ">
-          <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center text-white">
+          <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center ">
             ⚔️ Swordy Bot
           </h1>
           <h3 className="my-4 text-3xl leading-tight">
@@ -220,7 +220,7 @@ const HomePage = () => {
 
         {/* CTA block */}
         <section className="container flex-grow py-32 mx-auto text-center ">
-          <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center text-white">
+          <h2 className="w-full my-2 text-5xl font-bold leading-tight text-center ">
             You decide who's worthy
           </h2>
           <div className="w-full mb-4">

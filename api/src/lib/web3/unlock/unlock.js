@@ -1,4 +1,3 @@
-import fetch from 'node-fetch'
 import { Contract } from '@ethersproject/contracts'
 import { getProviderByChainId } from 'src/lib/web3/helpers'
 import unlockAbi from './unlockAbi'

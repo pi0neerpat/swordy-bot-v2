@@ -1,6 +1,5 @@
 import { AuthenticationError } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
-import fetch from 'node-fetch'
 const API_ENDPOINT = 'https://discord.com/api/v9'
 const SCOPES = 'identify guilds'
 // https://discord.com/developers/docs/topics/oauth2

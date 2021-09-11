@@ -1,3 +1,5 @@
+import fetch from 'cross-fetch'
+
 import { AuthenticationError } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 const API_ENDPOINT = 'https://discord.com/api/v9'

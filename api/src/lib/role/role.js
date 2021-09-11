@@ -5,30 +5,39 @@ import { checkUnlockBalance } from 'src/lib/web3/unlock'
 import { addRoleForUser, removeRoleForUser } from 'src/lib/discord'
 
 export const syncUserRole = async ({ user, role }) => {
-  const { type, chainId, contractAddress } = role
+  const { tokens } = role
   const { address: userAddress } = user
   let userHasRole = false
-  try {
-    if (type == TOKEN_TYPES.ERC721 || type == TOKEN_TYPES.ERC20) {
-      userHasRole = await checkTokenBalance({
-        userAddress,
-        chainId,
-        contractAddress,
-        type,
-      })
-    } else if (type == TOKEN_TYPES.UNLOCK) {
-      userHasRole = await checkUnlockBalance({
-        userAddress,
-        chainId,
-        contractAddress,
-      })
-    }
-  } catch (e) {
-    console.log(e)
-    // Break to prevent deleting a role from a user unnecessarily
-    throw new Error('syncUserRole() trouble checking web3 balance')
-  }
-  // userHasRole = false
+  await Promise.all(
+    tokens.map(async (token, index) => {
+      let hasRole = false
+      const { chainId, contractAddress, type } = token
+      try {
+        if (type == TOKEN_TYPES.ERC721 || type == TOKEN_TYPES.ERC20) {
+          hasRole = await checkTokenBalance({
+            userAddress,
+            chainId,
+            contractAddress,
+            type,
+          })
+        } else if (type == TOKEN_TYPES.UNLOCK) {
+          hasRole = await checkUnlockBalance({
+            userAddress,
+            chainId,
+            contractAddress,
+          })
+        }
+        if (hasRole) userHasRole = true
+      } catch (e) {
+        throw new Error(
+          `We had trouble with token ${contractAddress.substring(
+            0,
+            15
+          )}... ${e}`
+        )
+      }
+    })
+  )
   if (userHasRole) {
     await addRoleForUser(role.guildId, role.id, user.id)
     // TODO: Ensure role was successfully added in Discord

@@ -7,6 +7,7 @@ import {
   truncate,
 } from 'src/helpers/helpers'
 import { CheckmarkIcon } from 'src/components/Icons'
+import RoleUpdate from 'src/components/Role/RoleUpdate'
 
 const REMOVE_ROLE_TOKEN_MUTATION = gql`
   mutation removeRoleTokenMutation(
@@ -31,6 +32,7 @@ const SYNC_GUILD_ROLE_MUTATION = gql`
 
 const Role = ({ role, isEditing }) => {
   const [isLoading, setIsLoading] = React.useState(false)
+  const [showForm, setShowForm] = React.useState(false)
 
   const [removeRoleToken] = useMutation(REMOVE_ROLE_TOKEN_MUTATION, {
     onCompleted: () => {
@@ -75,7 +77,7 @@ const Role = ({ role, isEditing }) => {
     if (resync) {
       if (
         confirm(
-          'Warning: this may remove the role if you no longer have the right token!'
+          'Warning: this will remove your role if you no longer have the right tokens in this wallet!'
         )
       ) {
         await completeSyncWithToast()
@@ -85,33 +87,17 @@ const Role = ({ role, isEditing }) => {
     }
   }
 
-  const PromptButton = () => {
-    if (isEditing)
-      return (
-        <>
-          <button
-            className="rw-button rw-button-small mt-4 flex"
-            onClick={(input) => {
-              const copy = tokenList
-              copy[tokenList.length] = emptyToken
-              setTokenList(copy)
-            }}
-          >
-            Add token
-          </button>
-        </>
-      )
-  }
-
   return (
     <div className=" items-center justify-between rw-segment p-4 mt-4">
       <div className="flex items-center justify-between flex-wrap">
-        <h2 className="text-2xl">{role.name}</h2>
-        {role.userHasRole && (
-          <div className="ml-2">
-            <CheckmarkIcon width="2rem" heigth="2rem" />
-          </div>
-        )}
+        <div className="flex">
+          <h2 className="text-2xl">{role.name}</h2>
+          {role.userHasRole && (
+            <div className="ml-2">
+              <CheckmarkIcon width="2rem" heigth="2rem" />
+            </div>
+          )}
+        </div>
         {!isEditing && (
           <div className="mt-4 sm:mt-0 ">
             <button
@@ -135,6 +121,7 @@ const Role = ({ role, isEditing }) => {
           <div className="flex  items-center flex-wrap justify-between ">
             <p className="text-grey-600">
               {getNetworkNameFromId(token.chainId)} • {token.type}
+              {' • '}
             </p>
             <p className="sm:text-lg break-all ml-2">{token.contractAddress}</p>
             {token.purchaseUrl && (
@@ -159,6 +146,19 @@ const Role = ({ role, isEditing }) => {
           )}
         </div>
       ))}
+      {isEditing && (
+        <button
+          className="rw-button  rw-button-green mt-4"
+          onClick={() => setShowForm(!showForm)}
+        >
+          Add token
+        </button>
+      )}
+      {showForm && (
+        <div className="mt-4">
+          <RoleUpdate role={role} guildId={role.guildId} />
+        </div>
+      )}
     </div>
   )
 }

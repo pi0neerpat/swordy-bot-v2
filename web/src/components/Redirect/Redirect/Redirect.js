@@ -1,11 +1,11 @@
-import { useQuery } from '@redwoodjs/web'
+import { useMutation } from '@redwoodjs/web'
 import { routes, navigate } from '@redwoodjs/router'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
 
-export const OAUTH_CODE_GRANT_QUERY = gql`
-  query OauthCodeGrantQuery(
+export const OAUTH_CODE_GRANT_MUTATION = gql`
+  mutation OauthCodeGrantMutation(
     $type: String!
     $oauthState: String!
     $code: String!
@@ -21,15 +21,21 @@ export const OAUTH_CODE_GRANT_QUERY = gql`
 `
 
 const Redirect = ({ type, code, oauthState }) => {
-  const { error, data } = useQuery(OAUTH_CODE_GRANT_QUERY, {
-    fetchPolicy: 'network-only',
-    variables: {
-      type,
-      code,
-      oauthState,
-    },
-  })
+  const [codeGrantMutation, { error, data }] = useMutation(
+    OAUTH_CODE_GRANT_MUTATION
+  )
+
+  React.useEffect(() => {
+    codeGrantMutation({
+      variables: {
+        type,
+        code,
+        oauthState,
+      },
+    })
+  }, [])
   if (data?.redirect) navigate(data.redirect.url)
+
   if (error)
     return (
       <DefaultLayout>

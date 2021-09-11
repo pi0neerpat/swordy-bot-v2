@@ -94,8 +94,7 @@ const Login = () => {
         <p className="mt-8">Sign-in with your wallet</p>
         {renderCallToAction()}
         <p className="mt-12 text-s text-grey-600">
-          Having trouble? Try clicking <button onClick={onLogOut}>here</button>{' '}
-          and starting over.
+          Having trouble? In your Discord server type "<code>!unlock</code>"
         </p>
       </div>
     </>

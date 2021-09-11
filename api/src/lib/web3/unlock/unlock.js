@@ -12,7 +12,12 @@ export const checkUnlockBalance = async ({
   chainId,
   userAddress,
 }) => {
-  const lockContract = getLockContract({ contractAddress, chainId })
-  const hasValidKey = await lockContract.getHasValidKey(userAddress)
-  return hasValidKey
+  try {
+    const lockContract = getLockContract({ contractAddress, chainId })
+    const hasValidKey = await lockContract.getHasValidKey(userAddress)
+    return hasValidKey
+  } catch (e) {
+    console.log(e)
+    throw new Error('checkUnlockBalance() trouble checking web3 balance')
+  }
 }

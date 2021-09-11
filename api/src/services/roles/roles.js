@@ -36,8 +36,8 @@ export const addRoleToken = async ({
   return role
 }
 
-export const removeRoleToken = ({ id, roleId, tokenId }) => {
-  const role = db.role.update({
+export const removeRoleToken = async ({ id, roleId, tokenId }) => {
+  const role = await db.role.update({
     where: { id: roleId },
     data: {
       tokens: {
@@ -45,14 +45,23 @@ export const removeRoleToken = ({ id, roleId, tokenId }) => {
       },
     },
   })
-  console.log(role)
-  // If necessary, delete the role completely
+  const tokens = await db.role
+    .findUnique({
+      where: { id: roleId },
+    })
+    .tokens()
+  // If no more tokens, delete the role completely
+  if (!tokens.length) await db.role.delete({ where: { id: roleId } })
   return role
 }
 
 export const syncRole = async ({ id }) => {
+  const tokens = await db.role.findUnique({ where: { id } }).tokens()
   const role = await db.role.findUnique({ where: { id } })
-  const userHasRole = await syncUserRole({ user: context.currentUser, role })
+  const userHasRole = await syncUserRole({
+    user: context.currentUser,
+    role: { tokens, ...role },
+  })
   if (!userHasRole)
     throw new Error("Sorry you don't have the right tokens in your wallet")
   return role

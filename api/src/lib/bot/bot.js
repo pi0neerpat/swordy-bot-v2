@@ -100,7 +100,6 @@ export const handleOauthCodeGrant = async ({ oauthState, code, type }) => {
       .findUnique({ where: { id: profile.id } })
       .currentSessionGuild()
       .roles()
-    console.log(currentSessionGuildRoles)
     // TODO: Check currentSessionGuild for where to redirect the user
     // Either: 1) login here, or 2) purchase lock from unlockprotocol.com
 

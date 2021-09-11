@@ -15,6 +15,8 @@ export const schema = gql`
       guildId: String!
       guild: JSON!
     ): Response!
-    oauthCodeGrant(oauthState: String!, code: String!, type: String!): Redirect
+  }
+  type Mutation {
+    oauthCodeGrant(oauthState: String!, code: String!, type: String!): Redirect!
   }
 `

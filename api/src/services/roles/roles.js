@@ -19,9 +19,8 @@ export const addRoleToken = async ({
   type,
 }) => {
   // Fetch name from Discord API
-  console.log(guildId)
   const discordRoles = await getDiscordServerRoles(guildId)
-  const discordRole = discordRoles.filter((role) => role.id === input.id)[0]
+  const discordRole = discordRoles.filter((role) => role.id === roleId)[0]
   const role = await db.role.upsert({
     where: { id: roleId },
     update: {
@@ -30,10 +29,11 @@ export const addRoleToken = async ({
     create: {
       id: roleId,
       name: discordRole.name,
-      guild: { connect: { id } },
+      guild: { connect: { id: guildId } },
       tokens: { create: { contractAddress, chainId, type } },
     },
   })
+  return role
 }
 
 export const removeRoleToken = ({ id, roleId, tokenId }) => {

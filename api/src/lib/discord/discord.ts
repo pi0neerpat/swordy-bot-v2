@@ -56,7 +56,6 @@ export const getDiscordServerRoles = async (serverId: string) => {
     throw new AuthenticationError(
       `Error fetching guild details from Discord API for ID ${serverId}`
     )
-  console.log(roles)
   return roles?.filter((role) => role.name !== '@everyone')
 }
 

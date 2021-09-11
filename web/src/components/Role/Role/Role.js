@@ -128,12 +128,15 @@ const Role = ({ role, isEditing }) => {
         )}
       </div>
       {role.tokens.map((token) => (
-        <div className="flex  items-center flex-wrap justify-between mt-4">
+        <div
+          className="flex  items-center flex-wrap justify-between mt-4"
+          key={token.id}
+        >
           <div className="flex  items-center flex-wrap justify-between ">
             <p className="text-grey-600">
               {getNetworkNameFromId(token.chainId)} • {token.type}
             </p>
-            <p className="sm:text-lg break-all">{token.contractAddress}</p>
+            <p className="sm:text-lg break-all ml-2">{token.contractAddress}</p>
             {token.purchaseUrl && (
               <a
                 target="_blank"

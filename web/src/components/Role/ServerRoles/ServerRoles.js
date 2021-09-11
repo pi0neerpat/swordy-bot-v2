@@ -19,7 +19,7 @@ const ServerRoles = ({ roles, guildId }) => {
                 setSelectedRole(selectedRole === role.id ? null : role.id)
               }
             >
-              Add Token Access
+              Add Token
             </button>
           </div>
           {selectedRole === role.id && (

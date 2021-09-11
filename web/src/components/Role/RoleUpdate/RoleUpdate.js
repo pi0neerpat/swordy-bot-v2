@@ -5,7 +5,7 @@ import RoleUpdateForm from 'src/components/Role/RoleUpdate/RoleUpdateForm'
 
 const UPDATE_GUILD_ROLE_MUTATION = gql`
   mutation addRoleTokenMutation(
-    $id: String!
+    $guildId: String!
     $roleId: String!
     $contractAddress: String!
     $chainId: String!
@@ -35,10 +35,10 @@ const RoleUpdate = ({ role, guildId }) => {
   )
 
   const onSave = (input, id) => {
-    updateGuildRole({
+    addRoleToken({
       variables: {
         guildId,
-        roleId: input.id,
+        roleId: id,
         ...input,
       },
     })

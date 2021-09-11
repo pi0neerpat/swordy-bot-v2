@@ -7,6 +7,9 @@
       "packages/*"
     ]
   },
+  "scripts": {
+    "heroku-prebuild": "cd bot && yarn install"
+  },
   "devDependencies": {
     "@redwoodjs/core": "0.36.2"
   },

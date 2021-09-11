@@ -1,7 +1,7 @@
 import { routes, navigate, Link } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import Logo from 'src/components/Logo'
-import { LogoutIcon } from 'src/components/Icons'
+import { LogoutIcon, DiscordIcon } from 'src/components/Icons'
 
 const truncate = (text, length = 50) => {
   if (typeof text !== 'string') return ''
@@ -54,7 +54,12 @@ const DefaultLayout = ({ children }) => {
                 <Logo />
               </Link>
             </div>
-            {loginButtons}
+            <div className="flex justify-between items-center">
+              <a href={process.env.DISCORD_INVITE_LINK} target="_blank">
+                <DiscordIcon />
+              </a>
+              {loginButtons}
+            </div>
           </div>
         </div>
       </header>

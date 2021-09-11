@@ -1,5 +1,5 @@
 import { useMutation } from '@redwoodjs/web'
-import { routes, navigate } from '@redwoodjs/router'
+import { routes, navigate, useParams } from '@redwoodjs/router'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
@@ -9,18 +9,21 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
     $type: String!
     $oauthState: String!
     $code: String!
+    $signedMessage: String
   ) {
     redirect: oauthCodeGrant(
       oauthState: $oauthState
       code: $code
       type: $type
+      signedMessage: $signedMessage
     ) {
       url
     }
   }
 `
 
-const Redirect = ({ type, code, oauthState }) => {
+const Redirect = ({ type }) => {
+  const { code, state: oauthState, signedMessage } = useParams()
   const [codeGrantMutation, { error, data }] = useMutation(
     OAUTH_CODE_GRANT_MUTATION
   )
@@ -31,10 +34,11 @@ const Redirect = ({ type, code, oauthState }) => {
         type,
         code,
         oauthState,
+        signedMessage,
       },
     })
   }, [])
-  if (data?.redirect) navigate(data.redirect.url)
+  if (data?.redirect) window.location.href = data?.redirect.url
 
   if (error)
     return (

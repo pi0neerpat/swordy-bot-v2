@@ -12,14 +12,16 @@ export const getDiscordOauthURL = (state: string) =>
   `https://discord.com/api/oauth2/authorize?client_id=${
     process.env.DISCORD_PUBLIC_CLIENT_ID
   }&redirect_uri=${encodeURI(
-    process.env.DISCORD_PUBLIC_REDIRECT_URI
-  )}&response_type=code&scope=${encodeURI(SCOPES)}&state=${state}&prompt=none`
+    process.env.PUBLIC_REDIRECT_URL
+  )}/discord&response_type=code&scope=${encodeURI(
+    SCOPES
+  )}&state=${state}&prompt=none`
 
 export const getDiscordAccessTokenFromCode = async (code: string) => {
   const body = {
     client_id: process.env.DISCORD_PUBLIC_CLIENT_ID,
     client_secret: process.env.DISCORD_CLIENT_SECRET,
-    redirect_uri: process.env.DISCORD_PUBLIC_REDIRECT_URI,
+    redirect_uri: `${process.env.PUBLIC_REDIRECT_URL}/discord`,
     grant_type: 'authorization_code',
     scope: SCOPES,
     code,
@@ -57,6 +59,23 @@ export const getDiscordServerRoles = async (serverId: string) => {
       `Error fetching guild details from Discord API for ID ${serverId}`
     )
   return roles?.filter((role) => role.name !== '@everyone')
+}
+
+export const getDiscordInviteUrl = async (serverId: string) => {
+  const data = await fetch(`${API_ENDPOINT}/guilds/${serverId}`, {
+    headers: {
+      method: 'GET',
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json())
+  if (!data)
+    throw new AuthenticationError(
+      `Error fetching guild details from Discord API for ID ${serverId}`
+    )
+  console.log(data)
+
+  return data
 }
 
 export const getDiscordServerOwner = async (serverId: string) => {

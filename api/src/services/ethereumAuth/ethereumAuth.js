@@ -9,7 +9,10 @@ import { db } from 'src/lib/db'
 const NONCE_MESSAGE =
   'Please prove you control this wallet by signing this text: salt='
 
-const getNonceMessage = (nonce, options) => {
+export const getUnlockMessage = (oauthState, userId) =>
+  NONCE_MESSAGE + '&state=' + oauthState + '&id=' + userId
+
+export const getNonceMessage = (nonce, options) => {
   let optionsText = ''
   if (options)
     optionsText =

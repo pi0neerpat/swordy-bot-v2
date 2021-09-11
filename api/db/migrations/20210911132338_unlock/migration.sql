@@ -8,13 +8,26 @@ CREATE TABLE "AuthDetail" (
 );
 
 -- CreateTable
+CREATE TABLE "DiscordAuth" (
+    "id" TEXT NOT NULL,
+    "accessToken" TEXT NOT NULL,
+    "refreshToken" TEXT NOT NULL,
+    "expiration" TIMESTAMP(3) NOT NULL,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "address" TEXT,
     "authDetailId" TEXT,
     "platform" TEXT,
     "oauthState" TEXT,
+    "iconUrl" TEXT,
+    "username" TEXT,
     "currentSessionGuildId" TEXT,
+    "discordAuthId" TEXT,
 
     PRIMARY KEY ("id")
 );
@@ -31,29 +44,25 @@ CREATE TABLE "Guild" (
 );
 
 -- CreateTable
-CREATE TABLE "Role" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "platformId" TEXT NOT NULL,
-    "description" TEXT,
-    "balance" TEXT NOT NULL,
-    "purchaseUrl" TEXT,
-    "guildId" TEXT NOT NULL,
-    "tokenId" TEXT NOT NULL,
-
-    PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Token" (
     "id" TEXT NOT NULL,
     "chainId" TEXT NOT NULL,
     "contractAddress" TEXT NOT NULL,
     "type" TEXT NOT NULL,
-    "tokenId" INTEGER,
-    "uri" TEXT,
-    "website" TEXT,
+    "purchaseUrl" TEXT,
+    "balance" TEXT,
     "iconUrl" TEXT,
+    "roleId" TEXT,
+
+    PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Role" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "guildId" TEXT NOT NULL,
+    "description" TEXT,
 
     PRIMARY KEY ("id")
 );
@@ -77,6 +86,9 @@ CREATE UNIQUE INDEX "User.address_unique" ON "User"("address");
 CREATE UNIQUE INDEX "User_authDetailId_unique" ON "User"("authDetailId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_discordAuthId_unique" ON "User"("discordAuthId");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "_userGuilds_AB_unique" ON "_userGuilds"("A", "B");
 
 -- CreateIndex
@@ -95,10 +107,13 @@ ALTER TABLE "User" ADD FOREIGN KEY ("authDetailId") REFERENCES "AuthDetail"("id"
 ALTER TABLE "User" ADD FOREIGN KEY ("currentSessionGuildId") REFERENCES "Guild"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Role" ADD FOREIGN KEY ("guildId") REFERENCES "Guild"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "User" ADD FOREIGN KEY ("discordAuthId") REFERENCES "DiscordAuth"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Role" ADD FOREIGN KEY ("tokenId") REFERENCES "Token"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Token" ADD FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Role" ADD FOREIGN KEY ("guildId") REFERENCES "Guild"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_userGuilds" ADD FOREIGN KEY ("A") REFERENCES "Guild"("id") ON DELETE CASCADE ON UPDATE CASCADE;

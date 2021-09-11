@@ -1,5 +1,5 @@
 import { db } from 'src/lib/db'
-import { requireAuth } from 'src/lib/auth'
+import { requireAuth, verifyManager } from 'src/lib/auth'
 import {
   getDiscordServerRoles,
   fetchDiscordAccessToken,
@@ -8,23 +8,11 @@ import {
 
 import { AuthenticationError } from '@redwoodjs/api'
 
-const verifyManager = async (name, { id }) => {
-  const isUserManager = await verifyDiscordServerManager(
-    id,
-    context.currentUser.id
-  )
-  if (!isUserManager) {
-    throw new AuthenticationError(
-      'You do not have the appropriate permissions to manage roles for this server'
-    )
-  }
-}
-
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
   rules.add(requireAuth)
   rules.add(verifyManager, {
-    only: ['addGuildRole', 'removeGuildRole', 'guildDiscordRoles'],
+    only: ['guildDiscordRoles'],
   })
 }
 
@@ -49,33 +37,6 @@ export const guildDiscordRoles = async ({ id }) => {
   const roleIds = roles.map((role) => role.id)
   // Remove the roles that are already token-gated
   return serverRoles.filter((role) => !roleIds.includes(role.id))
-}
-
-export const updateGuildRole = async ({ id, input }) => {
-  const { token, id: roleId } = input
-  const { contractAddress, chainId, type } = token
-  // Fetch name from Discord API
-  const roles = await getDiscordServerRoles(id)
-  const role = roles.filter((role) => role.id === input.id)[0]
-  return db.guild.update({
-    where: { id },
-    data: {
-      roles: {
-        create: {
-          name: role.name,
-          id: roleId,
-          tokens: { create: { contractAddress, chainId, type } },
-        },
-      },
-    },
-  })
-}
-
-export const removeGuildRole = ({ id, roleId }) => {
-  return db.guild.update({
-    where: { id },
-    data: { roles: { delete: [{ id: roleId }] } },
-  })
 }
 
 export const Guild = {

@@ -52,11 +52,12 @@ export const getDiscordServerRoles = async (serverId: string) => {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json())
-  if (!roles)
+  if (!roles || !roles.length)
     throw new AuthenticationError(
-      'Error fetching guild details from Discord API'
+      `Error fetching guild details from Discord API for ID ${serverId}`
     )
-  return roles.filter((role) => role.name !== '@everyone')
+  console.log(roles)
+  return roles?.filter((role) => role.name !== '@everyone')
 }
 
 export const getDiscordServerOwner = async (serverId: string) => {
@@ -126,7 +127,6 @@ export const addRoleForUser = async (
       },
     }
   ).then((res) => res.text())
-  console.log(response)
 }
 
 export const removeRoleForUser = async (
@@ -144,7 +144,6 @@ export const removeRoleForUser = async (
       },
     }
   ).then((res) => res.text())
-  console.log(response)
 }
 
 // Unused

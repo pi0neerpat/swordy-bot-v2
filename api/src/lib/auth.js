@@ -1,4 +1,5 @@
 import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { verifyDiscordServerManager } from 'src/lib/discord'
 
 /**
  * getCurrentUser returns the user information together with
@@ -79,5 +80,17 @@ export const requireAuth = ({ roles } = {}) => {
 
   if (!hasRole({ roles })) {
     throw new ForbiddenError("You don't have access to do that.")
+  }
+}
+
+export const verifyManager = async (name, { id, guildId }) => {
+  const isUserManager = await verifyDiscordServerManager(
+    id || guildId,
+    context.currentUser.id
+  )
+  if (!isUserManager) {
+    throw new AuthenticationError(
+      'You do not have the appropriate permissions to manage roles for this server'
+    )
   }
 }

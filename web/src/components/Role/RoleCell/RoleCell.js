@@ -9,6 +9,7 @@ export const QUERY = gql`
       guildId
       userHasRole
       tokens {
+        id
         type
         balance
         purchaseUrl

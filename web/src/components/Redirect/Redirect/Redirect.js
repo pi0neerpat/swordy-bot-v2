@@ -23,12 +23,15 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
 `
 
 const Redirect = ({ type }) => {
+  const [error, setError] = React.useState()
   const { code, state: oauthState, signedMessage } = useParams()
-  const [codeGrantMutation, { error, data }] = useMutation(
+  const [codeGrantMutation, { error: mutationError, data }] = useMutation(
     OAUTH_CODE_GRANT_MUTATION
   )
 
   React.useEffect(() => {
+    if (type === 'unlock' && !signedMessage)
+      return setError('Lock Purchase was unsuccessful')
     codeGrantMutation({
       variables: {
         type,
@@ -40,14 +43,16 @@ const Redirect = ({ type }) => {
   }, [])
   if (data?.redirect) window.location.href = data?.redirect.url
 
-  if (error)
+  if (mutationError || error)
     return (
       <DefaultLayout>
         <div className="mt-8 sm:text-center lg:text-left">
           <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
             ⛈️ Oops! Something went wrong
           </h1>
-          <div className=" mt-8 rw-cell-error">{error.message}</div>
+          <div className=" mt-8 rw-cell-error">
+            {mutationError?.message || error}
+          </div>
           <p className="mt-8 text-s text-grey-600">
             <b>Please start over in Discord</b>
           </p>

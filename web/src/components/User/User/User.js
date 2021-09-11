@@ -8,7 +8,7 @@ import { ADD_BOT_LINK } from 'src/helpers/constants'
 const User = ({ user }) => {
   return (
     <>
-      <div className="flex items-center min-w-min">
+      <div className="flex items-center min-w-min mt-4">
         <div className="min-w-max">
           <img src={user.iconUrl} alt={`Profile image for ${user.username}`} />
         </div>
@@ -21,9 +21,15 @@ const User = ({ user }) => {
       </div>
       <p className="mt-8">Guilds you've used with Swordy Bot:</p>
 
-      <div className="mt-4">
-        <GuildCell id={user.currentSessionGuild.id} />
-      </div>
+      {user.currentSessionGuild ? (
+        <div className="mt-4">
+          <GuildCell id={user.currentSessionGuild.id} />
+        </div>
+      ) : (
+        <div className="mt-4 p-4 rw-segment text-gray-500">
+          No Guilds found. Please start over in Discord.
+        </div>
+      )}
       <div className="mt-8">
         {user.guilds.map((guildId, i) => (
           <GuildCell key={i} id={guildId} />
@@ -37,7 +43,7 @@ const User = ({ user }) => {
               <CircleArrowIcon width="2rem" height="2rem" />
               <div className="ml-4">
                 <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl m:text-4xl l:text-4xl">
-                  Restart by invoking the bot
+                  Start over in Discord
                 </h1>
               </div>
             </div>

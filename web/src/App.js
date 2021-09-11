@@ -46,6 +46,13 @@ const ApolloInjector = ({ children }) => {
   return React.cloneElement(children, { client: ethereum })
 }
 
+console.log('++++++++++++++++++++++++++')
+console.log(' ')
+console.log('( ͡ᵔ ͜ʖ ͡ᵔ) Oh hello there! Wanna help make Swordy Bot better?')
+console.log("We're hiring! Reach out to us on Discord.")
+console.log(' ')
+console.log('++++++++++++++++++++++++++')
+
 const App = () => (
   <FatalErrorBoundary page={FatalErrorPage}>
     <RedwoodProvider titleTemplate="%PageTitle | %AppTitle">

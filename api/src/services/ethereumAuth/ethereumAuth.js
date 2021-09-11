@@ -37,9 +37,9 @@ export const authChallenge = async ({
   const address = addressRaw.toLowerCase()
 
   // Modified from the default service for @oneclickdapp/ethereum-auth service
-  await db.user.update({
+  await db.user.upsert({
     where: { ...(options.id ? { id: options.id } : { address }) },
-    data: {
+    update: {
       address,
       authDetail: {
         upsert: {
@@ -51,6 +51,15 @@ export const authChallenge = async ({
             nonce,
             timestamp: new Date(),
           },
+        },
+      },
+    },
+    create: {
+      address,
+      authDetail: {
+        create: {
+          nonce,
+          timestamp: new Date(),
         },
       },
     },

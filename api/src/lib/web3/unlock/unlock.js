@@ -22,18 +22,15 @@ export const getUnlockPaywallUrl = ({
     locks,
     icon: guild.iconUrl,
     callToAction: {
-      default: `Join the ${guild.name} community on Discord!`,
+      default: `Join the ${guild.name} community on Discord! Unlock the role "${roleName}"`,
     },
     referrer: process.env.UNLOCK_REFERRER_ADDRESS,
     pessimistic: true,
     messageToSign: getUnlockMessage(oauthState, userId),
   }
-  console.log(paywallConfig)
-  console.log(encodeURIComponent(JSON.stringify(paywallConfig)))
   const url = `${PAYWALL_BASE_URL}?redirectUri=${encodeURIComponent(
     process.env.PUBLIC_REDIRECT_URL + '/unlock'
   )}&paywallConfig=${encodeURIComponent(JSON.stringify(paywallConfig))}`
-  console.log(url)
   return url
 }
 

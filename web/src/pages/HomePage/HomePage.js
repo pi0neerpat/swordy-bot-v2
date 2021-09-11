@@ -12,7 +12,7 @@ const HomePage = () => {
       You can look at this documentation for best practices : https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets */
       />
       <div className="bg-gradient-to-r from-blue-200 to-blue-300 ">
-        <section className="container flex-grow py-32 text-center ">
+        <section className="container flex-grow py-32 text-center  justify-center align-middle">
           <h1 className="w-full my-2 text-5xl font-bold leading-tight text-center ">
             ⚔️ Swordy Bot
           </h1>
@@ -228,7 +228,7 @@ const HomePage = () => {
           </div>
 
           <h3 className="my-4 text-3xl leading-tight">
-            Your kingdom is waiting
+            No credit card required
           </h3>
           <div className="mt-8">
             <a

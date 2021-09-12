@@ -1,8 +1,13 @@
 import { Contract } from '@ethersproject/contracts'
 import { getProviderByChainId } from 'src/lib/web3/helpers'
 import unlockAbi from './unlockAbi'
-import { getUnlockMessage } from 'src/services/ethereumAuth'
 const PAYWALL_BASE_URL = 'https://app.unlock-protocol.com/checkout'
+
+const NONCE_MESSAGE =
+  'Please prove you control this wallet by signing this text: '
+
+export const getUnlockMessage = (oauthState, userId) =>
+  NONCE_MESSAGE + 'state=' + oauthState + '&id=' + userId
 
 export const getUnlockPaywallUrl = ({
   tokens,
@@ -18,6 +23,8 @@ export const getUnlockPaywallUrl = ({
       // name: `Access role - ${roleName}`,
     }
   })
+  const messageToSign = getUnlockMessage(oauthState, userId)
+  console.log(messageToSign)
   const paywallConfig = {
     locks,
     icon: guild.iconUrl,
@@ -30,7 +37,7 @@ export const getUnlockPaywallUrl = ({
     },
     referrer: process.env.UNLOCK_REFERRER_ADDRESS,
     pessimistic: true,
-    messageToSign: getUnlockMessage(oauthState, userId),
+    messageToSign,
   }
   const url = `${PAYWALL_BASE_URL}?redirectUri=${encodeURIComponent(
     process.env.PUBLIC_REDIRECT_URL + '/unlock' + '?id=' + userId

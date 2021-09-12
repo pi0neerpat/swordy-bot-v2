@@ -63,7 +63,7 @@ export const getDiscordServerRoles = async (serverId: string) => {
 }
 
 export const getDiscordInviteUrl = async (serverId: string) => {
-  const data = await fetch(`${API_ENDPOINT}/guilds/${serverId}`, {
+  const data = await fetch(`${API_ENDPOINT}/guilds/${serverId}/invites`, {
     headers: {
       method: 'GET',
       Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
@@ -74,9 +74,8 @@ export const getDiscordInviteUrl = async (serverId: string) => {
     throw new AuthenticationError(
       `Error fetching guild details from Discord API for ID ${serverId}`
     )
-  console.log(data)
-
-  return data
+  const { code } = data[0]
+  return `https://discord.com/invite/${code}`
 }
 
 export const getDiscordServerOwner = async (serverId: string) => {

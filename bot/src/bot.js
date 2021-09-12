@@ -1,5 +1,6 @@
 require('dotenv').config()
 const Discord = require('discord.js')
+const { MessageEmbed } = require('discord.js')
 
 const ApiMgr = require('./apiMgr')
 
@@ -11,7 +12,7 @@ const DISCORD_INVALID_PERMISSIONS = `⛈️ Sorry, I'm powerless. Someone must h
 const DISCORD_SERVER_ERROR = `⛈️ Sorry, something went terribly wrong with my circuits. If this keeps happening please contact us: https://discord.gg/Nw3y4GtBSh`
 
 const handleInvoke = async (message) => {
-  console.log(`New invocation from ${message.author.id}`)
+  console.log(`New invocation from ${message.author.username}`)
   try {
     // Verify the bot still has role-granting priveledges
     if (!message.guild.me.hasPermission(['MANAGE_ROLES']))
@@ -22,7 +23,22 @@ const handleInvoke = async (message) => {
       // url,
       type,
     } = await apiMgr.postMessage({ message })
-    if (type === 'reply') message.reply(text)
+    const [prompt, url] = text.split(': ')
+    const [title, description] = prompt.split('? ')
+    if (type === 'reply') {
+      const embed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle(`@${message.author.username} ${title}?`)
+        .setURL(url)
+        .setDescription(description)
+        .setAuthor(
+          'Swordy Bot',
+          'https://swordybot.com/favicon.png',
+          'https://swordybot.com'
+        )
+        .setThumbnail('https://swordybot.com/favicon.png')
+      return message.channel.send({ embed })
+    }
     // TODO: Add embed response type
     // TODO: Add DM message response type
   } catch (e) {

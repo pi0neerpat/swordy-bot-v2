@@ -3,7 +3,7 @@ import { AuthenticationError } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchGuild } from 'src/lib/guild'
-import { getUnlockPaywallUrl } from 'src/lib/web3/unlock'
+import { getUnlockPaywallUrl, getUnlockMessage } from 'src/lib/web3/unlock'
 import { recoverPersonalSignature } from 'eth-sig-util'
 import { bufferToHex } from 'ethereumjs-util'
 
@@ -14,7 +14,6 @@ import {
   getDiscordInviteUrl,
   verifyDiscordServerManager,
 } from 'src/lib/discord'
-import { getUnlockMessage } from 'src/services/ethereumAuth'
 import {
   LOGIN_URL,
   DISCORD_INITIAL_AUTH,
@@ -91,24 +90,33 @@ export const handleOauthCodeGrant = async ({
     const user = await db.user.findUnique({ where: { id: userId } })
     // If the oauthState matches then this is *probably* the same user ;)
     // How can this be attacked?
+    if (!user.oauthState) {
+      throw new Error('State is invalid. Please restart')
+    }
+    const messageToSign = getUnlockMessage(user.oauthState, user.id)
+    console.log(messageToSign)
     console.log(signature)
-    console.log(getUnlockMessage(oauthState, user.id))
-    const signerAddress = recoverPersonalSignature({
-      data: bufferToHex(
-        Buffer.from(getUnlockMessage(oauthState, user.id), 'utf8')
-      ),
+    const signerAddressRaw = recoverPersonalSignature({
+      data: bufferToHex(Buffer.from(messageToSign, 'utf8')),
       sig: signature,
     })
-    await db.user.update({
-      where: { id: user.id },
-      data: {
-        address: signerAddress.toLowerCase(),
-        oauthState: null, // Done with the flow
-      },
-    })
+    const signerAddress = signerAddressRaw.toLowerCase()
+    try {
+      await db.user.update({
+        where: { id: user.id },
+        data: {
+          address: signerAddress,
+          oauthState: null, // Done with the flow
+        },
+      })
+    } catch (e) {
+      throw new Error(
+        `Woops! It looks like this wallet may already be connected to another Discord account. ${e}`
+      )
+    }
 
     const currentSessionGuildRoles = await db.user
-      .findUnique({ where: { id: profile.id } })
+      .findUnique({ where: { id: user.id } })
       .currentSessionGuild()
       .roles()
     const rolesWithUnlock = await onlyRolesWithUnlock(currentSessionGuildRoles)
@@ -117,10 +125,19 @@ export const handleOauthCodeGrant = async ({
     // Give the appropriate role
     const hasRole = await syncUserRole({ role, user })
     if (!hasRole)
-      throw new Error("Sorry, it doesn't look like you purchases a lock.")
+      throw new Error(
+        `Sorry, it doesn't look like you purchased a lock. Wallet address: ${
+          user.address
+        }, Locks:${role.tokens.map(
+          (token) =>
+            ` Address: ${token.contractAddress} Network: ${token.chainId}`
+        )}`
+      )
     // Redirect back to discord
     const inviteUrl = await getDiscordInviteUrl(role.guildId)
-    return (window.location = inviteUrl)
+    return {
+      url: inviteUrl,
+    }
   } else if (type === 'discord') {
     // User is coming from Discord
     const tokenData = await getDiscordAccessTokenFromCode(code)

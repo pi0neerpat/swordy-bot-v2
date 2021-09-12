@@ -3,6 +3,7 @@ import { routes, navigate, useParams } from '@redwoodjs/router'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
+import { CheckmarkIcon } from 'src/components/Icons'
 
 export const OAUTH_CODE_GRANT_MUTATION = gql`
   mutation OauthCodeGrantMutation(
@@ -26,6 +27,7 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
 
 const Redirect = ({ type }) => {
   const [error, setError] = React.useState()
+  const [unlockSuccess, setUnlockSuccess] = React.useState(false)
   const { code, state: oauthState, signature, id: userId } = useParams()
   const [codeGrantMutation, { error: mutationError, data }] = useMutation(
     OAUTH_CODE_GRANT_MUTATION
@@ -33,7 +35,7 @@ const Redirect = ({ type }) => {
 
   React.useEffect(() => {
     if (type === 'unlock' && !signature)
-      return setError('Lock Purchase was unsuccessful')
+      return setError('Lock Purchase was not successful')
     codeGrantMutation({
       variables: {
         type,
@@ -44,7 +46,15 @@ const Redirect = ({ type }) => {
       },
     })
   }, [])
-  if (data?.redirect) window.location.href = data?.redirect.url
+  if (data?.redirect) {
+    if (data.redirect.url.includes('discord.com/invite')) {
+      setUnlockSuccess(true)
+      return setTimeout(() => {
+        window.location.href = data.redirect.url
+      }, [3000])
+    }
+    window.location.href = data.redirect.url
+  }
 
   if (mutationError || error)
     return (
@@ -61,6 +71,13 @@ const Redirect = ({ type }) => {
           </p>
         </div>
       </DefaultLayout>
+    )
+  if (unlockSuccess)
+    return (
+      <div className="min-w-full min-h-screen items-center justify-center">
+        <CheckmarkIcon width="2rem" heigth="2rem" color="green" />
+        <p>Success! Sending you back to Discord...</p>
+      </div>
     )
   return (
     <div className="min-w-full min-h-screen flex items-center justify-center">

@@ -4,6 +4,9 @@ import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchGuild } from 'src/lib/guild'
 import { getUnlockPaywallUrl } from 'src/lib/web3/unlock'
+import { recoverPersonalSignature } from 'eth-sig-util'
+import { bufferToHex } from 'ethereumjs-util'
+
 import {
   getDiscordOauthURL,
   getDiscordAccessTokenFromCode,
@@ -79,12 +82,14 @@ export const handleOauthCodeGrant = async ({
   oauthState,
   code,
   type,
-  signedMessage,
+  // signature and userId only available unlock oauth
+  signature,
+  userId,
 }) => {
   if (type === 'unlock') {
     // User is coming from purchase on Unlock Protocol
     // Finding user by oauthState feels wrong.... But I think its still secure :P
-    const user = await db.user.findUnique({ where: { oauthState } })
+    const user = await db.user.findUnique({ where: { id: userId } })
     const signerAddress = recoverPersonalSignature({
       data: bufferToHex(
         Buffer.from(getUnlockMessage(oauthState, user.id), 'utf8')

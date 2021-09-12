@@ -18,10 +18,11 @@ export const schema = gql`
   }
   type Mutation {
     oauthCodeGrant(
-      oauthState: String!
-      code: String!
+      oauthState: String
+      code: String
       type: String!
-      signedMessage: String
+      signature: String
+      userId: String
     ): Redirect!
   }
 `

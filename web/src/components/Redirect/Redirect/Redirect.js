@@ -7,15 +7,17 @@ import Loader from 'src/components/Loader'
 export const OAUTH_CODE_GRANT_MUTATION = gql`
   mutation OauthCodeGrantMutation(
     $type: String!
-    $oauthState: String!
-    $code: String!
-    $signedMessage: String
+    $oauthState: String
+    $code: String
+    $signature: String
+    $userId: String
   ) {
     redirect: oauthCodeGrant(
       oauthState: $oauthState
       code: $code
       type: $type
-      signedMessage: $signedMessage
+      signature: $signature
+      userId: $userId
     ) {
       url
     }
@@ -24,20 +26,21 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
 
 const Redirect = ({ type }) => {
   const [error, setError] = React.useState()
-  const { code, state: oauthState, signedMessage } = useParams()
+  const { code, state: oauthState, signature, id: userId } = useParams()
   const [codeGrantMutation, { error: mutationError, data }] = useMutation(
     OAUTH_CODE_GRANT_MUTATION
   )
 
   React.useEffect(() => {
-    if (type === 'unlock' && !signedMessage)
+    if (type === 'unlock' && !signature)
       return setError('Lock Purchase was unsuccessful')
     codeGrantMutation({
       variables: {
         type,
         code,
         oauthState,
-        signedMessage,
+        signature,
+        userId,
       },
     })
   }, [])

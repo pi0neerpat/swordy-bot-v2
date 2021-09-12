@@ -46,15 +46,22 @@ const Redirect = ({ type }) => {
       },
     })
   }, [])
-  if (data?.redirect) {
-    if (data.redirect.url.includes('discord.com/invite')) {
-      setUnlockSuccess(true)
-      return setTimeout(() => {
-        window.location.href = data.redirect.url
-      }, [3000])
+
+  const doRedirect = () => {
+    if (data?.redirect) {
+      if (data.redirect.url.includes('discord.com/invite')) {
+        setUnlockSuccess(true)
+        return setTimeout(() => {
+          window.location.href = data.redirect.url
+        }, [3000])
+      }
+      window.location.href = data.redirect.url
     }
-    window.location.href = data.redirect.url
   }
+
+  React.useEffect(() => {
+    doRedirect()
+  }, [data])
 
   if (mutationError || error)
     return (
@@ -74,9 +81,11 @@ const Redirect = ({ type }) => {
     )
   if (unlockSuccess)
     return (
-      <div className="min-w-full min-h-screen items-center justify-center">
-        <CheckmarkIcon width="2rem" heigth="2rem" color="green" />
-        <p>Success! Sending you back to Discord...</p>
+      <div className="flex-grow min-w-screen min-h-screen ">
+        <div className="mt-16 flex items-center justify-center">
+          <CheckmarkIcon width="2rem" height="2rem" color="green" />
+          <p>Success! Taking you back to Discord...</p>
+        </div>
       </div>
     )
   return (

@@ -94,8 +94,6 @@ export const handleOauthCodeGrant = async ({
       throw new Error('State is invalid. Please restart')
     }
     const messageToSign = getUnlockMessage(user.oauthState, user.id)
-    console.log(messageToSign)
-    console.log(signature)
     const signerAddressRaw = recoverPersonalSignature({
       data: bufferToHex(Buffer.from(messageToSign, 'utf8')),
       sig: signature,

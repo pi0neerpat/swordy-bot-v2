@@ -24,7 +24,6 @@ export const getUnlockPaywallUrl = ({
     }
   })
   const messageToSign = getUnlockMessage(oauthState, userId)
-  console.log(messageToSign)
   const paywallConfig = {
     locks,
     icon: guild.iconUrl,

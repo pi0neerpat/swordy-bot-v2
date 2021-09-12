@@ -39,7 +39,7 @@ const Redirect = ({ type }) => {
         type,
         code,
         oauthState,
-        signature,
+        signature: decodeURI(signature),
         userId,
       },
     })

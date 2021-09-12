@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import { db } from 'src/lib/db'
 
 const NONCE_MESSAGE =
-  'Please prove you control this wallet by signing this text: salt='
+  'Please prove you control this wallet by signing this text: '
 
 export const getUnlockMessage = (oauthState, userId) =>
   NONCE_MESSAGE + '&state=' + oauthState + '&id=' + userId
@@ -23,7 +23,7 @@ export const getNonceMessage = (nonce, options) => {
             encodeURIComponent(key) + '=' + encodeURIComponent(options[key])
         )
         .join('&')
-  return NONCE_MESSAGE + nonce + optionsText
+  return NONCE_MESSAGE + 'salt=' + nonce + optionsText
 }
 
 export const beforeResolver = (rules) => {

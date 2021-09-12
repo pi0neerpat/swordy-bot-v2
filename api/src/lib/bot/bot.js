@@ -82,14 +82,17 @@ export const handleOauthCodeGrant = async ({
   oauthState,
   code,
   type,
-  // signature and userId only available unlock oauth
+  // signature and userId are only available unlock oauth
   signature,
   userId,
 }) => {
   if (type === 'unlock') {
     // User is coming from purchase on Unlock Protocol
-    // Finding user by oauthState feels wrong.... But I think its still secure :P
     const user = await db.user.findUnique({ where: { id: userId } })
+    // If the oauthState matches then this is *probably* the same user ;)
+    // How can this be attacked?
+    console.log(signature)
+    console.log(getUnlockMessage(oauthState, user.id))
     const signerAddress = recoverPersonalSignature({
       data: bufferToHex(
         Buffer.from(getUnlockMessage(oauthState, user.id), 'utf8')

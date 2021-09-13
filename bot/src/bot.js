@@ -23,12 +23,11 @@ const handleInvoke = async (message) => {
       // url,
       type,
     } = await apiMgr.postMessage({ message })
-    const [prompt, url] = text.split(': ')
-    const [title, description] = prompt.split('? ')
+    const url = text.split(':\n')[1]
     if (type === 'reply') {
       let embed = {
         color: '#0099ff',
-        title: `${message.author.username}, ${title}?`,
+        title: `${message.author.username}, ready to be knighted?`,
         description: `[Click here](${url}) to unlock more channels (one-time use)`,
         type: 'link',
       }

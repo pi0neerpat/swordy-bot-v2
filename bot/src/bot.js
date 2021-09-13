@@ -26,17 +26,18 @@ const handleInvoke = async (message) => {
     const [prompt, url] = text.split(': ')
     const [title, description] = prompt.split('? ')
     if (type === 'reply') {
-      const embed = new MessageEmbed()
-        .setColor('#0099ff')
-        .setTitle(`@${message.author.username} ${title}?`)
-        .setURL(url)
-        .setDescription(description)
-        .setAuthor(
-          'Swordy Bot',
-          'https://swordybot.com/favicon.png',
-          'https://swordybot.com'
-        )
-        .setThumbnail('https://swordybot.com/favicon.png')
+      let embed = {
+        color: '#0099ff',
+        title: `${message.author.username}, ${title}?`,
+        description: `[Click here](https://mysite.com) to unlock more channels (one-time use)`,
+        type: 'link',
+      }
+      // embed = new MessageEmbed()
+      //   .setColor('#0099ff')
+      //   .setTitle(`${message.author.username}, ${title}?`)
+      //   .setURL(url)
+      //   .setDescription(description)
+      //   .setFooter('https://swordybot.com')
       return message.channel.send({ embed })
     }
     // TODO: Add embed response type

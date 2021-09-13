@@ -29,7 +29,7 @@ const handleInvoke = async (message) => {
       let embed = {
         color: '#0099ff',
         title: `${message.author.username}, ${title}?`,
-        description: `[Click here](https://mysite.com) to unlock more channels (one-time use)`,
+        description: `[Click here](${url}) to unlock more channels (one-time use)`,
         type: 'link',
       }
       // embed = new MessageEmbed()

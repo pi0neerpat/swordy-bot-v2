@@ -58,7 +58,7 @@ export const checkUnlockBalance = async ({
     const hasValidKey = await lockContract.getHasValidKey(userAddress)
     return hasValidKey
   } catch (e) {
-    console.log(e)
+    console.log('checkUnlockBalance' + e)
     throw new Error('checkUnlockBalance() trouble checking web3 balance')
   }
 }

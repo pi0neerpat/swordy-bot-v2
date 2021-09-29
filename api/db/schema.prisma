@@ -37,6 +37,7 @@ model User {
   username              String?
   currentSessionGuild   Guild?       @relation(fields: [currentSessionGuildId], references: [id])
   currentSessionGuildId String?
+  promptMessageId       String?
   discordAuth           DiscordAuth? @relation(fields: [discordAuthId], references: [id])
   discordAuthId         String?
 }

@@ -17,6 +17,7 @@ export const schema = gql`
     ): Response!
   }
   type Mutation {
+    updatePromptMessageId(userId: String!, promptMessageId: String!): String!
     oauthCodeGrant(
       oauthState: String
       code: String

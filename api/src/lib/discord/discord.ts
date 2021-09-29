@@ -164,6 +164,19 @@ export const removeRoleForUser = async (
   ).then((res) => res.text())
 }
 
+export const deleteMessage = async (channelId: string, messageId: string) => {
+  const response = await fetch(
+    `${API_ENDPOINT}/channels/${channelId}/messages/${messageId}`,
+    {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+    }
+  ).then((res) => res.text())
+}
+
 // Unused
 
 export const refreshDiscordAccessToken = async (

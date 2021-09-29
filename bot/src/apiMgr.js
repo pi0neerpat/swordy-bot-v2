@@ -11,7 +11,6 @@ const POST_MESSAGE_QUERY = gql`
     $platform: String!
     $guildId: String!
     $guild: JSON!
-    $messageId: String!
   ) {
     postMessage(
       content: $content
@@ -19,12 +18,20 @@ const POST_MESSAGE_QUERY = gql`
       platform: $platform
       guildId: $guildId
       guild: $guild
-      messageId: $messageId
     ) {
       type
       text
       url
     }
+  }
+`
+
+const UPDATE_PROMPT_MESSAGE_ID_MUTATION = gql`
+  mutation UPDATE_PROMPT_MESSAGE_ID_MUTATION(
+    $userId: String!
+    $promptMessageId: String!
+  ) {
+    updatePromptMessageId(userId: $userId, promptMessageId: $promptMessageId)
   }
 `
 
@@ -60,6 +67,22 @@ class ApiMgr {
           platform: 'discord',
           guildId: message.guild.id,
           guild: message.guild,
+        },
+      })
+      return res.data.postMessage
+    } catch (e) {
+      console.log(e)
+      throw new Error(e)
+    }
+  }
+
+  async updatePromptMessageId({ message, userId }) {
+    try {
+      const res = await this.client.mutate({
+        mutation: UPDATE_PROMPT_MESSAGE_ID_MUTATION,
+        variables: {
+          userId,
+          promptMessageId: `${message.channel.id}-${message.id}`,
         },
       })
       return res.data.postMessage

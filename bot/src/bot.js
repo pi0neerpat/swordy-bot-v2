@@ -17,7 +17,8 @@ const handleInvoke = async (message) => {
     // Verify the bot still has role-granting priveledges
     if (!message.guild.me.hasPermission(['MANAGE_ROLES']))
       return message.channel.send(DISCORD_INVALID_PERMISSIONS)
-
+    message.react('⚔️')
+    message.channel.startTyping()
     const {
       text,
       // url,
@@ -28,20 +29,20 @@ const handleInvoke = async (message) => {
       let embed = {
         color: '#0099ff',
         title: `${message.author.username}, ready to be knighted?`,
-        description: `[Click here](${url}) to unlock more channels (one-time use)`,
+        description: `[Click here](${url}) to unlock more channels`,
         type: 'link',
       }
-      // embed = new MessageEmbed()
-      //   .setColor('#0099ff')
-      //   .setTitle(`${message.author.username}, ${title}?`)
-      //   .setURL(url)
-      //   .setDescription(description)
-      //   .setFooter('https://swordybot.com')
-      return message.channel.send({ embed })
+      message.channel.stopTyping()
+      const botMessage = await message.channel.send({ embed })
+      botMessage.delete({ timeout: 60000 })
+      await apiMgr.updatePromptMessageId({
+        message: botMessage,
+        userId: message.author.id,
+      })
+      return
     }
-    // TODO: Add embed response type
-    // TODO: Add DM message response type
   } catch (e) {
+    message.channel.stopTyping()
     console.log(e)
     message.reply(DISCORD_SERVER_ERROR)
   }

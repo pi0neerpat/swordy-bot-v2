@@ -13,6 +13,7 @@ import {
   getDiscordProfile,
   getDiscordInviteUrl,
   verifyDiscordServerManager,
+  deleteMessage,
 } from 'src/lib/discord'
 import {
   LOGIN_URL,
@@ -143,6 +144,8 @@ export const handleOauthCodeGrant = async ({
     if (!accessToken)
       throw new AuthenticationError('Discord OAuth2 code invalid')
     const profile = await getDiscordProfile(accessToken)
+    const [channelId, messageId] = user.promptMessageId.split('-')
+    await deleteMessage(channelId, messageId)
     // Fetch user and validate state
     const user = await db.user.findUnique({ where: { id: profile.id } })
     if (user.oauthState !== oauthState)
@@ -212,4 +215,17 @@ export const handleOauthCodeGrant = async ({
   } else {
     throw 'handleOauthCodeGrant() No type provided or invalid type'
   }
+}
+
+export const handleUpdatePromptMessageId = async ({
+  userId,
+  promptMessageId,
+}) => {
+  await db.user.update({
+    where: { id: userId },
+    data: {
+      promptMessageId,
+    },
+  })
+  return 'success'
 }

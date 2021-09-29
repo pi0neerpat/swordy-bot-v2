@@ -45,7 +45,16 @@ export const getUnlockPaywallUrl = ({
 }
 
 const getLockContract = ({ contractAddress, chainId }) => {
-  return new Contract(contractAddress, unlockAbi, getProviderByChainId(chainId))
+  try {
+    return new Contract(
+      contractAddress,
+      unlockAbi,
+      getProviderByChainId(chainId)
+    )
+  } catch (e) {
+    console.log(e)
+    throw new Error(e)
+  }
 }
 
 export const checkUnlockBalance = async ({

@@ -11,6 +11,7 @@ const POST_MESSAGE_QUERY = gql`
     $platform: String!
     $guildId: String!
     $guild: JSON!
+    $messageId: String!
   ) {
     postMessage(
       content: $content
@@ -18,6 +19,7 @@ const POST_MESSAGE_QUERY = gql`
       platform: $platform
       guildId: $guildId
       guild: $guild
+      messageId: $messageId
     ) {
       type
       text

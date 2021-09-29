@@ -21,11 +21,15 @@ export const syncUserRole = async ({ user, role }) => {
             type,
           })
         } else if (type == TOKEN_TYPES.UNLOCK) {
-          hasRole = await checkUnlockBalance({
-            userAddress,
-            chainId,
-            contractAddress,
-          })
+          try {
+            hasRole = await checkUnlockBalance({
+              userAddress,
+              chainId,
+              contractAddress,
+            })
+          } catch (e) {
+            console.log(e)
+          }
         }
         if (hasRole) userHasRole = true
       } catch (e) {

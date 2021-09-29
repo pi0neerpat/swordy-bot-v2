@@ -144,10 +144,10 @@ export const handleOauthCodeGrant = async ({
     if (!accessToken)
       throw new AuthenticationError('Discord OAuth2 code invalid')
     const profile = await getDiscordProfile(accessToken)
-    const [channelId, messageId] = user.promptMessageId.split('-')
-    await deleteMessage(channelId, messageId)
     // Fetch user and validate state
     const user = await db.user.findUnique({ where: { id: profile.id } })
+    const [channelId, messageId] = user.promptMessageId.split('-')
+    await deleteMessage(channelId, messageId)
     if (user.oauthState !== oauthState)
       throw 'handleOauthCodeGrant() oauthState does not match'
     // Save the Discord auth credentials and update state

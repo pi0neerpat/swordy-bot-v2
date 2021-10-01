@@ -149,7 +149,9 @@ export const handleOauthCodeGrant = async ({
     const [channelId, messageId] = user.promptMessageId.split('-')
     await deleteMessage(channelId, messageId)
     if (user.oauthState !== oauthState)
-      throw 'handleOauthCodeGrant() oauthState does not match'
+      throw new AuthenticationError(
+        `You are signed into Discord as "${user.username}" in this browser. handleOauthCodeGrant() oauthState does not match. `
+      )
     // Save the Discord auth credentials and update state
     const newOauthState = uuidv4()
     await db.user.update({

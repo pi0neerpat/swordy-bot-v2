@@ -70,12 +70,25 @@ const Redirect = ({ type }) => {
           <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
             ⛈️ Oops! Something went wrong
           </h1>
-          <div className=" mt-8 rw-cell-error">
+          <p className="mt-8 text-s text-grey-600">
+            <b className="mt-8 text-s text-blue-600">
+              Please restart by typing "!unlock" in Discord
+            </b>
+            <br />
+            <br />
+            <ul>
+              <li>
+                👾 Using multiple Discord accounts? Be sure you're signed into
+                the right one in this browser -{' '}
+                <a href="https://discord.com/login" className="text-blue-600">
+                  Discord Login
+                </a>
+              </li>
+            </ul>
+          </p>
+          <div className=" mt-8 rw-cell-error w-half">
             {mutationError?.message || error}
           </div>
-          <p className="mt-8 text-s text-grey-600">
-            <b>Please start over in Discord</b>
-          </p>
         </div>
       </DefaultLayout>
     )

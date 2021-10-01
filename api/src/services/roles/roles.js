@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import { requireAuth, verifyManager } from 'src/lib/auth'
 import { syncUserRole } from 'src/lib/role'
 import { getDiscordServerRoles } from 'src/lib/discord'
+import { addRoleForUser } from 'src/lib/discord'
 
 // Used when the environment variable REDWOOD_SECURE_SERVICES=1
 export const beforeResolver = (rules) => {
@@ -21,6 +22,8 @@ export const addRoleToken = async ({
   // Fetch name from Discord API
   const discordRoles = await getDiscordServerRoles(guildId)
   const discordRole = discordRoles.filter((role) => role.id === roleId)[0]
+  // Check the bot has a role high enough to manage this role
+  await addRoleForUser(guildId, roleId, context.currentUser.id)
   const role = await db.role.upsert({
     where: { id: roleId },
     update: {

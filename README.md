@@ -1,9 +1,4 @@
-<h1 align="center">Welcome swordy-bot 👋</h1>
-<p>
-  <a href="#" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-</p>
+<h1 align="center">Welcome swordy-bot-v2 👋</h1>
 
 > An Ethereum wallet verification service for role-gated Discord servers.
 

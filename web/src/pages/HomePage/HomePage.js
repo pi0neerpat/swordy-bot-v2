@@ -23,7 +23,7 @@ const HomePage = () => {
               ⚔️ Swordy Bot
             </h1>
             <h3 className="mt-8 text-2xl leading-tight">
-              Your Kingdom... Your Roles
+              Your Kingdom - Your Roles
             </h3>
             <p className="mt-2 italic">Web3 community manager</p>
             <div className="mt-12">

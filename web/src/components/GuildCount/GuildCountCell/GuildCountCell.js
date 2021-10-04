@@ -17,5 +17,12 @@ export const Failure = ({ error }) => (
 )
 
 export const Success = ({ guildCount }) => {
-  return <Counter currentAmount={guildCount} totalAmount={guildCount} />
+  return (
+    <Counter
+      currentAmount={guildCount}
+      totalAmount={guildCount}
+      decimals={0}
+      rate={null}
+    />
+  )
 }

@@ -35,9 +35,11 @@ const User = ({ user }) => {
         </div>
       )}
       <div className="mt-8">
-        {user.guilds.map((guildId, i) => (
-          <GuildCell key={i} id={guildId} />
-        ))}
+        {user.guilds
+          .filter((guild) => guild.id !== user.currentSessionGuild.id)
+          .map((guild, i) => (
+            <GuildCell key={i} id={guild.id} />
+          ))}
       </div>
       <div>
         <p className="mt-8">Don't see your server listed?</p>
@@ -54,8 +56,8 @@ const User = ({ user }) => {
           </div>
         </div>
       </div>
-      <div>
-        <p className="mt-8 mb-8">Manage your own Discord Server?</p>
+      <div className="mt-8 mb-16">
+        <p className="mb-8">Manage your own Discord Server?</p>
         <BotButton />
       </div>
     </>

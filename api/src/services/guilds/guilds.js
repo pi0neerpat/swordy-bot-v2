@@ -52,9 +52,6 @@ export const guild = async ({ id }) => {
 
   const guild = await db.guild.findUnique({
     where: { id },
-    _count: {
-      select: { users: true },
-    },
   })
   return { isUserManager, ...guild }
 }

@@ -186,11 +186,12 @@ Odometer.defaultProps = {
   isLoading: false,
   decimals: undefined,
   isMinimal: false,
+  rate: 0,
 }
 Odometer.propTypes = {
   textColor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   backgroundColor: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  rate: PropTypes.number.isRequired,
+  rate: PropTypes.number,
   currentAmount: PropTypes.number.isRequired,
   totalAmount: PropTypes.number.isRequired,
   textComponent: PropTypes.object,

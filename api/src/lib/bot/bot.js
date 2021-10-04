@@ -46,14 +46,11 @@ export const handleMessage = async ({
   guildId,
   guild: guildObject,
 }) => {
-  // TODO: is this always an invocation?
   const oauthState = uuidv4()
-
   // Create the guild if it doesn't exist
   const guild = await fetchGuild(guildObject)
-
   // Create the user in the database
-  const user = await db.user.upsert({
+  await db.user.upsert({
     where: { id: userId },
     create: {
       id: userId,
@@ -61,10 +58,16 @@ export const handleMessage = async ({
       currentSessionGuild: {
         connect: { id: guild.id },
       },
+      guilds: {
+        connect: { id: guild.id },
+      },
       oauthState,
     },
     update: {
       currentSessionGuild: {
+        connect: { id: guild.id },
+      },
+      guilds: {
         connect: { id: guild.id },
       },
       oauthState,

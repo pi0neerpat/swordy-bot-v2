@@ -25,7 +25,9 @@ const HomePage = () => {
             <h3 className="mt-8 text-2xl leading-tight">
               Your Kingdom - Your Roles
             </h3>
-            <p className="mt-2 italic">Web3 community manager</p>
+            <p className="mt-2 italic">
+              Manage & monetize your Discord community
+            </p>
             <div className="mt-12">
               <BotButton />
             </div>

@@ -1,7 +1,6 @@
 import { navigate } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
-
-import { ADD_BOT_LINK } from 'src/constants'
+import BotButton from 'src/components/BotButton'
 
 const NewGuild = () => {
   return (
@@ -19,13 +18,7 @@ const NewGuild = () => {
         </h1>
         <p className="mt-4">Add the bot to your server 👇👇👇 </p>
         <div className="mt-8 w-1/4">
-          <a
-            href={ADD_BOT_LINK}
-            type="submit"
-            className=" rw-button rw-button-green"
-          >
-            Add Bot
-          </a>
+          <BotButton />
         </div>
       </div>
     </>

@@ -1,7 +1,7 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { BottomWaves, TopWaves } from 'src/pages/HomePage/Waves'
-import BotButton from 'src/pages/HomePage/BotButton'
+import BotButton from 'src/components/BotButton'
 import GuildCountCell from 'src/components/GuildCount/GuildCountCell'
 import GuildStatsCell from 'src/components/GuildStats/GuildStatsCell'
 
@@ -26,10 +26,12 @@ const HomePage = () => {
               Your Kingdom... Your Roles
             </h3>
             <p className="mt-2 italic">Web3 community manager</p>
-            <BotButton />
+            <div className="mt-12">
+              <BotButton />
+            </div>
           </div>
           <div className="mt-16 sm:mt-0 border-8 border-black rounded">
-            <video autoPlay loop>
+            <video autoPlay playsInline muted loop>
               <source type="video/mp4" src="/demo.mp4" />
             </video>
           </div>
@@ -54,7 +56,7 @@ const HomePage = () => {
         </h1>
         <Detail
           title="How does it work?"
-          text="We use high tech machine learning ... just kidding! We just check if the user's wallet has the right tokens. If so, they earn a role in your community's server."
+          text="We use high-tech machine learning algorithms... just kidding! If a user has the right tokens in their wallet, they earn a role in your Discord server."
         />
         <Detail
           title="How do I add this to my server?"
@@ -74,7 +76,12 @@ const HomePage = () => {
         />
 
         <Detail
-          title="What is Unlock Protocol?"
+          title={
+            <div className="flex items-center">
+              <img className="h-6 mr-2" src="/unlock.png" /> What is Unlock
+              Protocol?
+            </div>
+          }
           text={
             <>
               Unlock makes it easy to distribute NFTs to your community. Learn
@@ -90,12 +97,29 @@ const HomePage = () => {
             </>
           }
         />
+        <Detail
+          title="Who made this?"
+          text={
+            <>
+              <a
+                href="https://twitter.com/pi0neerpat"
+                target="_blank"
+                className="mt-4"
+              >
+                <img
+                  alt="Twitter: pi0neerpat"
+                  src="https://img.shields.io/twitter/follow/pi0neerpat.svg?style=social"
+                />
+              </a>
+            </>
+          }
+        />
       </section>
-      <BottomWaves />
-      <div className="bg-gradient-to-r from-blue-200 to-blue-300 ">
-        <div className="h-72 mt-4 text-center items-center">
+      <div className=" bg-gradient-to-r from-blue-200 to-blue-300 ">
+        <BottomWaves />
+        <div className="h-48 mt-16 text-center items-center">
           <h2 className="w-full text-4xl font-bold leading-tight text-center ">
-            You decide who's worthy
+            Get Started
           </h2>
           <div className="mt-8">
             <BotButton />

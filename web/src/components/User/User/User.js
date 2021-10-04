@@ -3,7 +3,7 @@ import { toast } from '@redwoodjs/web/toast'
 import { Link, routes, navigate } from '@redwoodjs/router'
 import GuildCell from 'src/components/Guild/GuildCell'
 import { PlusIcon, CircleArrowIcon } from 'src/components/Icons'
-import { ADD_BOT_LINK } from 'src/helpers/constants'
+import BotButton from 'src/components/BotButton'
 
 const User = ({ user }) => {
   return (
@@ -55,28 +55,8 @@ const User = ({ user }) => {
         </div>
       </div>
       <div>
-        <p className="mt-8">Manage your own Discord Server?</p>
-        <div className="mt-4 p-4 rw-segment">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center">
-                <PlusIcon width="2rem" height="2rem" />
-                <div className="ml-4">
-                  <h1 className=" tracking-tight font-extrabold text-gray-900 sm:text-2xl m:text-4xl l:text-4xl">
-                    New guild
-                  </h1>
-                </div>
-              </div>
-            </div>
-            <a
-              href={ADD_BOT_LINK}
-              type="submit"
-              className=" rw-button rw-button-green"
-            >
-              Add Bot
-            </a>
-          </div>
-        </div>
+        <p className="mt-8 mb-8">Manage your own Discord Server?</p>
+        <BotButton />
       </div>
     </>
   )

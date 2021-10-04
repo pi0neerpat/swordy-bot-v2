@@ -21,8 +21,8 @@ export const Failure = ({ error }) => <>Couldn't load community data...</>
 export const Success = ({ guildStats }) => {
   return (
     <div>
-      {guildStats.map((guild) => (
-        <GuildStats guild={guild} />
+      {guildStats.map((guild, index) => (
+        <GuildStats key={index} guild={guild} />
       ))}
     </div>
   )

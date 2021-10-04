@@ -13,11 +13,9 @@ export const Loading = () => (
 export const Empty = () => <div>Empty</div>
 
 export const Failure = ({ error }) => (
-  <div style={{ color: 'red' }}>Error: {error.message}</div>
+  <div className="p-4">Couldn't load...</div>
 )
 
 export const Success = ({ guildCount }) => {
-  return (
-    <Counter currentAmount={guildCount} totalAmount={guildCount} rate={null} />
-  )
+  return <Counter currentAmount={guildCount} totalAmount={guildCount} />
 }

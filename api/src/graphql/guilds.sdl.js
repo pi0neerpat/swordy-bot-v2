@@ -6,27 +6,20 @@ export const schema = gql`
     iconUrl: String
     description: String
     roles: [Role]!
-    userCount: Int
-    roleCount: Int
     isUserManager: Boolean
   }
-
-  type Query {
-    guilds: [Guild!]!
-    guildCount: Int!
-    guild(id: String!): Guild
-    guildDiscordRoles(id: String!): [Role!]!
-  }
-
-  input CreateGuildInput {
-    id: String!
-    platform: String!
+  type GuildStats {
     name: String!
     iconUrl: String
     description: String
+    roleCount: Int
+    userCount: Int
   }
 
-  type Mutation {
-    createGuild(input: CreateGuildInput!): Guild!
+  type Query {
+    guildStats: [GuildStats!]!
+    guildCount: Int!
+    guild(id: String!): Guild
+    guildDiscordRoles(id: String!): [Role!]!
   }
 `

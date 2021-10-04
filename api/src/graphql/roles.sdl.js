@@ -5,7 +5,6 @@ export const schema = gql`
     guildId: String!
     name: String!
     type: String!
-    users: [User]!
     description: String
     tokens: [Token]!
     userHasRole: Boolean

@@ -2,6 +2,7 @@ import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import Waves from 'src/pages/HomePage/Waves'
 import BotButton from 'src/pages/HomePage/BotButton'
+import GuildCountCell from 'src/components/GuildCount/GuildCountCell'
 
 const HomePage = () => {
   return (
@@ -25,6 +26,9 @@ const HomePage = () => {
             <BotButton />
           </div>
           <div className="m-4 w-full justify-center rounded-full">
+            <div className="w-full justify-center">
+              <GuildCountCell />
+            </div>
             <h3 className="mt-8 text-2xl leading-tight">Communities served</h3>
           </div>
         </div>

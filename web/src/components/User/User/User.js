@@ -10,7 +10,11 @@ const User = ({ user }) => {
     <>
       <div className="flex items-center min-w-min mt-4">
         <div className="min-w-max">
-          <img src={user.iconUrl} alt={`Profile image for ${user.username}`} />
+          <img
+            className="w-16"
+            src={user.iconUrl || '/emptyUser.png'}
+            alt={`Profile image for ${user.username}`}
+          />
         </div>
         <div className="ml-4">
           <h1 className="tracking-tight font-extrabold text-gray-900 text-xl sm:text-2xl md:text-4xl">

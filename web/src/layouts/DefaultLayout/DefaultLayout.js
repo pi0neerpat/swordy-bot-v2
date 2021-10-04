@@ -67,7 +67,7 @@ const DefaultLayout = ({ children }) => {
         {children}
       </div>
 
-      <footer>
+      <footer className="mt-16">
         <div className="relative bg-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">

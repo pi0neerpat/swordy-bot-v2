@@ -6,13 +6,13 @@ export const schema = gql`
     iconUrl: String
     description: String
     roles: [Role]!
-    users: [User]!
-    User: [User]!
+    userCount: Int!
     isUserManager: Boolean
   }
 
   type Query {
     guilds: [Guild!]!
+    guildCount: Int!
     guild(id: String!): Guild
     guildDiscordRoles(id: String!): [Role!]!
   }

@@ -6,7 +6,8 @@ export const schema = gql`
     iconUrl: String
     description: String
     roles: [Role]!
-    userCount: Int!
+    userCount: Int
+    roleCount: Int
     isUserManager: Boolean
   }
 

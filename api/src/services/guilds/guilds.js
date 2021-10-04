@@ -14,11 +14,25 @@ export const beforeResolver = (rules) => {
   rules.add(verifyManager, {
     only: ['guildDiscordRoles'],
   })
-  rules.skip({ only: 'guildCount' })
+  rules.skip({ only: ['guildCount', 'guilds'] })
 }
 
 export const guilds = () => {
-  return db.guild.findMany()
+  return db.guild.findMany({
+    include: {
+      _count: {
+        select: { roles: true },
+      },
+      _count: {
+        select: { users: true },
+      },
+    },
+    orderBy: {
+      _count: {
+        users: 'desc',
+      },
+    },
+  })
 }
 
 export const guildCount = async () => {

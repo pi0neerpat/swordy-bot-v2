@@ -3,19 +3,26 @@ import { MetaTags } from '@redwoodjs/web'
 import Waves from 'src/pages/HomePage/Waves'
 import BotButton from 'src/pages/HomePage/BotButton'
 import GuildCountCell from 'src/components/GuildCount/GuildCountCell'
+import GuildStatsCell from 'src/components/GuildStats/GuildStatsCell'
+
+const Detail = ({ title, text }) => (
+  <>
+    <h3 className="text-1xl text-gray-800 font-bold leading-none mb-3">
+      {title}
+    </h3>
+    <p className="mb-3" className="mb-5">
+      {text}
+    </p>
+  </>
+)
 
 const HomePage = () => {
   return (
     <>
-      <MetaTags
-        title="Home"
-        // description="Home description"
-        /* you should un-comment description and add a unique description, 155 characters or less
-      You can look at this documentation for best practices : https://developers.google.com/search/docs/advanced/appearance/good-titles-snippets */
-      />
+      <MetaTags title="Home" />
       <div className="bg-gradient-to-r from-blue-200 to-blue-300 ">
-        <div className="flex p-8 mb-12 items-center ">
-          <div className="container w-full m-4">
+        <div className="flex p-16 mb-12 items-center ">
+          <div className="container  m-4">
             <h1 className="text-5xl font-bold leading-tight  ">
               ⚔️ Swordy Bot
             </h1>
@@ -25,46 +32,77 @@ const HomePage = () => {
             <p className="mt-2 italic">Web3 community manager</p>
             <BotButton />
           </div>
-          <div className="m-4 w-full justify-center rounded-full">
-            <div className="w-full justify-center">
-              <GuildCountCell />
-            </div>
-            <h3 className="mt-8 text-2xl leading-tight">Communities served</h3>
+          <div className="w-full border-8 border-black rounded">
+            <video autoPlay loop>
+              <source type="video/mp4" src="/demo.mp4" />
+            </video>
           </div>
         </div>
         <Waves />
 
-        <section className="bg-white  py-8">
-          <div className="container max-w-5xl mx-auto items-center">
-            <div className="flex flex-wrap items-center ">
-              <div className="w-5/6 sm:w-1/2 p-6 ">
-                <h3 className="text-3xl text-gray-800 font-bold leading-none mb-3">
-                  How it works
-                </h3>
-                <div>
-                  <p className="text-gray-600 text-xl ">
-                    1. 🔐 Create roles
-                    <br />
-                    2. 💰 Set token & loot requirements
-                    <br />
-                    3. 🏰 Grow your community
-                    <br />
-                  </p>
-                </div>
-                <div className="mt-16">
-                  <Link
-                    className="hover:underline align-center mt-6 bg-white text-gray-800 font-bold rounded-full py-4 px-8 shadow-lg"
-                    to="/about"
-                  >
-                    Learn more
-                  </Link>
-                </div>
-              </div>
-              <div className="rw-segment w-full sm:w-1/2 ">
-                <img src="/example.png" />
-              </div>
+        <section className="w-full bg-white p-16 container max-w-5xl mx-auto items-center">
+          <h1 className="text-3xl w-full text-center text-gray-800 font-bold leading-none mb-8">
+            Activity
+          </h1>
+          <div className="w-full items-center">
+            <div className="flex w-full justify-center">
+              <GuildCountCell />
             </div>
+            <p className="mt-2 text-center">Active Communities</p>
+            <GuildStatsCell className="mt-5" />
           </div>
+        </section>
+        <section className="w-full  justify-center grid bg-white p-16 container max-w-5xl mx-auto items-center">
+          <h1 className="text-3xl w-full text-center text-gray-800 font-bold leading-none mb-8">
+            About
+          </h1>
+          <Detail
+            title="How does it work?"
+            text="We use complicated machine learning ... just kidding! We just check if the user's wallet has the right tokens. If so, they earn a role in your community's server."
+          />
+          <Detail
+            title="How can I add this to my server?"
+            text={
+              <>
+                Check out the{' '}
+                <a
+                  className="text-blue-600"
+                  href="https://pi0neerpat.gitbook.io/one-click-dapp/swordy-bot/swordy-bot"
+                  target="_blank"
+                >
+                  Bot Installation instructions
+                </a>
+                , or watch the video below.
+              </>
+            }
+          />
+          <iframe
+            width="560"
+            height="315"
+            className=" mb-6"
+            src="https://www.youtube.com/embed/JeM8oJE94zg"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+          <Detail
+            title="What is Unlock Protocol?"
+            text={
+              <>
+                Unlock makes it easy to distribute NFTs to your community. Learn
+                how to{' '}
+                <a
+                  className="text-blue-600"
+                  href="https://docs.unlock-protocol.com/creators/deploying-lock"
+                  target="_blank"
+                >
+                  create your own Lock
+                </a>
+                {'.'}
+              </>
+            }
+          />
         </section>
 
         <svg

@@ -57,7 +57,7 @@ export const getDiscordServerRoles = async (serverId: string) => {
   }).then((res) => res.json())
   if (!roles || !roles.length)
     throw new AuthenticationError(
-      `Error fetching guild details from Discord API for ID ${serverId}`
+      `Can't access details for server #${serverId}. Swordy bot may have been removed.`
     )
   return roles?.filter((role) => role.name !== '@everyone')
 }
@@ -72,7 +72,7 @@ export const getDiscordInviteUrl = async (serverId: string) => {
   }).then((res) => res.json())
   if (!data)
     throw new AuthenticationError(
-      `Error fetching guild details from Discord API for ID ${serverId}`
+      `Can't access details for server #${serverId}. Swordy bot may have been removed.`
     )
   const { code } = data[0]
   return `https://discord.com/invite/${code}`

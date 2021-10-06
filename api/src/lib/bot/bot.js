@@ -194,6 +194,7 @@ export const handleOauthCodeGrant = async ({
       )
       if (isUserManager)
         return {
+          // TODO: Prompt here whether to A) continue to admin dashboard, or B) Continue flow as normal user
           url: `/login?state=${newOauthState}&id=${profile.id}`,
         }
 

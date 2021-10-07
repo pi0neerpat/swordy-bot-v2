@@ -116,6 +116,18 @@ const HomePage = () => {
             </>
           }
         />
+        <a
+          href="https://www.producthunt.com/posts/swordy-bot?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-swordy-bot"
+          target="_blank"
+        >
+          <img
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=315126&theme=light"
+            alt="Swordy Bot - Manage & monetize your Discord community with NFTs | Product Hunt"
+            className="w-250px h-54px mt-6"
+            width="250"
+            height="54"
+          />
+        </a>
       </section>
       <div className=" bg-gradient-to-r from-blue-200 to-blue-300 ">
         <BottomWaves />

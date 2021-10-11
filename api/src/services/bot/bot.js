@@ -11,8 +11,6 @@ export const beforeResolver = (rules) => {
   })
 }
 
-// TODO: Potential security concern. Could accepting messages from anyone here cause issues?
-// I don't think so since the discord auth prevents any funny business
 export const postMessage = (input) => handleMessage(input)
 
 export const oauthCodeGrant = (input) => handleOauthCodeGrant(input)

@@ -4,8 +4,10 @@ export const schema = gql`
     text: String
     url: String
   }
-  type Redirect {
+  type RedirectOption {
     url: String!
+    text: String
+    roleName: String
   }
   type Query {
     postMessage(
@@ -24,6 +26,6 @@ export const schema = gql`
       type: String!
       signature: String
       userId: String
-    ): Redirect!
+    ): [RedirectOption!]!
   }
 `

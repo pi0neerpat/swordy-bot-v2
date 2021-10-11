@@ -4,6 +4,7 @@ import { routes, navigate, useParams } from '@redwoodjs/router'
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
 import { CheckmarkIcon } from 'src/components/Icons'
+import RedirectOptions from 'src/components/RedirectOptions'
 
 export const OAUTH_CODE_GRANT_MUTATION = gql`
   mutation OauthCodeGrantMutation(
@@ -13,7 +14,7 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
     $signature: String
     $userId: String
   ) {
-    redirect: oauthCodeGrant(
+    redirectOptions: oauthCodeGrant(
       oauthState: $oauthState
       code: $code
       type: $type
@@ -21,6 +22,8 @@ export const OAUTH_CODE_GRANT_MUTATION = gql`
       userId: $userId
     ) {
       url
+      text
+      roleName
     }
   }
 `
@@ -48,18 +51,23 @@ const Redirect = ({ type }) => {
   }, [])
 
   const doRedirect = () => {
-    if (data?.redirect) {
-      if (data.redirect.url.includes('discord.com/invite')) {
+    if (data?.redirectOptions) {
+      if (data.redirectOptions[0].url.includes('discord.com/invite')) {
+        // Return the user back to Discord
         setUnlockSuccess(true)
         return setTimeout(() => {
-          window.location.href = data.redirect.url
+          window.location.href = data.redirectOptions[0].url
         }, [3000])
       }
-      window.location.href = data.redirect.url
+
+      // Automatic redirect only if there is only one role option
+      if (data.redirectOptions.length === 1)
+        window.location.href = data.redirectOptions[0].url
     }
   }
 
   React.useEffect(() => {
+    console.log(data)
     doRedirect()
   }, [data])
 
@@ -99,6 +107,12 @@ const Redirect = ({ type }) => {
           <CheckmarkIcon width="2rem" height="2rem" color="green" />
           <p>Success! Taking you back to Discord...</p>
         </div>
+      </div>
+    )
+  if (data?.redirectOptions.length > 1)
+    return (
+      <div className="min-w-full min-h-screen flex items-center justify-center">
+        <RedirectOptions options={data.redirectOptions} />
       </div>
     )
   return (

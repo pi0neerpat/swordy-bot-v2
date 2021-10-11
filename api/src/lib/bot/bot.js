@@ -39,6 +39,17 @@ const onlyRolesWithUnlock = async (roles) => {
   )
   return rolesWithUnlock
 }
+
+const getRolesWithTokens = async (roles) =>
+  await Promise.all(
+    roles.map(async (role) => {
+      const tokens = await db.role
+        .findUnique({ where: { id: role.id } })
+        .tokens()
+      return { ...role, tokens }
+    })
+  )
+
 export const handleMessage = async ({
   content,
   userId,
@@ -137,9 +148,11 @@ export const handleOauthCodeGrant = async ({
       )
     // Redirect back to discord
     const inviteUrl = await getDiscordInviteUrl(role.guildId)
-    return {
-      url: inviteUrl,
-    }
+    return [
+      {
+        url: inviteUrl,
+      },
+    ]
   } else if (type === 'discord') {
     // User is coming from Discord
     const tokenData = await getDiscordAccessTokenFromCode(code)
@@ -184,40 +197,51 @@ export const handleOauthCodeGrant = async ({
       .findUnique({ where: { id: profile.id } })
       .currentSessionGuild()
       .roles()
-    const rolesWithUnlock = await onlyRolesWithUnlock(currentSessionGuildRoles)
+    const rolesWithTokens = await getRolesWithTokens(currentSessionGuildRoles)
 
-    if (rolesWithUnlock.length) {
-      // If the user is the server manager, we need to skip the lock purchase
-      const isUserManager = await verifyDiscordServerManager(
-        rolesWithUnlock[0].guildId,
-        profile.id
+    let redirectOptions = []
+    const currentSessionGuild = await db.user
+      .findUnique({ where: { id: profile.id } })
+      .currentSessionGuild()
+
+    rolesWithTokens.map((role) => {
+      const tokensWithUnlock = role.tokens.filter(
+        (token) => token.type == TOKEN_TYPES.UNLOCK
       )
-      if (isUserManager)
-        return {
-          // TODO: Prompt here whether to A) continue to admin dashboard, or B) Continue flow as normal user
+      // Role is not using Unlock protocol
+      if (!tokensWithUnlock) {
+        return redirectOptions.push({
+          roleName: role.name,
+          text: 'ERC20 or ERC721 token',
           url: `/login?state=${newOauthState}&id=${profile.id}`,
-        }
-
-      // Redirect to Unlock flow
-      const { tokens, name: roleName } = rolesWithUnlock[0] // Just pick the first one, my guy
-      const currentSessionGuild = await db.user
-        .findUnique({ where: { id: profile.id } })
-        .currentSessionGuild()
-      return {
+        })
+      }
+      console.log(tokensWithUnlock)
+      // Role is using Unlock, so only give the paywall option
+      redirectOptions.push({
+        roleName: role.name,
+        text: 'Unlock Protocol',
         url: getUnlockPaywallUrl({
-          tokens,
-          roleName,
+          tokens: tokensWithUnlock,
+          roleName: role.name,
           userId: profile.id,
           oauthState: newOauthState,
           guild: currentSessionGuild,
         }),
-      }
-    } else {
-      // Redirect to Ethereum auth
-      return {
+      })
+    })
+
+    // If the user is the server manager, give the option to see the dashboard
+    const isUserManager = await verifyDiscordServerManager(
+      currentSessionGuild.id,
+      profile.id
+    )
+    if (isUserManager)
+      redirectOptions.push({
+        text: `Show admin tools for ${currentSessionGuild.name}`,
         url: `/login?state=${newOauthState}&id=${profile.id}`,
-      }
-    }
+      })
+    return redirectOptions
   } else {
     throw 'handleOauthCodeGrant() No type provided or invalid type'
   }

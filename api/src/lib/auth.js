@@ -1,5 +1,6 @@
 import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
 import { verifyDiscordServerManager } from 'src/lib/discord'
+import Sentry from 'src/lib/sentry'
 
 /**
  * getCurrentUser returns the user information together with
@@ -18,6 +19,7 @@ export const getCurrentUser = async (
   { _token, _type },
   { _event, _context }
 ) => {
+  Sentry.setUser({ username: member.username, id: member.id })
   return { ...decoded, roles: parseJWT({ decoded }).roles }
 }
 

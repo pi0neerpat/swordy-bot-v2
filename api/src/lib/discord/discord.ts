@@ -70,7 +70,8 @@ export const getDiscordInviteUrl = async (serverId: string) => {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json())
-  if (!data)
+  console.log(data)
+  if (!data || !data.length)
     throw new AuthenticationError(
       `Can't access details for server #${serverId}. Swordy bot may have been removed.`
     )

@@ -10,13 +10,13 @@
   port = 8910
   host = "0.0.0.0"
   apiProxyPath = "/.redwood/functions"
-  includeEnvironmentVariables = ['ETHEREUM_JWT_SECRET', 'INFURA_ID',
-  'DATABASE', 'DISCORD_PUBLIC_CLIENT_ID', 'DISCORD_CLIENT_SECRET',
-  'DISCORD_PUBLIC_REDIRECT_URI']
 [api]
   port = 8911
+  includeEnvironmentVariables = ['ETHEREUM_JWT_SECRET', 'INFURA_ID',
+  'DATABASE', 'DISCORD_PUBLIC_CLIENT_ID', 'DISCORD_CLIENT_SECRET',
+  'DISCORD_PUBLIC_REDIRECT_URI', 'SENTRY_DSN', 'SENTRY_ENVIRONMENT']
 [browser]
   open = true
 [experimental]
   esbuild = false
-  useEnvelop = false
+  useEnvelop = true

@@ -209,14 +209,13 @@ export const handleOauthCodeGrant = async ({
         (token) => token.type == TOKEN_TYPES.UNLOCK
       )
       // Role is not using Unlock protocol
-      if (!tokensWithUnlock) {
+      if (!tokensWithUnlock.length) {
         return redirectOptions.push({
           roleName: role.name,
           text: 'ERC20 or ERC721 token',
           url: `/login?state=${newOauthState}&id=${profile.id}`,
         })
       }
-      console.log(tokensWithUnlock)
       // Role is using Unlock, so only give the paywall option
       redirectOptions.push({
         roleName: role.name,

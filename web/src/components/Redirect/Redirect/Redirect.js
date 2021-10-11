@@ -67,7 +67,6 @@ const Redirect = ({ type }) => {
   }
 
   React.useEffect(() => {
-    console.log(data)
     doRedirect()
   }, [data])
 

@@ -15,11 +15,7 @@ import {
   verifyDiscordServerManager,
   deleteMessage,
 } from 'src/lib/discord'
-import {
-  LOGIN_URL,
-  DISCORD_INITIAL_AUTH,
-  AVATAR_BASE_URL,
-} from 'src/lib/bot/constants'
+import { DISCORD_INITIAL_AUTH, AVATAR_BASE_URL } from 'src/lib/bot/constants'
 import { TOKEN_TYPES } from 'src/lib/role/constants'
 import { syncUserRole } from 'src/lib/role'
 
@@ -51,10 +47,8 @@ const getRolesWithTokens = async (roles) =>
   )
 
 export const handleMessage = async ({
-  content,
   userId,
   platform,
-  guildId,
   guild: guildObject,
 }) => {
   const oauthState = uuidv4()

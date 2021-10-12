@@ -9,7 +9,7 @@ export const syncUserRole = async ({ user, role }) => {
   const { address: userAddress } = user
   let userHasRole = false
   await Promise.all(
-    tokens.map(async (token, index) => {
+    tokens.map(async (token) => {
       let hasRole = false
       const { chainId, contractAddress, type } = token
       try {
@@ -61,28 +61,4 @@ export const syncUserRole = async ({ user, role }) => {
     })
   }
   return userHasRole
-}
-
-export const fetchRole = async ({
-  role: roleData,
-  token: tokenData,
-  guild: guildData,
-}) => {
-  // Create token
-  let token = await db.token.findUnique({
-    where: {
-      contractAddress: tokenData.contractAddress,
-      chainId: tokenData.chainId,
-    },
-  })
-  if (!token) {
-    token = await db.token.create({
-      data: {
-        contractAddress: tokenData.contractAddress,
-        chainId: tokenData.chainId,
-        type: tokenData.type,
-      },
-    })
-  }
-  return role
 }

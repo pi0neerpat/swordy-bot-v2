@@ -157,7 +157,7 @@ export const removeRoleForUser = async (
   roleId: string,
   userId: string
 ) => {
-  const response = await fetch(
+  await fetch(
     `${API_ENDPOINT}/guilds/${serverId}/members/${userId}/roles/${roleId}`,
     {
       method: 'DELETE',
@@ -170,16 +170,13 @@ export const removeRoleForUser = async (
 }
 
 export const deleteMessage = async (channelId: string, messageId: string) => {
-  const response = await fetch(
-    `${API_ENDPOINT}/channels/${channelId}/messages/${messageId}`,
-    {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => res.text())
+  await fetch(`${API_ENDPOINT}/channels/${channelId}/messages/${messageId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.text())
 }
 
 // Unused
@@ -233,7 +230,7 @@ export const fetchDiscordAccessToken = async (id) => {
   const discordAuth = await db.user.findUnique({ where: { id } }).discordAuth()
   if (!discordAuth)
     throw new AuthenticationError('User has no Discord Oauth data')
-  const { refreshToken, accessToken, expiration } = discordAuth
+  const { refreshToken, accessToken } = discordAuth
   // TODO: Optimization - first check if current time is past expiration
   const profile = await getDiscordProfile(accessToken)
   if (profile) return accessToken

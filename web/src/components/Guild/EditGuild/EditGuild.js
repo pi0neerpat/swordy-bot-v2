@@ -36,8 +36,8 @@ const EditGuild = ({ guild }) => {
           ))
         ) : (
           <div className="rw-segment p-4 text-gray-500">
-            You haven't set up any roles for this Discord server. Click "Add
-            Token Access" to get started.
+            You haven&apos;t set up any roles for this Discord server. Click
+            &quot;Add Token Access&quot; to get started.
           </div>
         )}
       </div>

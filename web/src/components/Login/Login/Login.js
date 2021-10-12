@@ -10,7 +10,7 @@ const COMPLETE = 'complete'
 
 const Login = () => {
   const [status, setStatus] = React.useState(READY)
-  const { logIn, logOut } = useAuth()
+  const { logIn } = useAuth()
   const { state, id } = useParams()
 
   const onLogIn = async (type) => {
@@ -72,7 +72,10 @@ const Login = () => {
           </ul>
         ) : (
           <p className="mt-8 text-xl">
-            🎉 Login complete! Taking you to your profile...
+            <span role="img" aria-label="Confetti popper">
+              🎉
+            </span>
+            Login complete! Taking you to your profile...
           </p>
         )}
       </>
@@ -95,7 +98,8 @@ const Login = () => {
         <p className="mt-8">Sign-in with your wallet</p>
         {renderCallToAction()}
         <p className="mt-12 text-s text-grey-600">
-          Having trouble? In your Discord server type "<code>!unlock</code>"
+          Having trouble? In your Discord server type &quot;<code>!unlock</code>
+          &quot;
         </p>
       </div>
     </>

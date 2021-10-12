@@ -11,8 +11,7 @@ export const schema = gql`
   directive @verifyManager on FIELD_DEFINITION
 `
 
-const validate = async ({ context, directiveArgs }) => {
-  console.log(context)
+const validate = async ({ context }) => {
   const { guildId } = context.variables
   await applicationVerifyManager({
     id: context.currentUser.id,

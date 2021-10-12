@@ -1,4 +1,3 @@
-import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { BottomWaves, TopWaves } from 'src/pages/HomePage/Waves'
 import BotButton from 'src/components/BotButton'
@@ -20,7 +19,10 @@ const HomePage = () => {
         <div className="sm:flex p-6  sm:p-16 mb-12 items-center ">
           <div className="w-full m-4">
             <h1 className="text-5xl font-bold leading-tight  ">
-              ⚔️ Swordy Bot
+              <span role="img" aria-label="Crossed swords">
+                ⚔️
+              </span>{' '}
+              Swordy Bot
             </h1>
             <h3 className="mt-8 text-2xl leading-tight">
               Your Kingdom - Your Roles
@@ -81,8 +83,12 @@ const HomePage = () => {
         <Detail
           title={
             <div className="flex items-center">
-              <img className="h-6 mr-2" src="/unlock.png" /> What is Unlock
-              Protocol?
+              <img
+                className="h-6 mr-2"
+                src="/unlock.png"
+                alt="Unlock Protocol logo"
+              />{' '}
+              What is Unlock Protocol?
             </div>
           }
           text={

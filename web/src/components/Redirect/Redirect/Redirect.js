@@ -48,7 +48,7 @@ const Redirect = ({ type }) => {
         userId,
       },
     })
-  }, [])
+  }, [code, codeGrantMutation, oauthState, signature])
 
   const doRedirect = () => {
     if (data?.redirectOptions) {
@@ -68,7 +68,7 @@ const Redirect = ({ type }) => {
 
   React.useEffect(() => {
     doRedirect()
-  }, [data])
+  }, [data, doRedirect])
 
   if (mutationError || error)
     return (
@@ -91,8 +91,8 @@ const Redirect = ({ type }) => {
                 <span role="img" aria-label="alien invader">
                   👾
                 </span>
-                Using multiple Discord accounts? Be sure you're signed into the
-                right one in this browser -{' '}
+                Using multiple Discord accounts? Be sure you&apos;re signed into
+                the right one in this browser -{' '}
                 <a href="https://discord.com/login" className="text-blue-600">
                   Discord Login
                 </a>

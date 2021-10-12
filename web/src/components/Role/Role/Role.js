@@ -124,7 +124,6 @@ const Role = ({ role, isEditing }) => {
                 rel="noreferrer"
                 className="text-blue-600"
                 href={token.purchaseUrl}
-                rel="noreferrer"
               >
                 Token website
               </a>

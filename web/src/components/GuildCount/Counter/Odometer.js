@@ -147,15 +147,15 @@ const Odometer = ({
     setCounterValue(
       decimalsAdjust(toFixedNoRounding(impactRef.current, decimals + 1))
     )
-  }, [count])
+  }, [count, decimals])
 
   useEffect(() => {
     totalAmount ? setRate(interestRate) : setRate(0)
-  }, [totalAmount])
+  }, [totalAmount, interestRate])
 
   useEffect(() => {
     currentAmount && setCount(addGhostNumbers(currentAmount, decimals))
-  }, [currentAmount])
+  }, [currentAmount, decimals])
 
   // When NumberBig text component is used
   const isBig = textComponent.target === `span`

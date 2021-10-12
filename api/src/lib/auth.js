@@ -1,9 +1,4 @@
-import { parseJWT } from '@redwoodjs/api'
-import {
-  AuthenticationError,
-  ForbiddenError,
-  UserInputError,
-} from '@redwoodjs/graphql-server'
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 import { verifyDiscordServerManager } from 'src/lib/discord'
 import Sentry from 'src/lib/sentry'
 import { verify as verifyJwt } from 'jsonwebtoken'

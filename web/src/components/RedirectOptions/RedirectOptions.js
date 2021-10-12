@@ -15,7 +15,12 @@ const RedirectOptions = ({ options }) => {
       return (
         <Button href={option.url}>
           {option.roleName} -{' '}
-          <img className="h-6 ml-2 mr-2" src="/unlock.png" /> Unlock Protocol
+          <img
+            className="h-6 ml-2 mr-2"
+            src="/unlock.png"
+            alt="Unlock Protocol logo"
+          />{' '}
+          Unlock Protocol
         </Button>
       )
 

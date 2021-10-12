@@ -3,9 +3,7 @@ const Detail = ({ title, text }) => (
     <h3 className="text-1xl text-gray-800 font-bold leading-none mb-3">
       {title}
     </h3>
-    <p className="mb-3" className="mb-5">
-      {text}
-    </p>
+    <p className="mb-5">{text}</p>
   </>
 )
 

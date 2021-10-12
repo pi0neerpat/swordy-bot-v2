@@ -1,4 +1,5 @@
 import { AuthenticationError } from '@redwoodjs/graphql-server'
+import { EnvelopError } from '@envelop/core'
 import fetch from 'cross-fetch'
 
 import { db } from 'src/lib/db'
@@ -148,7 +149,7 @@ export const addRoleForUser = async (
     }
   ).then((res) => res.text())
   if (response.includes('50013'))
-    throw Error(
+    throw EnvelopError(
       'The swordy-bot role is not high enough to manage this role. SERVER SETTINGS > ROLES > drag "swordy-bot-v2" role above all the roles you want to manage. Video guide: https://youtu.be/JeM8oJE94zg?t=71'
     )
 }

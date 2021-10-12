@@ -2,6 +2,7 @@ import { db } from 'src/lib/db'
 import { syncUserRole } from 'src/lib/role'
 import { getDiscordServerRoles } from 'src/lib/discord'
 import { addRoleForUser } from 'src/lib/discord'
+import { EnvelopError } from '@envelop/core'
 
 export const addRoleToken = async ({
   guildId,
@@ -57,7 +58,9 @@ export const syncRole = async ({ id }) => {
     role: { tokens, ...role },
   })
   if (!userHasRole)
-    throw new Error("Sorry you don't have the right tokens in your wallet")
+    throw new EnvelopError(
+      "Sorry you don't have the right tokens in your wallet"
+    )
   return role
 }
 

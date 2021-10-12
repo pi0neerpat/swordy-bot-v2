@@ -1,6 +1,7 @@
 require('dotenv').config()
 const Discord = require('discord.js')
 const { MessageEmbed } = require('discord.js')
+const Sentry = require('./sentry')
 
 const ApiMgr = require('./apiMgr')
 
@@ -44,6 +45,7 @@ const handleInvoke = async (message) => {
   } catch (e) {
     message.channel.stopTyping()
     console.log(e)
+    Sentry.captureException(e)
     message.reply(DISCORD_SERVER_ERROR)
   }
 }

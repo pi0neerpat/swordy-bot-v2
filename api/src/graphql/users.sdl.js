@@ -13,6 +13,6 @@ export const schema = gql`
   }
 
   type Query {
-    ownProfile: User @verifyOwnership
+    ownProfile: User @requireAuth
   }
 `

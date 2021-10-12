@@ -1,4 +1,4 @@
-import { AuthenticationError } from '@redwoodjs/graphql-server'
+import { AuthenticationError, EnvelopError } from '@redwoodjs/graphql-server'
 
 import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'
@@ -117,7 +117,7 @@ export const handleOauthCodeGrant = async ({
         },
       })
     } catch (e) {
-      throw new Error(
+      throw new EnvelopError(
         `Woops! It looks like this wallet may already be connected to another Discord account. ${e}`
       )
     }
@@ -132,7 +132,7 @@ export const handleOauthCodeGrant = async ({
     // Give the appropriate role
     const hasRole = await syncUserRole({ role, user })
     if (!hasRole)
-      throw new Error(
+      throw new EnvelopError(
         `Sorry, it doesn't look like you purchased a lock. Wallet address: ${
           user.address
         }, Locks:${role.tokens.map(
@@ -231,7 +231,7 @@ export const handleOauthCodeGrant = async ({
     )
     if (isUserManager)
       redirectOptions.push({
-        text: `Show admin tools for ${currentSessionGuild.name}`,
+        text: `Server admin tools`,
         url: `/login?state=${newOauthState}&id=${profile.id}`,
       })
     return redirectOptions

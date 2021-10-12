@@ -1,3 +1,4 @@
+import { EnvelopError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
 import { TOKEN_TYPES } from 'src/lib/role/constants'
 import { checkTokenBalance } from 'src/lib/web3/token'
@@ -33,7 +34,7 @@ export const syncUserRole = async ({ user, role }) => {
         }
         if (hasRole) userHasRole = true
       } catch (e) {
-        throw new Error(
+        throw new EnvelopError(
           `We had trouble with token ${contractAddress.substring(
             0,
             15

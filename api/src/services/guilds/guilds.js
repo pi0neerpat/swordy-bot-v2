@@ -1,9 +1,7 @@
-import { AuthenticationError } from '@redwoodjs/graphql-server'
 import { db } from 'src/lib/db'
 
 import {
   getDiscordServerRoles,
-  fetchDiscordAccessToken,
   verifyDiscordServerManager,
 } from 'src/lib/discord'
 

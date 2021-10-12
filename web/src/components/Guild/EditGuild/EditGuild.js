@@ -1,9 +1,8 @@
-import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes, Link } from '@redwoodjs/router'
+import { routes, Link } from '@redwoodjs/router'
 import RoleCell from 'src/components/Role/RoleCell'
 import ServerRolesCell from 'src/components/Role/ServerRolesCell'
 
-const EditGuild = ({ guild, refetch }) => {
+const EditGuild = ({ guild }) => {
   return (
     <div className="p-4">
       <div className="flex items-center justify-between">

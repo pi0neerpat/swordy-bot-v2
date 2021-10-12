@@ -16,7 +16,7 @@ export const standard = defineScenario({
             type: 'String',
           },
         },
-      }
+      },
     },
 
     two: {
@@ -35,7 +35,7 @@ export const standard = defineScenario({
             type: 'String',
           },
         },
-      }
+      },
     },
   },
 })

@@ -7,12 +7,6 @@ import {
   Submit,
 } from '@redwoodjs/forms'
 
-const formatDatetime = (value) => {
-  if (value) {
-    return value.replace(/:\d{2}\.\d{3}\w/, '');
-  }
-}
-
 const GuildForm = (props) => {
   const onSubmit = (data) => {
     props.onSave(data, props?.guild?.id)

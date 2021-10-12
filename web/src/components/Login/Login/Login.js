@@ -1,4 +1,4 @@
-import { Link, routes, navigate } from '@redwoodjs/router'
+import { routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
@@ -7,11 +7,10 @@ import { MobileWalletIcon, MetamaskIcon } from 'src/components/Icons'
 const READY = 'ready'
 const LOADING = 'loading'
 const COMPLETE = 'complete'
-const ERROR = 'error'
 
 const Login = () => {
   const [status, setStatus] = React.useState(READY)
-  const { logIn, logOut, isAuthenticated, loading, currentUser } = useAuth()
+  const { logIn, logOut } = useAuth()
   const { state, id } = useParams()
 
   const onLogIn = async (type) => {
@@ -22,19 +21,21 @@ const Login = () => {
       navigate(routes.profile())
     }, 3000)
   }
-  const onLogOut = async () => {
-    await logOut()
-  }
 
   const renderCallToAction = () => {
+    // TODO: Better handling for failed login attempts
+    {
+      /*
     // if (queryError)
-    if (false)
+        if (false)
       return (
         <p className="mt-8 text-xl">
           We had a problem! Please let us know in our Discord server if this
           keeps happening.
         </p>
       )
+      */
+    }
     // Happy case
     return (
       <>

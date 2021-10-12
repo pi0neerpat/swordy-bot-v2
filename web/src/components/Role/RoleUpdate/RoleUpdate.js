@@ -1,6 +1,6 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { Link, routes, navigate } from '@redwoodjs/router'
+import { routes, navigate } from '@redwoodjs/router'
 import RoleUpdateForm from 'src/components/Role/RoleUpdate/RoleUpdateForm'
 
 const UPDATE_GUILD_ROLE_MUTATION = gql`
@@ -44,7 +44,6 @@ const RoleUpdate = ({ role, guildId }) => {
     })
   }
 
-  const onSubmit = () => {}
   return (
     <div>
       <RoleUpdateForm

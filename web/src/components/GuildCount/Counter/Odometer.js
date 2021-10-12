@@ -57,7 +57,6 @@ const calculateVelocity = (amount) => {
 }
 
 const toFixedNoRounding = (num, decimals) => {
-  // eslint-disable-next-line i18next/no-literal-string
   const reg = new RegExp('^-?\\d+(?:\\.\\d{0,' + decimals + '})?', 'g')
   const a = num.toString().match(reg)[0]
   const dot = a.indexOf('.')

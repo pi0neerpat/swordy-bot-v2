@@ -4,8 +4,8 @@ const { HttpLink } = require('apollo-link-http')
 const fetch = require('cross-fetch')
 const gql = require('graphql-tag')
 
-const POST_MESSAGE_QUERY = gql`
-  query POST_MESSAGE_QUERY(
+const POST_MESSAGE_MUTATION = gql`
+  mutation POST_MESSAGE_MUTATION(
     $content: String!
     $userId: String!
     $platform: String!
@@ -59,8 +59,8 @@ class ApiMgr {
 
   async postMessage({ message }) {
     try {
-      const res = await this.client.query({
-        query: POST_MESSAGE_QUERY,
+      const res = await this.client.mutate({
+        mutation: POST_MESSAGE_MUTATION,
         variables: {
           content: message.content,
           userId: message.member.id,

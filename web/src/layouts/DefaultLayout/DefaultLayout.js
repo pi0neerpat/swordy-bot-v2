@@ -55,7 +55,11 @@ const DefaultLayout = ({ children }) => {
               </Link>
             </div>
             <div className="flex justify-between items-center">
-              <a href={process.env.DISCORD_INVITE_LINK} target="_blank">
+              <a
+                href={process.env.DISCORD_INVITE_LINK}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <DiscordIcon />
               </a>
               {loginButtons}
@@ -81,6 +85,7 @@ const DefaultLayout = ({ children }) => {
                     className="text-blue-600"
                     target="_blank"
                     href="https://redwoodjs.com"
+                    rel="noreferrer"
                   >
                     RedwoodJS
                   </a>
@@ -89,6 +94,7 @@ const DefaultLayout = ({ children }) => {
                     className="text-blue-600"
                     target="_blank"
                     href="https://github.com/oneclickdapp/ethereum-auth"
+                    rel="noreferrer"
                   >
                     @oneclickdapp/ethereum-auth
                   </a>
@@ -97,6 +103,7 @@ const DefaultLayout = ({ children }) => {
                     href="https://twitter.com/pi0neerpat"
                     className="text-blue-600"
                     target="_blank"
+                    rel="noreferrer"
                   >
                     @pi0neerpat
                   </a>

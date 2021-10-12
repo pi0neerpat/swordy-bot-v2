@@ -4,14 +4,14 @@ export const standard = defineScenario({
       data: {
         address: 'String3304752',
         authDetail: { create: { nonce: 'String' } },
-      }
+      },
     },
 
     two: {
       data: {
         address: 'String6399948',
         authDetail: { create: { nonce: 'String' } },
-      }
+      },
     },
   },
 })

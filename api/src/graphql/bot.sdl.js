@@ -9,7 +9,7 @@ export const schema = gql`
     text: String
     roleName: String
   }
-  type Query {
+  type Mutation {
     postMessage(
       content: String!
       userId: String!
@@ -17,8 +17,6 @@ export const schema = gql`
       guildId: String!
       guild: JSON!
     ): Response! @skipAuth
-  }
-  type Mutation {
     updatePromptMessageId(userId: String!, promptMessageId: String!): String!
       @skipAuth
     oauthCodeGrant(

@@ -30,7 +30,7 @@ export const addRoleToken = async ({
   return role
 }
 
-export const removeRoleToken = async ({ id, roleId, tokenId }) => {
+export const removeRoleToken = async ({ roleId, tokenId }) => {
   const role = await db.role.update({
     where: { id: roleId },
     data: {

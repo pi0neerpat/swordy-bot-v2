@@ -1,5 +1,5 @@
 import { useMutation } from '@redwoodjs/web'
-import { routes, navigate, useParams } from '@redwoodjs/router'
+import { useParams } from '@redwoodjs/router'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
@@ -75,18 +75,24 @@ const Redirect = ({ type }) => {
       <DefaultLayout>
         <div className="mt-8 sm:text-center lg:text-left">
           <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            ⛈️ Oops! Something went wrong
+            <span role="img" aria-label="cloud_with_lightning_and_rain">
+              ⛈️
+            </span>{' '}
+            Oops! Something went wrong
           </h1>
           <p className="mt-8 text-s text-grey-600">
             <b className="mt-8 text-s text-blue-600">
-              Please restart by typing "!unlock" in Discord
+              Please restart by typing &quot;!unlock&quot; in Discord
             </b>
             <br />
             <br />
             <ul>
               <li>
-                👾 Using multiple Discord accounts? Be sure you're signed into
-                the right one in this browser -{' '}
+                <span role="img" aria-label="alien invader">
+                  👾
+                </span>
+                Using multiple Discord accounts? Be sure you're signed into the
+                right one in this browser -{' '}
                 <a href="https://discord.com/login" className="text-blue-600">
                   Discord Login
                 </a>

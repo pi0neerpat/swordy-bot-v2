@@ -5,6 +5,7 @@ module.exports = {
   bracketSpacing: true,
   tabWidth: 2,
   semi: false,
+  'react/no-unescaped-entities': false,
   singleQuote: true,
   arrowParens: 'always',
   overrides: [

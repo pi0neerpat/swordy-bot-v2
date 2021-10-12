@@ -19,7 +19,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    authChallenge(input: AuthChallengeInput!): AuthChallengeResult
-    authVerify(input: AuthVerifyInput!): AuthVerifyResult
+    authChallenge(input: AuthChallengeInput!): AuthChallengeResult @skipAuth
+    authVerify(input: AuthVerifyInput!): AuthVerifyResult @skipAuth
   }
 `

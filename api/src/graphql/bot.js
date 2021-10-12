@@ -16,16 +16,17 @@ export const schema = gql`
       platform: String!
       guildId: String!
       guild: JSON!
-    ): Response!
+    ): Response! @skipAuth
   }
   type Mutation {
     updatePromptMessageId(userId: String!, promptMessageId: String!): String!
+      @skipAuth
     oauthCodeGrant(
       oauthState: String
       code: String
       type: String!
       signature: String
       userId: String
-    ): [RedirectOption!]!
+    ): [RedirectOption!]! @skipAuth
   }
 `

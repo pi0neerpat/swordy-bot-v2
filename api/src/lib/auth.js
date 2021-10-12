@@ -1,4 +1,9 @@
-import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { parseJWT } from '@redwoodjs/api'
+import {
+  AuthenticationError,
+  ForbiddenError,
+  UserInputError,
+} from '@redwoodjs/graphql-server'
 import { verifyDiscordServerManager } from 'src/lib/discord'
 import Sentry from 'src/lib/sentry'
 
@@ -85,7 +90,12 @@ export const requireAuth = ({ roles } = {}) => {
   }
 }
 
-export const verifyManager = async (name, { id, guildId }) => {
+export const verifyOwnership = (id) => {
+  if (context.currentUser.id !== id)
+    throw new UserInputError('User does not own this user data')
+}
+
+export const verifyManager = async ({ id, guildId }) => {
   const isUserManager = await verifyDiscordServerManager(
     id || guildId,
     context.currentUser.id

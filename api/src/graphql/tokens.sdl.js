@@ -10,14 +10,4 @@ export const schema = gql`
     Role: Role
     roleId: String
   }
-
-  input CreateTokenInput {
-    id: String!
-    chainId: String!
-    contractAddress: String!
-    type: String!
-    purchaseUrl: String
-    balance: String
-    iconUrl: String
-  }
 `

@@ -1,16 +1,7 @@
 import { db } from 'src/lib/db'
-import { requireAuth, verifyManager } from 'src/lib/auth'
 import { syncUserRole } from 'src/lib/role'
 import { getDiscordServerRoles } from 'src/lib/discord'
 import { addRoleForUser } from 'src/lib/discord'
-
-// Used when the environment variable REDWOOD_SECURE_SERVICES=1
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-  rules.add(verifyManager, {
-    only: ['addRoleToken', 'removeRoleToken'],
-  })
-}
 
 export const addRoleToken = async ({
   guildId,

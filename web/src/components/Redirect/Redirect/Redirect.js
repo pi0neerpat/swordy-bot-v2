@@ -68,6 +68,7 @@ const Redirect = ({ type }) => {
 
   React.useEffect(() => {
     doRedirect()
+    /*eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [data])
 
   if (mutationError || error)

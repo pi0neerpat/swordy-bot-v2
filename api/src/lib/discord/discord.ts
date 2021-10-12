@@ -30,6 +30,7 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
   const encodedBody = Object.keys(body)
     .map(
       (key) =>
+        /*eslint-disable-next-line @typescript-eslint/no-explicit-any */
         encodeURIComponent(key) + '=' + encodeURIComponent((body as any)[key])
     )
     .join('&')
@@ -194,6 +195,7 @@ export const refreshDiscordAccessToken = async (
   const encodedBody = Object.keys(body)
     .map(
       (key) =>
+        /*eslint-disable-next-line @typescript-eslint/no-explicit-any */
         encodeURIComponent(key) + '=' + encodeURIComponent((body as any)[key])
     )
     .join('&')

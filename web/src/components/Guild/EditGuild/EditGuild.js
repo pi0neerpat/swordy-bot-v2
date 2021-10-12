@@ -1,35 +1,9 @@
-import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
 import { navigate, routes, Link } from '@redwoodjs/router'
 import RoleCell from 'src/components/Role/RoleCell'
 import ServerRolesCell from 'src/components/Role/ServerRolesCell'
 
-const UPDATE_GUILD_MUTATION = gql`
-  mutation AddGuildRoleMutation($id: String!, $input: AddGuildRoleInput!) {
-    addGuildRole(id: $id, input: $input) {
-      id
-      platform
-      name
-      iconUrl
-      description
-    }
-  }
-`
-
 const EditGuild = ({ guild, refetch }) => {
-  const [addGuildRole, { loading, error }] = useMutation(
-    UPDATE_GUILD_MUTATION,
-    {
-      onCompleted: () => {
-        toast.success('Guild role updated!')
-      },
-    }
-  )
-
-  const onSave = (input, id) => {
-    addGuildRole({ variables: { id, input } })
-  }
-
   return (
     <div className="p-4">
       <div className="flex items-center justify-between">

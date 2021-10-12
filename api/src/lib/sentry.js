@@ -1,5 +1,5 @@
-/* eslint-disable-next-line no-unused-vars */
 import * as Sentry from '@sentry/node'
+/* eslint-disable-next-line no-unused-vars */
 import * as Tracing from '@sentry/tracing'
 
 Sentry.init({

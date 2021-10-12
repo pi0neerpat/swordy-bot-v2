@@ -93,7 +93,13 @@ const Login = () => {
 
       <div className="mt-8 text-center ">
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-          👋 Are you worthy? 🔮
+          <span role="img" aria-label="Waving hand">
+            👋
+          </span>{' '}
+          Are you worthy?{' '}
+          <span role="img" aria-label="Crystal ball">
+            🔮
+          </span>
         </h1>
         <p className="mt-8">Sign-in with your wallet</p>
         {renderCallToAction()}

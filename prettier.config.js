@@ -6,6 +6,7 @@ module.exports = {
   tabWidth: 2,
   semi: false,
   'react/no-unescaped-entities': false,
+  '@typescript-eslint/no-explicit-any': false,
   singleQuote: true,
   arrowParens: 'always',
   overrides: [

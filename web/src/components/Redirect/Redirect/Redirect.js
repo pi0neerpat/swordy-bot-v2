@@ -48,7 +48,7 @@ const Redirect = ({ type }) => {
         userId,
       },
     })
-  }, [code, codeGrantMutation, oauthState, signature])
+  }, [code, codeGrantMutation, oauthState, signature, type, userId])
 
   const doRedirect = () => {
     if (data?.redirectOptions) {
@@ -68,7 +68,7 @@ const Redirect = ({ type }) => {
 
   React.useEffect(() => {
     doRedirect()
-  }, [data, doRedirect])
+  }, [data])
 
   if (mutationError || error)
     return (

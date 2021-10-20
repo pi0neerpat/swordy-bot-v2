@@ -1,8 +1,8 @@
 import EditGuild from 'src/components/Guild/EditGuild'
 
 export const QUERY = gql`
-  query EditGuildById($id: String!) {
-    guild: guild(id: $id) {
+  query EditGuildById($guildId: String!) {
+    guild: guild(guildId: $guildId) {
       id
       platform
       name

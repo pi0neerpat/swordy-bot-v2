@@ -87,9 +87,9 @@ export const requireAuth = ({ roles } = {}) => {
   }
 }
 
-export const verifyManager = async ({ id, guildId }) => {
+export const verifyManager = async (guildId) => {
   const isUserManager = await verifyDiscordServerManager(
-    id || guildId,
+    guildId,
     context.currentUser.id
   )
   if (!isUserManager) {

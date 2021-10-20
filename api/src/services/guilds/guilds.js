@@ -32,21 +32,21 @@ export const guildCount = async () => {
   return _all
 }
 
-export const guild = async ({ id }) => {
+export const guild = async ({ guildId }) => {
   const isUserManager = await verifyDiscordServerManager(
-    id,
+    guildId,
     context.currentUser.id
   )
 
   const guild = await db.guild.findUnique({
-    where: { id },
+    where: { id: guildId },
   })
   return { isUserManager, ...guild }
 }
 
-export const guildDiscordRoles = async ({ id }) => {
-  const serverRoles = await getDiscordServerRoles(id)
-  const roles = await db.guild.findUnique({ where: { id } }).roles()
+export const guildDiscordRoles = async ({ guildId }) => {
+  const serverRoles = await getDiscordServerRoles(guildId)
+  const roles = await db.guild.findUnique({ where: { id: guildId } }).roles()
   const roleIds = roles.map((role) => role.id)
   // Remove the roles that are already token-gated
   return serverRoles.filter((role) => !roleIds.includes(role.id))

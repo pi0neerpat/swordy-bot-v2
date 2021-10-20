@@ -13,10 +13,7 @@ export const schema = gql`
 
 const validate = async ({ context }) => {
   const { guildId } = context.variables
-  await applicationVerifyManager({
-    id: context.currentUser.id,
-    guildId,
-  })
+  await applicationVerifyManager(guildId)
 }
 
 const verifyManager = createValidatorDirective(schema, validate)

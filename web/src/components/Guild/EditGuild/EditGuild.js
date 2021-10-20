@@ -42,7 +42,7 @@ const EditGuild = ({ guild }) => {
         )}
       </div>
       <p className="mt-8">Roles without token access:</p>
-      <ServerRolesCell id={guild.id} />
+      <ServerRolesCell guildId={guild.id} />
     </div>
   )
 }

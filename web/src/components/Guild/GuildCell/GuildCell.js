@@ -1,8 +1,8 @@
 import Guild from 'src/components/Guild/Guild'
 
 export const QUERY = gql`
-  query FindGuildById($id: String!) {
-    guild: guild(id: $id) {
+  query FindGuildById($guildId: String!) {
+    guild: guild(guildId: $guildId) {
       id
       platform
       name

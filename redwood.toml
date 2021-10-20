@@ -38,8 +38,7 @@
     'DISCORD_BOT_TOKEN',
     # Database
     'DATABASE',
-    'REDWOOD_SECURE_SERVICES'
-  ]
+    'REDWOOD_SECURE_SERVICES' ]
 [browser]
   open = true
 [experimental]

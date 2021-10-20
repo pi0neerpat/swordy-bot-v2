@@ -9,7 +9,7 @@
   title = "Swordy Bot"
   port = 8910
   host = "0.0.0.0"
-  apiProxyPath = "/.redwood/functions",
+  apiProxyPath = "/.redwood/functions"
   includeEnvironmentVariables = [
     # Discord
     'DISCORD_INVITE_LINK'

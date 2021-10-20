@@ -141,13 +141,15 @@ export const handleOauthCodeGrant = async ({
             ` Address: ${token.contractAddress} Network: ${token.chainId}`
         )}`
       )
+    return []
+    // TODO:  Figure out why this isn't working
     // Redirect back to discord
-    const inviteUrl = await getDiscordInviteUrl(role.guildId)
-    return [
-      {
-        url: inviteUrl,
-      },
-    ]
+    // const inviteUrl = await getDiscordInviteUrl(role.guildId)
+    // return [
+    //   {
+    //     url: inviteUrl,
+    //   },
+    // ]
   } else if (type === 'discord') {
     // User is coming from Discord
     const tokenData = await getDiscordAccessTokenFromCode(code)

@@ -111,7 +111,7 @@ const Redirect = ({ type }) => {
       <div className="flex-grow min-w-screen min-h-screen ">
         <div className="mt-16 flex items-center justify-center">
           <CheckmarkIcon width="2rem" height="2rem" color="green" />
-          <p>Success! Taking you back to Discord...</p>
+          <p>Success! Close this page and head back to Discord.</p>
         </div>
       </div>
     )

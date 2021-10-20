@@ -27,6 +27,7 @@
     'MUMBAI_RPC',
     'BSC_MAINNET_RPC',
     'BSC_TESTNET_RPC',
+    'UBIQ_RPC',
     # Oauth
     'PUBLIC_REDIRECT_URL',
     # Sentry.io

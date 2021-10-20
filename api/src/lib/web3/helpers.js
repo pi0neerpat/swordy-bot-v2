@@ -12,6 +12,7 @@ export const EIP_155_NETWORK_SPEC = [
   { name: 'mumbai', chainId: 80001 },
   { name: 'bsc-mainnet', chainId: 56 },
   { name: 'bsc-testnet', chainId: 97 },
+  { name: 'ubiq', chainId: 8 },
 ]
 
 export const getNetworkNameFromId = (chainId) => {
@@ -31,6 +32,7 @@ export const getProviderByChainId = (chainId) => {
     if (chainId == 80001) return new JsonRpcProvider(process.env.MUMBAI_RPC)
     if (chainId == 56) return new JsonRpcProvider(process.env.BSC_MAINNET_RPC)
     if (chainId == 97) return new JsonRpcProvider(process.env.BSC_TESTNET_RPC)
+    if (chainId == 8) return new JsonRpcProvider(process.env.UBIQ_RPC)
     return new InfuraProvider(Number(chainId), process.env.INFURA_ID)
   } catch (error) {
     throw new Error(error)

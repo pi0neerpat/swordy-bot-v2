@@ -12,7 +12,7 @@
   apiProxyPath = "/.redwood/functions"
   includeEnvironmentVariables = [
     # Discord
-    'DISCORD_INVITE_LINK'
+    'DISCORD_INVITE_LINK',
     'DISCORD_PUBLIC_CLIENT_ID',
   ]
 [api]

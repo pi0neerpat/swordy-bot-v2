@@ -1,21 +1,9 @@
 import { db } from 'src/lib/db'
-import { requireAuth, verifyManager } from 'src/lib/auth'
+
 import {
   getDiscordServerRoles,
-  fetchDiscordAccessToken,
   verifyDiscordServerManager,
 } from 'src/lib/discord'
-
-import { AuthenticationError } from '@redwoodjs/api'
-
-// Used when the environment variable REDWOOD_SECURE_SERVICES=1
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-  rules.add(verifyManager, {
-    only: ['guildDiscordRoles'],
-  })
-  rules.skip({ only: ['guildCount', 'guildStats'] })
-}
 
 export const guildStats = () => {
   return db.guild.findMany({

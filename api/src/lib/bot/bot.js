@@ -1,4 +1,5 @@
-import { AuthenticationError } from '@redwoodjs/api'
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+import { EnvelopError } from '@envelop/core'
 
 import { db } from 'src/lib/db'
 import { v4 as uuidv4 } from 'uuid'
@@ -15,11 +16,7 @@ import {
   verifyDiscordServerManager,
   deleteMessage,
 } from 'src/lib/discord'
-import {
-  LOGIN_URL,
-  DISCORD_INITIAL_AUTH,
-  AVATAR_BASE_URL,
-} from 'src/lib/bot/constants'
+import { DISCORD_INITIAL_AUTH, AVATAR_BASE_URL } from 'src/lib/bot/constants'
 import { TOKEN_TYPES } from 'src/lib/role/constants'
 import { syncUserRole } from 'src/lib/role'
 
@@ -51,10 +48,8 @@ const getRolesWithTokens = async (roles) =>
   )
 
 export const handleMessage = async ({
-  content,
   userId,
   platform,
-  guildId,
   guild: guildObject,
 }) => {
   const oauthState = uuidv4()
@@ -123,7 +118,7 @@ export const handleOauthCodeGrant = async ({
         },
       })
     } catch (e) {
-      throw new Error(
+      throw new EnvelopError(
         `Woops! It looks like this wallet may already be connected to another Discord account. ${e}`
       )
     }
@@ -138,7 +133,7 @@ export const handleOauthCodeGrant = async ({
     // Give the appropriate role
     const hasRole = await syncUserRole({ role, user })
     if (!hasRole)
-      throw new Error(
+      throw new EnvelopError(
         `Sorry, it doesn't look like you purchased a lock. Wallet address: ${
           user.address
         }, Locks:${role.tokens.map(
@@ -209,14 +204,13 @@ export const handleOauthCodeGrant = async ({
         (token) => token.type == TOKEN_TYPES.UNLOCK
       )
       // Role is not using Unlock protocol
-      if (!tokensWithUnlock) {
+      if (!tokensWithUnlock.length) {
         return redirectOptions.push({
           roleName: role.name,
           text: 'ERC20 or ERC721 token',
           url: `/login?state=${newOauthState}&id=${profile.id}`,
         })
       }
-      console.log(tokensWithUnlock)
       // Role is using Unlock, so only give the paywall option
       redirectOptions.push({
         roleName: role.name,
@@ -238,7 +232,7 @@ export const handleOauthCodeGrant = async ({
     )
     if (isUserManager)
       redirectOptions.push({
-        text: `Show admin tools for ${currentSessionGuild.name}`,
+        text: `Server admin tools`,
         url: `/login?state=${newOauthState}&id=${profile.id}`,
       })
     return redirectOptions

@@ -1,7 +1,7 @@
 import { postMessage } from './bot'
 
 describe('bot', () => {
-  scenario('post invocation message', async (scenario) => {
+  scenario('post invocation message', async (_scenario) => {
     const result = await postMessage({
       content: '!kneel',
       platformUserId: '381135787330109441',

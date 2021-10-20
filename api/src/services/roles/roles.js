@@ -1,16 +1,8 @@
 import { db } from 'src/lib/db'
-import { requireAuth, verifyManager } from 'src/lib/auth'
 import { syncUserRole } from 'src/lib/role'
 import { getDiscordServerRoles } from 'src/lib/discord'
 import { addRoleForUser } from 'src/lib/discord'
-
-// Used when the environment variable REDWOOD_SECURE_SERVICES=1
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-  rules.add(verifyManager, {
-    only: ['addRoleToken', 'removeRoleToken'],
-  })
-}
+import { EnvelopError } from '@envelop/core'
 
 export const addRoleToken = async ({
   guildId,
@@ -39,7 +31,7 @@ export const addRoleToken = async ({
   return role
 }
 
-export const removeRoleToken = async ({ id, roleId, tokenId }) => {
+export const removeRoleToken = async ({ roleId, tokenId }) => {
   const role = await db.role.update({
     where: { id: roleId },
     data: {
@@ -66,7 +58,9 @@ export const syncRole = async ({ id }) => {
     role: { tokens, ...role },
   })
   if (!userHasRole)
-    throw new Error("Sorry you don't have the right tokens in your wallet")
+    throw new EnvelopError(
+      "Sorry you don't have the right tokens in your wallet"
+    )
   return role
 }
 

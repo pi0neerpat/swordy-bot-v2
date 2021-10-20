@@ -1,4 +1,4 @@
-import { Link, routes, navigate } from '@redwoodjs/router'
+import { routes, navigate } from '@redwoodjs/router'
 import { useAuth } from '@redwoodjs/auth'
 import { useParams } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
@@ -7,11 +7,10 @@ import { MobileWalletIcon, MetamaskIcon } from 'src/components/Icons'
 const READY = 'ready'
 const LOADING = 'loading'
 const COMPLETE = 'complete'
-const ERROR = 'error'
 
 const Login = () => {
   const [status, setStatus] = React.useState(READY)
-  const { logIn, logOut, isAuthenticated, loading, currentUser } = useAuth()
+  const { logIn } = useAuth()
   const { state, id } = useParams()
 
   const onLogIn = async (type) => {
@@ -22,19 +21,21 @@ const Login = () => {
       navigate(routes.profile())
     }, 3000)
   }
-  const onLogOut = async () => {
-    await logOut()
-  }
 
   const renderCallToAction = () => {
+    // TODO: Better handling for failed login attempts
+    {
+      /*
     // if (queryError)
-    if (false)
+        if (false)
       return (
         <p className="mt-8 text-xl">
           We had a problem! Please let us know in our Discord server if this
           keeps happening.
         </p>
       )
+      */
+    }
     // Happy case
     return (
       <>
@@ -71,7 +72,10 @@ const Login = () => {
           </ul>
         ) : (
           <p className="mt-8 text-xl">
-            🎉 Login complete! Taking you to your profile...
+            <span role="img" aria-label="Confetti popper">
+              🎉
+            </span>
+            Login complete! Taking you to your profile...
           </p>
         )}
       </>
@@ -89,12 +93,19 @@ const Login = () => {
 
       <div className="mt-8 text-center ">
         <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-          👋 Are you worthy? 🔮
+          <span role="img" aria-label="Waving hand">
+            👋
+          </span>{' '}
+          Are you worthy?{' '}
+          <span role="img" aria-label="Crystal ball">
+            🔮
+          </span>
         </h1>
         <p className="mt-8">Sign-in with your wallet</p>
         {renderCallToAction()}
         <p className="mt-12 text-s text-grey-600">
-          Having trouble? In your Discord server type "<code>!unlock</code>"
+          Having trouble? In your Discord server type &quot;<code>!unlock</code>
+          &quot;
         </p>
       </div>
     </>

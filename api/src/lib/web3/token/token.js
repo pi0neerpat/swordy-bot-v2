@@ -12,7 +12,7 @@ export const checkTokenBalance = async ({
   chainId,
   contractAddress,
   type,
-  balance,
+  _balance,
 }) => {
   try {
     let tokenId = null // Specific NFTs are not implemented yet

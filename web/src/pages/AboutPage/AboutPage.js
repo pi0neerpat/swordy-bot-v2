@@ -1,13 +1,9 @@
-import { Link, routes } from '@redwoodjs/router'
-
 const Detail = ({ title, text }) => (
   <>
     <h3 className="text-1xl text-gray-800 font-bold leading-none mb-3">
       {title}
     </h3>
-    <p className="mb-3" className="mb-5">
-      {text}
-    </p>
+    <p className="mb-5">{text}</p>
   </>
 )
 
@@ -16,7 +12,11 @@ const AboutPage = () => {
     <>
       <div className="pt-6">
         <h1 className="text-3xl text-gray-800 font-bold leading-none mb-6">
-          About ⚔️ Swordy Bot
+          About{' '}
+          <span role="img" aria-label="Crossed swords">
+            ⚔️
+          </span>{' '}
+          Swordy Bot
         </h1>
         <Detail
           title="How does it work?"
@@ -31,6 +31,7 @@ const AboutPage = () => {
                 className="text-blue-600"
                 href="https://pi0neerpat.gitbook.io/one-click-dapp/swordy-bot/swordy-bot"
                 target="_blank"
+                rel="noreferrer"
               >
                 https://pi0neerpat.gitbook.io/one-click-dapp/swordy-bot/swordy-bot
               </a>{' '}
@@ -46,6 +47,7 @@ const AboutPage = () => {
                 className="text-blue-600"
                 href="https://docs.unlock-protocol.com/creators/deploying-lock"
                 target="_blank"
+                rel="noreferrer"
               >
                 https://docs.unlock-protocol.com/creators/deploying-lock
               </a>{' '}

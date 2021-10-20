@@ -1,8 +1,5 @@
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
-import { Link, routes, navigate } from '@redwoodjs/router'
 import GuildCell from 'src/components/Guild/GuildCell'
-import { PlusIcon, CircleArrowIcon } from 'src/components/Icons'
+import { CircleArrowIcon } from 'src/components/Icons'
 import BotButton from 'src/components/BotButton'
 
 const User = ({ user }) => {
@@ -13,7 +10,7 @@ const User = ({ user }) => {
           <img
             className="w-16"
             src={user.iconUrl || '/emptyUser.png'}
-            alt={`Profile image for ${user.username}`}
+            alt={`Profile for ${user.username}`}
           />
         </div>
         <div className="ml-4">
@@ -23,7 +20,7 @@ const User = ({ user }) => {
           <p className="break-all text-xs sm:text-lg">{user.address}</p>
         </div>
       </div>
-      <p className="mt-8">Guilds you've used with Swordy Bot:</p>
+      <p className="mt-8">Guilds you&apos;ve used with Swordy Bot:</p>
 
       {user.currentSessionGuild ? (
         <div className="mt-4">
@@ -42,7 +39,7 @@ const User = ({ user }) => {
           ))}
       </div>
       <div>
-        <p className="mt-8">Don't see your server listed?</p>
+        <p className="mt-8">Don&apos;t see your server listed?</p>
         <div className="mt-4 p-4 rw-segment">
           <div className="flex items-center justify-between">
             <div className="flex items-center">

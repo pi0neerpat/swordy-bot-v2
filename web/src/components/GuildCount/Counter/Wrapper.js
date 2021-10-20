@@ -285,7 +285,7 @@ const Wrapper = styled.div`
       textColor || themeGet('colors.black')} !important;
   }
   .odometer-inside {
-    background: ${({ backgroundColor, theme }) =>
+    background: ${({ backgroundColor }) =>
       tinyColor(backgroundColor || '#fff')
         .darken(4)
         .toString()};

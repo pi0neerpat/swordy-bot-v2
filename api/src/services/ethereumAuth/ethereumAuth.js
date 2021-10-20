@@ -1,5 +1,3 @@
-import { AuthenticationError } from '@redwoodjs/api'
-
 import { bufferToHex } from 'ethereumjs-util'
 import { recoverPersonalSignature } from 'eth-sig-util'
 import jwt from 'jsonwebtoken'
@@ -21,10 +19,6 @@ export const getNonceMessage = (nonce, options) => {
         )
         .join('&')
   return NONCE_MESSAGE + 'salt=' + nonce + optionsText
-}
-
-export const beforeResolver = (rules) => {
-  rules.skip({ only: ['authChallenge', 'authVerify'] })
 }
 
 export const authChallenge = async ({

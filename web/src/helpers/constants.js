@@ -5,6 +5,7 @@ export const EIP_155_NETWORK_SPEC = [
   { name: 'mainnet', chainId: 1 },
   { name: 'xdai', chainId: 100 },
   { name: 'matic', chainId: 137 },
+  { name: 'ubiq', chainId: 8 },
   { name: 'goerli', chainId: 5 },
   { name: 'ropsten', chainId: 3 },
   { name: 'rinkeby', chainId: 4 },

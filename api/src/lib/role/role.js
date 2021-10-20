@@ -1,3 +1,5 @@
+import { EnvelopError } from '@envelop/core'
+
 import { db } from 'src/lib/db'
 import { TOKEN_TYPES } from 'src/lib/role/constants'
 import { checkTokenBalance } from 'src/lib/web3/token'
@@ -9,7 +11,7 @@ export const syncUserRole = async ({ user, role }) => {
   const { address: userAddress } = user
   let userHasRole = false
   await Promise.all(
-    tokens.map(async (token, index) => {
+    tokens.map(async (token) => {
       let hasRole = false
       const { chainId, contractAddress, type } = token
       try {
@@ -33,7 +35,7 @@ export const syncUserRole = async ({ user, role }) => {
         }
         if (hasRole) userHasRole = true
       } catch (e) {
-        throw new Error(
+        throw new EnvelopError(
           `We had trouble with token ${contractAddress.substring(
             0,
             15
@@ -61,28 +63,4 @@ export const syncUserRole = async ({ user, role }) => {
     })
   }
   return userHasRole
-}
-
-export const fetchRole = async ({
-  role: roleData,
-  token: tokenData,
-  guild: guildData,
-}) => {
-  // Create token
-  let token = await db.token.findUnique({
-    where: {
-      contractAddress: tokenData.contractAddress,
-      chainId: tokenData.chainId,
-    },
-  })
-  if (!token) {
-    token = await db.token.create({
-      data: {
-        contractAddress: tokenData.contractAddress,
-        chainId: tokenData.chainId,
-        type: tokenData.type,
-      },
-    })
-  }
-  return role
 }

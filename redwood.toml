@@ -10,13 +10,37 @@
   port = 8910
   host = "0.0.0.0"
   apiProxyPath = "/.redwood/functions"
-  includeEnvironmentVariables = ['ETHEREUM_JWT_SECRET', 'INFURA_ID',
-  'DATABASE', 'DISCORD_PUBLIC_CLIENT_ID', 'DISCORD_CLIENT_SECRET',
-  'DISCORD_PUBLIC_REDIRECT_URI']
+  includeEnvironmentVariables = [
+    # Discord
+    'DISCORD_INVITE_LINK',
+    'DISCORD_PUBLIC_CLIENT_ID',
+  ]
 [api]
   port = 8911
+  includeEnvironmentVariables = [
+    # Auth
+    'ETHEREUM_JWT_SECRET',
+    # Ethereum
+    'XDAI_RPC',
+    'INFURA_ID',
+    'MATIC_RPC',
+    'MUMBAI_RPC',
+    'BSC_MAINNET_RPC',
+    'BSC_TESTNET_RPC',
+    'UBIQ_RPC',
+    # Oauth
+    'PUBLIC_REDIRECT_URL',
+    # Sentry.io
+    'SENTRY_DSN',
+    # Discord
+    'DISCORD_PUBLIC_CLIENT_ID',
+    'DISCORD_CLIENT_SECRET',
+    'DISCORD_BOT_TOKEN',
+    # Database
+    'DATABASE',
+    'REDWOOD_SECURE_SERVICES' ]
 [browser]
   open = true
 [experimental]
   esbuild = false
-  useEnvelop = false
+  useEnvelop = true

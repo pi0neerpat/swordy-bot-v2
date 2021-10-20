@@ -1,5 +1,7 @@
-import { AuthenticationError, ForbiddenError, parseJWT } from '@redwoodjs/api'
+import { AuthenticationError, ForbiddenError } from '@redwoodjs/graphql-server'
 import { verifyDiscordServerManager } from 'src/lib/discord'
+import Sentry from 'src/lib/sentry'
+import { verify as verifyJwt } from 'jsonwebtoken'
 
 /**
  * getCurrentUser returns the user information together with
@@ -14,11 +16,13 @@ import { verifyDiscordServerManager } from 'src/lib/discord'
  * @see https://github.com/redwoodjs/redwood/tree/main/packages/auth for examples
  */
 export const getCurrentUser = async (
-  decoded,
-  { _token, _type },
+  _decoded,
+  { token, _type },
   { _event, _context }
 ) => {
-  return { ...decoded, roles: parseJWT({ decoded }).roles }
+  const decoded = verifyJwt(token, process.env.ETHEREUM_JWT_SECRET)
+  Sentry.setUser({ username: decoded.username, id: decoded.id })
+  return { ...decoded }
 }
 
 /**
@@ -83,7 +87,7 @@ export const requireAuth = ({ roles } = {}) => {
   }
 }
 
-export const verifyManager = async (name, { id, guildId }) => {
+export const verifyManager = async ({ id, guildId }) => {
   const isUserManager = await verifyDiscordServerManager(
     id || guildId,
     context.currentUser.id

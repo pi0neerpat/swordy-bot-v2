@@ -17,9 +17,9 @@ export const schema = gql`
   }
 
   type Query {
-    guildStats: [GuildStats!]!
-    guildCount: Int!
-    guild(id: String!): Guild
-    guildDiscordRoles(id: String!): [Role!]!
+    guildStats: [GuildStats!]! @skipAuth
+    guildCount: Int! @skipAuth
+    guild(id: String!): Guild @requireAuth
+    guildDiscordRoles(id: String!): [Role!]! @verifyManager
   }
 `

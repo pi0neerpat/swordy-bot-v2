@@ -1,5 +1,3 @@
-import { Link, routes } from '@redwoodjs/router'
-
 const GuildStats = ({ guild }) => {
   return (
     <div className="mt-4">

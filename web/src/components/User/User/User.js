@@ -24,7 +24,7 @@ const User = ({ user }) => {
 
       {user.currentSessionGuild ? (
         <div className="mt-4">
-          <GuildCell id={user.currentSessionGuild.id} />
+          <GuildCell guildId={user.currentSessionGuild.id} />
         </div>
       ) : (
         <div className="mt-4 p-4 rw-segment text-gray-500">
@@ -35,7 +35,7 @@ const User = ({ user }) => {
         {user.guilds
           .filter((guild) => guild.id !== user.currentSessionGuild.id)
           .map((guild, i) => (
-            <GuildCell key={i} id={guild.id} />
+            <GuildCell key={i} guildId={guild.id} />
           ))}
       </div>
       <div>

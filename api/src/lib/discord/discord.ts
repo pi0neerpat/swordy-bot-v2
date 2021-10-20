@@ -50,7 +50,6 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
 }
 
 export const getDiscordServerRoles = async (serverId: string) => {
-  console.log(serverId)
   const roles = await fetch(`${API_ENDPOINT}/guilds/${serverId}/roles`, {
     headers: {
       method: 'GET',
@@ -59,9 +58,7 @@ export const getDiscordServerRoles = async (serverId: string) => {
     },
   }).then((res) => res.json())
 
-  console.log(roles)
-
-  if (!roles || !roles.length)
+  if (!roles || roles.error)
     throw new AuthenticationError(
       `Can't access details for server #${serverId}. Swordy bot may have been removed.`
     )
@@ -76,7 +73,7 @@ export const getDiscordInviteUrl = async (serverId: string) => {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json())
-  console.log(data)
+  // NOTE: Its possible that there are no invite links for a server!
   if (!data || !data.length)
     throw new AuthenticationError(
       `Can't access details for server #${serverId}. Swordy bot may have been removed.`

@@ -46,6 +46,7 @@ export const authChallenge = async ({
       },
     },
     create: {
+      id: options.id,
       address,
       authDetail: {
         create: {

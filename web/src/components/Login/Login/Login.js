@@ -7,6 +7,7 @@ import { MobileWalletIcon, MetamaskIcon } from 'src/components/Icons'
 const READY = 'ready'
 const LOADING = 'loading'
 const COMPLETE = 'complete'
+const ERROR = 'error'
 
 const Login = () => {
   const [status, setStatus] = React.useState(READY)
@@ -15,70 +16,72 @@ const Login = () => {
 
   const onLogIn = async (type) => {
     setStatus(LOADING)
-    await logIn({ type, ...(state && { state, id }) })
-    setStatus(COMPLETE)
-    setTimeout(function () {
-      navigate(routes.profile())
-    }, 3000)
+    try {
+      await logIn({ type, ...(state && { state, id }) })
+      setStatus(COMPLETE)
+      setTimeout(function () {
+        navigate(routes.profile())
+      }, 3000)
+    } catch (e) {
+      console.log('onLogIn error')
+      setStatus(ERROR)
+    }
   }
 
   const renderCallToAction = () => {
-    // TODO: Better handling for failed login attempts
-    {
-      /*
-    // if (queryError)
-        if (false)
+    if (status === ERROR) {
       return (
         <p className="mt-8 text-xl">
-          We had a problem! Please let us know in our Discord server if this
-          keeps happening.
+          <span role="img" aria-label="magnifying glass">
+            🔎
+          </span>{' '}
+          Couldn&apos;t find your account. Is this your first time?
+          <br />
+          Try using the special link from Discord.
         </p>
       )
-      */
     }
-    // Happy case
+    if (status === COMPLETE) {
+      return (
+        <p className="mt-8 text-xl">
+          <span role="img" aria-label="Confetti popper">
+            🎉
+          </span>
+          Login complete! Taking you to your profile...
+        </p>
+      )
+    }
     return (
-      <>
-        {status !== COMPLETE ? (
-          <ul>
-            <li>
-              <button
-                disabled={status === LOADING}
-                className={
-                  'mt-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-base font-medium hover:bg-gray-300'
-                }
-                onClick={() => onLogIn()}
-              >
-                <div className="mr-4">
-                  <MetamaskIcon />
-                </div>
-                {status === LOADING ? 'Waiting...' : 'Log in with Ethereum'}
-              </button>
-            </li>
-            <li>
-              <button
-                disabled={status === LOADING}
-                className={
-                  'mt-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-base font-medium hover:bg-gray-300'
-                }
-                onClick={() => onLogIn('walletConnect')}
-              >
-                <div className="mr-4">
-                  <MobileWalletIcon />
-                </div>
-                {status === LOADING ? 'Waiting...' : 'Wallet Connect'}
-              </button>
-            </li>
-          </ul>
-        ) : (
-          <p className="mt-8 text-xl">
-            <span role="img" aria-label="Confetti popper">
-              🎉
-            </span>
-            Login complete! Taking you to your profile...
-          </p>
-        )}
-      </>
+      <ul>
+        <li>
+          <button
+            disabled={status === LOADING}
+            className={
+              'mt-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-base font-medium hover:bg-gray-300'
+            }
+            onClick={() => onLogIn()}
+          >
+            <div className="mr-4">
+              <MetamaskIcon />
+            </div>
+            {status === LOADING ? 'Waiting...' : 'Log in with Ethereum'}
+          </button>
+        </li>
+        <li>
+          <button
+            disabled={status === LOADING}
+            className={
+              'mt-4 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-base font-medium hover:bg-gray-300'
+            }
+            onClick={() => onLogIn('walletConnect')}
+          >
+            <div className="mr-4">
+              <MobileWalletIcon />
+            </div>
+            {status === LOADING ? 'Waiting...' : 'Wallet Connect'}
+          </button>
+        </li>
+      </ul>
     )
   }
 

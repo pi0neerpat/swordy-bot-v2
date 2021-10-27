@@ -62,7 +62,9 @@ export const getDiscordServerRoles = async (serverId: string) => {
     throw new AuthenticationError(
       `Can't access details for server #${serverId}. Swordy bot may have been removed.`
     )
-  return roles?.filter((role) => role.name !== '@everyone')
+  return roles?.filter(
+    (role) => role.name !== '@everyone' && !role.name.includes('swordy-bot-v2')
+  )
 }
 
 export const getDiscordInviteUrl = async (serverId: string) => {

@@ -25,7 +25,7 @@ model DiscordAuth {
 }
 
 model User {
-  id                    String       @id @default(uuid())
+  id                    String       @id
   address               String?      @unique
   authDetail            AuthDetail?  @relation(fields: [authDetailId], references: [id])
   authDetailId          String?

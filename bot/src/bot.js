@@ -35,7 +35,7 @@ const handleInvoke = async (message) => {
       }
       message.channel.stopTyping()
       const botMessage = await message.channel.send({ embed })
-      botMessage.delete({ timeout: 60000 })
+      botMessage.delete({ timeout: 60000 }).catch(() => {}) // Ignore already deleted messages
       await apiMgr.updatePromptMessageId({
         message: botMessage,
         userId: message.author.id,

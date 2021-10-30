@@ -13,6 +13,9 @@ export const EIP_155_NETWORK_SPEC = [
   { name: 'bsc-mainnet', chainId: 56 },
   { name: 'bsc-testnet', chainId: 97 },
   { name: 'ubiq', chainId: 8 },
+  { name: 'ubiq-testnet', chainId: 9 },
+  { name: 'avalanche-fuji-testnet', chainId: 43113 },
+  { name: 'avalanche', chainId: 43114 },
 ]
 
 export const getNetworkNameFromId = (chainId) => {
@@ -33,6 +36,10 @@ export const getProviderByChainId = (chainId) => {
     if (chainId == 56) return new JsonRpcProvider(process.env.BSC_MAINNET_RPC)
     if (chainId == 97) return new JsonRpcProvider(process.env.BSC_TESTNET_RPC)
     if (chainId == 8) return new JsonRpcProvider(process.env.UBIQ_RPC)
+    if (chainId == 9) return new JsonRpcProvider(process.env.UBIQ_TESTNET_RPC)
+    if (chainId == 43114) return new JsonRpcProvider(process.env.AVALANCHE_RPC)
+    if (chainId == 43113)
+      return new JsonRpcProvider(process.env.AVALANCE_FUJI_TESTNET_RPC)
     return new InfuraProvider(Number(chainId), process.env.INFURA_ID)
   } catch (error) {
     throw new Error(error)

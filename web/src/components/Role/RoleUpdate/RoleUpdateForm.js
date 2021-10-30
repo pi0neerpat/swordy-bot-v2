@@ -1,15 +1,32 @@
-import { Form, FormError, FieldError, Submit, Label } from '@redwoodjs/forms'
+import {
+  Form,
+  FormError,
+  FieldError,
+  Submit,
+  Label,
+  TextField,
+} from '@redwoodjs/forms'
 import AddressField from 'src/components/forms/AddressField'
 import TypeDropdown from 'src/components/forms/TypeDropdown'
 import NetworkDropdown from 'src/components/forms/NetworkDropdown'
+import { TOKEN_TYPES } from 'src/helpers/constants.js'
 
 const RoleUpdateForm = (props) => {
+  const [showTokenId, setShowTokenId] = React.useState()
   const onSubmit = (data) => {
     props.onSave(data, props?.role?.id)
   }
+
+  const handleFormChange = (e) => {
+    if (e.target.name === 'type') {
+      if (e.target.value === 'erc1155') return setShowTokenId(true)
+      return setShowTokenId(false)
+    }
+  }
+
   return (
     <div className="rw-form-wrapper ">
-      <Form error={props.error} onSubmit={onSubmit}>
+      <Form error={props.error} onSubmit={onSubmit} onChange={handleFormChange}>
         <FormError
           error={props.error}
           wrapperClassName="rw-form-error-wrapper"
@@ -25,6 +42,28 @@ const RoleUpdateForm = (props) => {
         </Label>
         <TypeDropdown name={`type`} validation={{ required: true }} />
         <FieldError name={`type`} className="rw-field-error" />
+        {showTokenId && (
+          <>
+            <Label
+              name={`tokenId`}
+              className="rw-label"
+              errorClassName="rw-label rw-label-error"
+            >
+              Token ID
+            </Label>
+            <TextField
+              name="tokenId"
+              validation={{
+                required: true,
+                pattern: { value: /^[0-9]$/ },
+              }}
+              className="rw-input"
+              placeholder="1"
+              errorClassName="rw-input rw-input-error"
+            />
+            <FieldError name={`tokenId`} className="rw-field-error" />
+          </>
+        )}
 
         <Label
           name={`chainId`}

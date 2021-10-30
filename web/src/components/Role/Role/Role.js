@@ -114,7 +114,8 @@ const Role = ({ role, isEditing }) => {
         >
           <div className="flex  items-center flex-wrap justify-between ">
             <p className="text-grey-600">
-              {getNetworkNameFromId(token.chainId)} • {token.type}
+              {getNetworkNameFromId(token.chainId)} • {token.type}{' '}
+              {token.tokenId && <>• ID {token.tokenId}</>}
               {' • '}
             </p>
             <p className="sm:text-lg break-all ml-2">{token.contractAddress}</p>

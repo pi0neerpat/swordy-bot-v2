@@ -57,10 +57,11 @@ model Token {
   id              String  @id @default(uuid())
   chainId         String
   contractAddress String
-  type            String // erc721, erc20, loot
-  purchaseUrl     String?
+  type            String // erc721, erc20, erc1155, loot
+  purchaseUrl     String? // Deprecated, could delete
   balance         String? // Units of wei
   iconUrl         String?
+  tokenId         Int? // Only used for ERC1155
   Role            Role?   @relation(fields: [roleId], references: [id])
   roleId          String?
 }

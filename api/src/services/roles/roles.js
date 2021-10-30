@@ -10,6 +10,7 @@ export const addRoleToken = async ({
   contractAddress,
   chainId,
   type,
+  tokenId,
 }) => {
   // Fetch name from Discord API
   const discordRoles = await getDiscordServerRoles(guildId)
@@ -19,13 +20,13 @@ export const addRoleToken = async ({
   const role = await db.role.upsert({
     where: { id: roleId },
     update: {
-      tokens: { create: { contractAddress, chainId, type } },
+      tokens: { create: { contractAddress, chainId, type, tokenId } },
     },
     create: {
       id: roleId,
       name: discordRole.name,
       guild: { connect: { id: guildId } },
-      tokens: { create: { contractAddress, chainId, type } },
+      tokens: { create: { contractAddress, chainId, type, tokenId } },
     },
   })
   return role

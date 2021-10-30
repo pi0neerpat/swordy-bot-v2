@@ -21,7 +21,10 @@ export const EIP_155_NETWORK_SPEC = [
 export const TOKEN_TYPES = [
   { value: 'unlock', text: 'Unlock Protocol' },
   { value: 'erc721', text: 'ERC721' },
-  { value: 'erc1155', text: 'ERC1155' },
+  {
+    value: 'erc1155',
+    text: 'ERC1155 eg. balanceOf(address _owner, uint256 _id)',
+  },
   // { value: 'erc20', text: 'ERC20' },
   // { value: 'loot', text: 'Loot' },
 ]

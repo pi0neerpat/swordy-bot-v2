@@ -9,5 +9,6 @@ export const schema = gql`
     iconUrl: String
     Role: Role
     roleId: String
+    tokenId: Int
   }
 `

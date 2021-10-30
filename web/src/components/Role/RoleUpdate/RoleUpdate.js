@@ -10,6 +10,7 @@ const UPDATE_GUILD_ROLE_MUTATION = gql`
     $contractAddress: String!
     $chainId: String!
     $type: String!
+    $tokenId: Int
   ) {
     addRoleToken(
       guildId: $guildId
@@ -17,6 +18,7 @@ const UPDATE_GUILD_ROLE_MUTATION = gql`
       roleId: $roleId
       chainId: $chainId
       type: $type
+      tokenId: $tokenId
     ) {
       id
     }

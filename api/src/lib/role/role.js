@@ -15,14 +15,7 @@ export const syncUserRole = async ({ user, role }) => {
       let hasRole = false
       const { chainId, contractAddress, type } = token
       try {
-        if (type == TOKEN_TYPES.ERC721 || type == TOKEN_TYPES.ERC20) {
-          hasRole = await checkTokenBalance({
-            userAddress,
-            chainId,
-            contractAddress,
-            type,
-          })
-        } else if (type == TOKEN_TYPES.UNLOCK) {
+        if (type == TOKEN_TYPES.UNLOCK) {
           try {
             hasRole = await checkUnlockBalance({
               userAddress,
@@ -32,8 +25,15 @@ export const syncUserRole = async ({ user, role }) => {
           } catch (e) {
             console.log(e)
           }
+        } else {
+          hasRole = await checkTokenBalance({
+            userAddress,
+            chainId,
+            contractAddress,
+            type,
+          })
+          if (hasRole) userHasRole = true
         }
-        if (hasRole) userHasRole = true
       } catch (e) {
         throw new EnvelopError(
           `We had trouble with token ${contractAddress.substring(

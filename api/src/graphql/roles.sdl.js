@@ -22,6 +22,7 @@ export const schema = gql`
       chainId: String!
       contractAddress: String!
       type: String!
+      tokenId: Int
     ): Role! @verifyManager
     removeRoleToken(guildId: String!, roleId: String!, tokenId: String!): Role!
       @verifyManager

@@ -42,6 +42,7 @@ const RoleUpdate = ({ role, guildId }) => {
         guildId,
         roleId: id,
         ...input,
+        tokenId: Number(input.tokenId),
       },
     })
   }

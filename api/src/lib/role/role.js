@@ -13,7 +13,7 @@ export const syncUserRole = async ({ user, role }) => {
   await Promise.all(
     tokens.map(async (token) => {
       let hasRole = false
-      const { chainId, contractAddress, type } = token
+      const { chainId, contractAddress, type, tokenId } = token
       try {
         if (type == TOKEN_TYPES.UNLOCK) {
           try {
@@ -31,6 +31,7 @@ export const syncUserRole = async ({ user, role }) => {
             chainId,
             contractAddress,
             type,
+            tokenId,
           })
           if (hasRole) userHasRole = true
         }

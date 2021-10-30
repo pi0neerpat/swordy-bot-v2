@@ -32,6 +32,9 @@ const handleInvoke = async (message) => {
         title: `${message.author.username}, ready to be knighted?`,
         description: `[Click here](${url}) to unlock more channels`,
         type: 'link',
+        footer: {
+          text: 'Swordy Bot will never DM you',
+        },
       }
       message.channel.stopTyping()
       const botMessage = await message.channel.send({ embed })

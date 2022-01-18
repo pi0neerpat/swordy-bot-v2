@@ -16,6 +16,7 @@ jobs:
           source_branch: 'master'
           destination_repo: 'git@github.com:pi0neerpat/swordy-bot-v2.git'
           destination_branch: 'master'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: git-sync-dev
         uses: wei/git-sync@v3
         with:
@@ -23,3 +24,4 @@ jobs:
           source_branch: 'dev'
           destination_repo: 'git@github.com:pi0neerpat/swordy-bot-v2.git'
           destination_branch: 'dev'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}

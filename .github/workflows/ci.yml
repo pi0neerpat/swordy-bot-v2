@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  runCI:
+    name: Run CI
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js v14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Cache "node_modules"
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: node_modules_${{ hashFiles('**/yarn.lock') }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      # lint, check, run tests, and build
+      # - name: Run CI
+      #   uses: jtoar/redwoodjs-ci@v0.2.0
+      - name: Lint
+        run: yarn rw lint
+        shell: bash
+      - name: Check
+        run: yarn rw check
+        shell: bash
+      - name: Build
+        run: yarn rw build
+        shell: bash

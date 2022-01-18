@@ -12,14 +12,14 @@ jobs:
       - name: git-sync-master
         uses: wei/git-sync@v3
         with:
-          source_repo: 'oneclickdapp/swordy-bot-v2'
+          source_repo: 'git@github.com:oneclickdapp/swordy-bot-v2.git'
           source_branch: 'master'
-          destination_repo: 'pi0neerpat/swordy-bot-v2'
+          destination_repo: 'git@github.com:pi0neerpat/swordy-bot-v2.git'
           destination_branch: 'master'
       - name: git-sync-dev
         uses: wei/git-sync@v3
         with:
-          source_repo: 'oneclickdapp/swordy-bot-v2'
+          source_repo: 'git@github.com:oneclickdapp/swordy-bot-v2.git'
           source_branch: 'dev'
-          destination_repo: 'pi0neerpat/swordy-bot-v2'
+          destination_repo: 'git@github.com:pi0neerpat/swordy-bot-v2.git'
           destination_branch: 'dev'

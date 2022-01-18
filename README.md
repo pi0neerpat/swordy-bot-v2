@@ -1,6 +1,6 @@
 <h1 align="center">Welcome swordy-bot-v2 👋</h1>
 
-> An Ethereum wallet verification service for role-gated Discord servers.
+> Open source Ethereum wallet verification service for role-gated Discord servers.
 
 ## Whats included
 

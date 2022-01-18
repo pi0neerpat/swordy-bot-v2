@@ -2,20 +2,20 @@ name: Repo sync (for Vercel deployments)
 
 on:
   push:
-    branches: [main, dev]
+    branches: [master, dev]
   workflow_dispatch:
 
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
     steps:
-      - name: git-sync-main
+      - name: git-sync-master
         uses: wei/git-sync@v3
         with:
           source_repo: 'oneclickdapp/swordy-bot-v2'
-          source_branch: 'main'
+          source_branch: 'master'
           destination_repo: 'pi0neerpat/swordy-bot-v2'
-          destination_branch: 'main'
+          destination_branch: 'master'
       - name: git-sync-dev
         uses: wei/git-sync@v3
         with:

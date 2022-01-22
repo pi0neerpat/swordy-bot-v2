@@ -14,8 +14,8 @@ export const getDiscordOauthURL = (state: string) =>
   `https://discord.com/api/oauth2/authorize?client_id=${
     process.env.DISCORD_PUBLIC_CLIENT_ID
   }&redirect_uri=${encodeURI(
-    process.env.PUBLIC_REDIRECT_URL
-  )}/discord&response_type=code&scope=${encodeURI(
+    process.env.APP_DOMAIN
+  )}/redirect/discord&response_type=code&scope=${encodeURI(
     SCOPES
   )}&state=${state}&prompt=none`
 
@@ -23,7 +23,7 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
   const body = {
     client_id: process.env.DISCORD_PUBLIC_CLIENT_ID,
     client_secret: process.env.DISCORD_CLIENT_SECRET,
-    redirect_uri: `${process.env.PUBLIC_REDIRECT_URL}/discord`,
+    redirect_uri: `${process.env.APP_DOMAIN}/redirect/discord`,
     grant_type: 'authorization_code',
     scope: SCOPES,
     code,

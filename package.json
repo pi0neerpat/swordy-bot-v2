@@ -10,6 +10,9 @@
   "scripts": {
     "heroku-prebuild": "cd bot && yarn install"
   },
+  "prisma": {
+    "seed": "yarn rw exec seed"
+  },
   "devDependencies": {
     "@redwoodjs/core": "^0.42.1"
   },
@@ -18,7 +21,7 @@
     "root": true
   },
   "engines": {
-    "node": "14.x",
-    "yarn": "1.x"
+    "node": ">=14.17 <=16.x",
+    "yarn": ">=1.15 <2"
   }
 }

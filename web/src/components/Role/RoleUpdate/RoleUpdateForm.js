@@ -9,7 +9,7 @@ import {
 import AddressField from 'src/components/forms/AddressField'
 import TypeDropdown from 'src/components/forms/TypeDropdown'
 import NetworkDropdown from 'src/components/forms/NetworkDropdown'
-import { TOKEN_TYPES } from 'src/helpers/constants.js'
+// import { TOKEN_TYPES } from 'src/helpers/constants.js'
 
 const RoleUpdateForm = (props) => {
   const [showTokenId, setShowTokenId] = React.useState()

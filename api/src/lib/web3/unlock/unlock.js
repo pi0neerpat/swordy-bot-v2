@@ -39,7 +39,7 @@ export const getUnlockPaywallUrl = ({
     messageToSign,
   }
   const url = `${PAYWALL_BASE_URL}?redirectUri=${encodeURIComponent(
-    process.env.PUBLIC_REDIRECT_URL + '/unlock' + '?id=' + userId
+    process.env.APP_DOMAIN + '/redirect/unlock' + '?id=' + userId
   )}&paywallConfig=${encodeURIComponent(JSON.stringify(paywallConfig))}`
   return url
 }

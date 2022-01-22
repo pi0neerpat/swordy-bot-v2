@@ -20,23 +20,18 @@ yarn
 cd bot && yarn
 ```
 
-Start the bot
+Use `/bot/.env.template` to create a new `.env` file, then start the bot:
 
 ```bash
-# In /bot, update the variables here
-cp .env.template .env
-
+# In /bot
 yarn start
 ```
 
-Set up the Redwood App
+Set up the Redwood App. Use `/.env.template` to create a new `.env` file and add the variables.
+
+Next create a new database and perform migrations. See docs for [Local Postgres Setup](https://redwoodjs.com/docs/local-postgres-setup).
 
 ```bash
-# In root of the repo, update the variables here
-cp .env.template .env
-
-
-# Create a new database and perform migrations
 yarn rw prisma migrate dev
 ```
 

@@ -15,6 +15,7 @@ export const QUERY = gql`
         purchaseUrl
         chainId
         contractAddress
+        tokenId
       }
     }
   }

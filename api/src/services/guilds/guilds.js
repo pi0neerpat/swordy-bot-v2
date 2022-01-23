@@ -1,21 +1,9 @@
 import { db } from 'src/lib/db'
-import { requireAuth, verifyManager } from 'src/lib/auth'
+
 import {
   getDiscordServerRoles,
-  fetchDiscordAccessToken,
   verifyDiscordServerManager,
 } from 'src/lib/discord'
-
-import { AuthenticationError } from '@redwoodjs/api'
-
-// Used when the environment variable REDWOOD_SECURE_SERVICES=1
-export const beforeResolver = (rules) => {
-  rules.add(requireAuth)
-  rules.add(verifyManager, {
-    only: ['guildDiscordRoles'],
-  })
-  rules.skip({ only: ['guildCount', 'guildStats'] })
-}
 
 export const guildStats = () => {
   return db.guild.findMany({
@@ -44,21 +32,21 @@ export const guildCount = async () => {
   return _all
 }
 
-export const guild = async ({ id }) => {
+export const guild = async ({ guildId }) => {
   const isUserManager = await verifyDiscordServerManager(
-    id,
+    guildId,
     context.currentUser.id
   )
 
   const guild = await db.guild.findUnique({
-    where: { id },
+    where: { id: guildId },
   })
   return { isUserManager, ...guild }
 }
 
-export const guildDiscordRoles = async ({ id }) => {
-  const serverRoles = await getDiscordServerRoles(id)
-  const roles = await db.guild.findUnique({ where: { id } }).roles()
+export const guildDiscordRoles = async ({ guildId }) => {
+  const serverRoles = await getDiscordServerRoles(guildId)
+  const roles = await db.guild.findUnique({ where: { id: guildId } }).roles()
   const roleIds = roles.map((role) => role.id)
   // Remove the roles that are already token-gated
   return serverRoles.filter((role) => !roleIds.includes(role.id))

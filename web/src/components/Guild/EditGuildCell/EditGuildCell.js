@@ -1,8 +1,9 @@
 import EditGuild from 'src/components/Guild/EditGuild'
+import Loader from 'src/components/Loader'
 
 export const QUERY = gql`
-  query EditGuildById($id: String!) {
-    guild: guild(id: $id) {
+  query EditGuildById($guildId: String!) {
+    guild: guild(guildId: $guildId) {
       id
       platform
       name
@@ -15,7 +16,11 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => (
+  <div className="p-4 mt-4 h-64 flex items-center justify-center">
+    <Loader />
+  </div>
+)
 
 export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error.message}</div>

@@ -1,6 +1,6 @@
 <h1 align="center">Welcome swordy-bot-v2 👋</h1>
 
-> An Ethereum wallet verification service for role-gated Discord servers.
+> Open source Ethereum wallet verification service for role-gated Discord servers.
 
 ## Whats included
 
@@ -20,23 +20,18 @@ yarn
 cd bot && yarn
 ```
 
-Start the bot
+Use `/bot/.env.template` to create a new `.env` file, then start the bot:
 
 ```bash
-# In /bot, update the variables here
-cp .env.template .env
-
+# In /bot
 yarn start
 ```
 
-Set up the Redwood App
+Set up the Redwood App. Use `/.env.template` to create a new `.env` file and add the variables.
+
+Next create a new database and perform migrations. See docs for [Local Postgres Setup](https://redwoodjs.com/docs/local-postgres-setup).
 
 ```bash
-# In root of the repo, update the variables here
-cp .env.template .env
-
-
-# Create a new database and perform migrations
 yarn rw prisma migrate dev
 ```
 
@@ -84,9 +79,9 @@ Copy the `TOKEN` and add it to both the bot and redwood app environment variable
 
 Next open the "OAUTH" tab, and save these variables to the redwood app environment. `CLIENT ID` as `DISCORD_PUBLIC_CLIENT_ID` and `CLIENT SECRET` as `DISCORD_CLIENT_SECRET`
 
-Add a REDIRECT for your application eg `http://192.168.4.69:8910/redirect/discord`
+Add a `APP_DOMAIN` for your application eg `http://192.168.4.69:8910`. This is used to build the redirect URLs needed for performing OAuth.
 
-Last, you'll add the bot to your server. In the developer portal, in "General Information", copy the `Application ID`. Insert this into this URL, and send it to whoever you want to add the bot.
+Finally, add the bot to your Discord server. In the developer portal, in "General Information", copy the `Application ID` and insert it into this URL. You can then send the URL to any server admin wishing to add the bot.
 
 ```
 # Add the bot with role management permissions
@@ -104,12 +99,12 @@ If you've made changes to the bot, generate your own Docker image.
 
 ```bash
 # Build
-docker build -t <your username>/unlock-protocol-discord-bot .
+docker build -t <your username>/swordy-bot-v2 .
 
 # Test it out
-docker run -p 8080:8080 -d <your username>/unlock-protocol-discord-bot
+docker run -p 8080:8080 -d <your username>/swordy-bot-v2
 
-# Publish it when ready!
+# Publish when ready!
 ```
 
 When you're ready to host the container, clone this repo on your server and navigate to this package. If you published your own version, the update the image name in `docker-compose.yml`. Be sure to update your `.env` file on the new machine as well.

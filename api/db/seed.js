@@ -1,39 +1,45 @@
 /* eslint-disable no-console */
 const { PrismaClient } = require('@prisma/client')
 const dotenv = require('dotenv')
+const fetch = require('node-fetch')
+const API_ENDPOINT = 'https://discord.com/api/v9'
+
+const getDiscordInviteUrl = async (serverId) => {
+  const data = await fetch(`${API_ENDPOINT}/guilds/${serverId}/invites`, {
+    headers: {
+      method: 'GET',
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json())
+  // NOTE: Its possible that there are no invite links for a server!
+  if (!data || !data.length) {
+    if (data.message) return data.message
+    if (!data.length) return '(no invites)'
+    return JSON.stringify(data)
+  }
+
+  const { code } = data[0]
+  return `https://discord.com/invite/${code}`
+}
 
 dotenv.config()
 const db = new PrismaClient()
 
-/*
- * Seed data is database data that needs to exist for your app to run.
- *
- * @see https://www.prisma.io/docs/reference/api-reference/command-reference#migrate-reset
- * @see https://www.prisma.io/docs/guides/prisma-guides/seed-database
- * @see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#upsert
- * @see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
- */
 async function main() {
-  console.warn('Please define your seed data.')
-
-  // // Change to match your data model and seeding needs
-  // const data = [
-  //   { name: 'alice', email: 'alice@example.com' },
-  //   { name: 'mark', email: 'mark@example.com' },
-  //   { name: 'jackie', email: 'jackie@example.com' },
-  //   { name: 'bob', email: 'bob@example.com' },
-  // ]
-
-  // // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
-  // // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
-  // return Promise.all(
-  //   data.map(async (user) => {
-  //     const record = await db.user.create({
-  //       data: { name: user.name, email: user.email },
-  //     })
-  //     console.log(record)
-  //   })
-  // )
+  console.warn('Getting server invite URLs.....')
+  const guilds = await db.guild.findMany()
+  const sorted = guilds.sort((a, b) => a.name.localeCompare(b.name))
+  for (var i = 0; i < sorted.length; i++) {
+    await setTimeout(async () => {}, 300)
+    const inviteUrl = await getDiscordInviteUrl(sorted[i].id)
+    const users = await db.guild
+      .findUnique({ where: { id: sorted[i].id } })
+      .users()
+    console.log(
+      `${i}. (${users.length} users) ${sorted[i].name} - ${inviteUrl}`
+    )
+  }
 }
 
 main()

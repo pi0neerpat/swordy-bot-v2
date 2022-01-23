@@ -1,6 +1,7 @@
 require('dotenv').config()
 const Discord = require('discord.js')
 const { MessageEmbed } = require('discord.js')
+const Sentry = require('./sentry')
 
 const ApiMgr = require('./apiMgr')
 
@@ -31,10 +32,13 @@ const handleInvoke = async (message) => {
         title: `${message.author.username}, ready to be knighted?`,
         description: `[Click here](${url}) to unlock more channels`,
         type: 'link',
+        footer: {
+          text: 'Swordy Bot will never DM you',
+        },
       }
       message.channel.stopTyping()
       const botMessage = await message.channel.send({ embed })
-      botMessage.delete({ timeout: 60000 })
+      botMessage.delete({ timeout: 60000 }).catch(() => {}) // Ignore already deleted messages
       await apiMgr.updatePromptMessageId({
         message: botMessage,
         userId: message.author.id,
@@ -44,6 +48,7 @@ const handleInvoke = async (message) => {
   } catch (e) {
     message.channel.stopTyping()
     console.log(e)
+    Sentry.captureException(e)
     message.reply(DISCORD_SERVER_ERROR)
   }
 }

@@ -1,4 +1,3 @@
-import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
 import { BottomWaves, TopWaves } from 'src/pages/HomePage/Waves'
 import BotButton from 'src/components/BotButton'
@@ -20,7 +19,10 @@ const HomePage = () => {
         <div className="sm:flex p-6  sm:p-16 mb-12 items-center ">
           <div className="w-full m-4">
             <h1 className="text-5xl font-bold leading-tight  ">
-              ⚔️ Swordy Bot
+              <span role="img" aria-label="Crossed swords">
+                ⚔️
+              </span>{' '}
+              Swordy Bot
             </h1>
             <h3 className="mt-8 text-2xl leading-tight">
               Your Kingdom - Your Roles
@@ -69,6 +71,7 @@ const HomePage = () => {
                 className="text-blue-600"
                 href="https://pi0neerpat.gitbook.io/one-click-dapp/swordy-bot/swordy-bot"
                 target="_blank"
+                rel="noreferrer"
               >
                 Bot Setup Guide
               </a>
@@ -80,8 +83,12 @@ const HomePage = () => {
         <Detail
           title={
             <div className="flex items-center">
-              <img className="h-6 mr-2" src="/unlock.png" /> What is Unlock
-              Protocol?
+              <img
+                className="h-6 mr-2"
+                src="/unlock.png"
+                alt="Unlock Protocol logo"
+              />{' '}
+              What is Unlock Protocol?
             </div>
           }
           text={
@@ -92,6 +99,7 @@ const HomePage = () => {
                 className="text-blue-600"
                 href="https://docs.unlock-protocol.com/creators/deploying-lock"
                 target="_blank"
+                rel="noreferrer"
               >
                 create your own Lock
               </a>
@@ -107,6 +115,7 @@ const HomePage = () => {
                 href="https://twitter.com/pi0neerpat"
                 target="_blank"
                 className="mt-4"
+                rel="noreferrer"
               >
                 <img
                   alt="Twitter: pi0neerpat"
@@ -119,6 +128,7 @@ const HomePage = () => {
         <a
           href="https://www.producthunt.com/posts/swordy-bot?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-swordy-bot"
           target="_blank"
+          rel="noreferrer"
         >
           <img
             src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=315126&theme=light"

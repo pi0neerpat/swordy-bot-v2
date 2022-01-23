@@ -4,18 +4,18 @@ import { TOKEN_TYPES } from 'src/lib/role/constants'
 
 import { getProviderByChainId } from 'src/lib/web3/helpers'
 
-import erc721Abi from './erc721Abi'
 import erc20Abi from './erc20Abi'
+import erc1155Abi from './erc1155Abi'
 
 export const checkTokenBalance = async ({
   userAddress,
   chainId,
   contractAddress,
   type,
-  balance,
+  tokenId,
+  _balance,
 }) => {
   try {
-    let tokenId = null // Specific NFTs are not implemented yet
     let userBalance = parseUnits('0', 18)
     const rpcProvider = getProviderByChainId(chainId)
     if (type === TOKEN_TYPES.ERC20) {
@@ -30,9 +30,17 @@ export const checkTokenBalance = async ({
       userBalance = await getErc721Balance({
         contractAddress,
         rpcProvider,
-        tokenId,
         userAddress,
       })
+    }
+    if (type === TOKEN_TYPES.ERC1155) {
+      userBalance = await getErc1155Balance({
+        contractAddress,
+        rpcProvider,
+        userAddress,
+        tokenId,
+      })
+      // Unused since type is required
       return userBalance.gte(parseUnits('1', 0))
     }
   } catch (e) {
@@ -47,7 +55,7 @@ const getErc721Balance = async ({
   rpcProvider,
   userAddress,
 }) => {
-  const contract = new Contract(contractAddress, erc721Abi, rpcProvider)
+  const contract = new Contract(contractAddress, erc20Abi, rpcProvider)
   return await contract.balanceOf(userAddress)
 }
 
@@ -58,4 +66,14 @@ const getErc20Balance = async ({
 }) => {
   const contract = new Contract(contractAddress, erc20Abi, rpcProvider)
   return await contract.balanceOf(userAddress)
+}
+
+const getErc1155Balance = async ({
+  contractAddress,
+  rpcProvider,
+  userAddress,
+  tokenId,
+}) => {
+  const contract = new Contract(contractAddress, erc1155Abi, rpcProvider)
+  return await contract.balanceOf(userAddress, tokenId)
 }

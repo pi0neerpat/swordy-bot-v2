@@ -1,8 +1,9 @@
 import Guild from 'src/components/Guild/Guild'
+import Loader from 'src/components/Loader'
 
 export const QUERY = gql`
-  query FindGuildById($id: String!) {
-    guild: guild(id: $id) {
+  query FindGuildById($guildId: String!) {
+    guild: guild(guildId: $guildId) {
       id
       platform
       name
@@ -17,7 +18,11 @@ export const QUERY = gql`
   }
 `
 
-export const Loading = () => <div>Loading...</div>
+export const Loading = () => (
+  <div className="p-4 mt-4 rw-segment h-64 flex items-center justify-center">
+    <Loader />
+  </div>
+)
 
 export const Empty = () => <div>Guild not found</div>
 

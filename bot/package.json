@@ -11,6 +11,8 @@
     "test": "jest --testPathPattern=src/ --detectOpenHandles --setupFiles dotenv/config"
   },
   "dependencies": {
+    "@sentry/node": "^6.13.3",
+    "@sentry/tracing": "^6.13.3",
     "@stablelib/random": "^1.0.0",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",

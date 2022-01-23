@@ -57,7 +57,6 @@ const calculateVelocity = (amount) => {
 }
 
 const toFixedNoRounding = (num, decimals) => {
-  // eslint-disable-next-line i18next/no-literal-string
   const reg = new RegExp('^-?\\d+(?:\\.\\d{0,' + decimals + '})?', 'g')
   const a = num.toString().match(reg)[0]
   const dot = a.indexOf('.')
@@ -148,15 +147,15 @@ const Odometer = ({
     setCounterValue(
       decimalsAdjust(toFixedNoRounding(impactRef.current, decimals + 1))
     )
-  }, [count])
+  }, [count, decimals])
 
   useEffect(() => {
     totalAmount ? setRate(interestRate) : setRate(0)
-  }, [totalAmount])
+  }, [totalAmount, interestRate])
 
   useEffect(() => {
     currentAmount && setCount(addGhostNumbers(currentAmount, decimals))
-  }, [currentAmount])
+  }, [currentAmount, decimals])
 
   // When NumberBig text component is used
   const isBig = textComponent.target === `span`

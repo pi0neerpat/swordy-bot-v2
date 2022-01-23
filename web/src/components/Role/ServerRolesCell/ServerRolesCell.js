@@ -1,8 +1,8 @@
 import ServerRoles from 'src/components/Role/ServerRoles'
 
 export const QUERY = gql`
-  query DiscordRoles($id: String!) {
-    guildDiscordRoles(id: $id) {
+  query DiscordRoles($guildId: String!) {
+    guildDiscordRoles(guildId: $guildId) {
       id
       name
     }
@@ -17,6 +17,6 @@ export const Failure = ({ error }) => (
   <div className="rw-cell-error">{error.message}</div>
 )
 
-export const Success = ({ guildDiscordRoles, id }) => {
-  return <ServerRoles roles={guildDiscordRoles} guildId={id} />
+export const Success = ({ guildDiscordRoles, guildId }) => {
+  return <ServerRoles roles={guildDiscordRoles} guildId={guildId} />
 }

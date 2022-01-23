@@ -11,18 +11,20 @@ export const schema = gql`
   }
 
   type Query {
-    role(id: String!): Role
+    role(id: String!): Role @requireAuth
   }
 
   type Mutation {
-    syncRole(id: String!): Role
+    syncRole(id: String!): Role @requireAuth
     addRoleToken(
       guildId: String!
       roleId: String!
       chainId: String!
       contractAddress: String!
       type: String!
-    ): Role!
+      tokenId: Int
+    ): Role! @verifyManager
     removeRoleToken(guildId: String!, roleId: String!, tokenId: String!): Role!
+      @verifyManager
   }
 `

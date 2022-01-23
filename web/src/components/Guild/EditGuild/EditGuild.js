@@ -1,35 +1,8 @@
-import { useMutation } from '@redwoodjs/web'
-import { toast } from '@redwoodjs/web/toast'
-import { navigate, routes, Link } from '@redwoodjs/router'
+import { routes, Link } from '@redwoodjs/router'
 import RoleCell from 'src/components/Role/RoleCell'
 import ServerRolesCell from 'src/components/Role/ServerRolesCell'
 
-const UPDATE_GUILD_MUTATION = gql`
-  mutation AddGuildRoleMutation($id: String!, $input: AddGuildRoleInput!) {
-    addGuildRole(id: $id, input: $input) {
-      id
-      platform
-      name
-      iconUrl
-      description
-    }
-  }
-`
-
-const EditGuild = ({ guild, refetch }) => {
-  const [addGuildRole, { loading, error }] = useMutation(
-    UPDATE_GUILD_MUTATION,
-    {
-      onCompleted: () => {
-        toast.success('Guild role updated!')
-      },
-    }
-  )
-
-  const onSave = (input, id) => {
-    addGuildRole({ variables: { id, input } })
-  }
-
+const EditGuild = ({ guild }) => {
   return (
     <div className="p-4">
       <div className="flex items-center justify-between">
@@ -63,13 +36,13 @@ const EditGuild = ({ guild, refetch }) => {
           ))
         ) : (
           <div className="rw-segment p-4 text-gray-500">
-            You haven't set up any roles for this Discord server. Click "Add
-            Token Access" to get started.
+            You haven&apos;t set up any roles for this Discord server. Click
+            &quot;Add Token Access&quot; to get started.
           </div>
         )}
       </div>
       <p className="mt-8">Roles without token access:</p>
-      <ServerRolesCell id={guild.id} />
+      <ServerRolesCell guildId={guild.id} />
     </div>
   )
 }

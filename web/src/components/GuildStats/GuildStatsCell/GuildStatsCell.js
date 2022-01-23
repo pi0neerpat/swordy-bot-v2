@@ -16,7 +16,7 @@ export const Loading = () => <>Loading...</>
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = ({ error }) => <>Couldn't load community data...</>
+export const Failure = () => <>Couldn&apos;t load community data...</>
 
 export const Success = ({ guildStats }) => {
   return (

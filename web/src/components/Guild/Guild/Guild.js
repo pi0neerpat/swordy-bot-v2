@@ -35,7 +35,7 @@ const Guild = ({ guild }) => {
           activeRoles.map((role, i) => <RoleCell id={role.id} key={i} />)
         ) : (
           <div className="rw-segment p-4 text-gray-500">
-            Click "Sync Role" to add a role
+            Click &quot;Sync Role&quot; to add a role
           </div>
         )}
       </div>

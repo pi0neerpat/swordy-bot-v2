@@ -1,11 +1,7 @@
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
-import { Link, routes, navigate } from '@redwoodjs/router'
-import {
-  trimAddress,
-  getNetworkNameFromId,
-  truncate,
-} from 'src/helpers/helpers'
+import { routes, navigate } from '@redwoodjs/router'
+import { getNetworkNameFromId, truncate } from 'src/helpers/helpers'
 import { CheckmarkIcon } from 'src/components/Icons'
 import RoleUpdate from 'src/components/Role/RoleUpdate'
 
@@ -31,7 +27,6 @@ const SYNC_GUILD_ROLE_MUTATION = gql`
 `
 
 const Role = ({ role, isEditing }) => {
-  const [isLoading, setIsLoading] = React.useState(false)
   const [showForm, setShowForm] = React.useState(false)
 
   const [removeRoleToken] = useMutation(REMOVE_ROLE_TOKEN_MUTATION, {
@@ -105,7 +100,6 @@ const Role = ({ role, isEditing }) => {
               className={`rw-button ${
                 role.userHasRole ? 'rw-button-small' : 'rw-button-green'
               }`}
-              disabled={isLoading}
               onClick={() => onSyncClick({ resync: role.userHasRole })}
             >
               {role.userHasRole ? 'Re-Sync' : 'Sync Role'}
@@ -120,13 +114,15 @@ const Role = ({ role, isEditing }) => {
         >
           <div className="flex  items-center flex-wrap justify-between ">
             <p className="text-grey-600">
-              {getNetworkNameFromId(token.chainId)} • {token.type}
+              {getNetworkNameFromId(token.chainId)} • {token.type}{' '}
+              {token.tokenId && <>• ID {token.tokenId}</>}
               {' • '}
             </p>
             <p className="sm:text-lg break-all ml-2">{token.contractAddress}</p>
             {token.purchaseUrl && (
               <a
                 target="_blank"
+                rel="noreferrer"
                 className="text-blue-600"
                 href={token.purchaseUrl}
               >
@@ -139,7 +135,6 @@ const Role = ({ role, isEditing }) => {
               type="button"
               className="rw-button rw-button-red"
               onClick={() => onRemoveClick(token)}
-              disabled={isLoading}
             >
               Remove token
             </button>

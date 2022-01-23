@@ -12,9 +12,7 @@ export const Loading = () => (
 
 export const Empty = () => <div>Empty</div>
 
-export const Failure = ({ error }) => (
-  <div className="p-4">Couldn't load...</div>
-)
+export const Failure = () => <div className="p-4">Couldn&apos;t load...</div>
 
 export const Success = ({ guildCount }) => {
   return (

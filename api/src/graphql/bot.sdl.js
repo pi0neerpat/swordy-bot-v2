@@ -9,23 +9,22 @@ export const schema = gql`
     text: String
     roleName: String
   }
-  type Query {
+  type Mutation {
     postMessage(
       content: String!
       userId: String!
       platform: String!
       guildId: String!
       guild: JSON!
-    ): Response!
-  }
-  type Mutation {
+    ): Response! @skipAuth
     updatePromptMessageId(userId: String!, promptMessageId: String!): String!
+      @skipAuth
     oauthCodeGrant(
       oauthState: String
       code: String
       type: String!
       signature: String
       userId: String
-    ): [RedirectOption!]!
+    ): [RedirectOption!]! @skipAuth
   }
 `

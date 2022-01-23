@@ -1,6 +1,7 @@
+import { AuthenticationError } from '@redwoodjs/graphql-server'
+import { EnvelopError } from '@envelop/core'
 import fetch from 'cross-fetch'
 
-import { AuthenticationError } from '@redwoodjs/api'
 import { db } from 'src/lib/db'
 const API_ENDPOINT = 'https://discord.com/api/v9'
 const SCOPES = 'identify guilds'
@@ -13,8 +14,8 @@ export const getDiscordOauthURL = (state: string) =>
   `https://discord.com/api/oauth2/authorize?client_id=${
     process.env.DISCORD_PUBLIC_CLIENT_ID
   }&redirect_uri=${encodeURI(
-    process.env.PUBLIC_REDIRECT_URL
-  )}/discord&response_type=code&scope=${encodeURI(
+    process.env.APP_DOMAIN
+  )}/redirect/discord&response_type=code&scope=${encodeURI(
     SCOPES
   )}&state=${state}&prompt=none`
 
@@ -22,7 +23,7 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
   const body = {
     client_id: process.env.DISCORD_PUBLIC_CLIENT_ID,
     client_secret: process.env.DISCORD_CLIENT_SECRET,
-    redirect_uri: `${process.env.PUBLIC_REDIRECT_URL}/discord`,
+    redirect_uri: `${process.env.APP_DOMAIN}/redirect/discord`,
     grant_type: 'authorization_code',
     scope: SCOPES,
     code,
@@ -30,6 +31,7 @@ export const getDiscordAccessTokenFromCode = async (code: string) => {
   const encodedBody = Object.keys(body)
     .map(
       (key) =>
+        /*eslint-disable-next-line @typescript-eslint/no-explicit-any */
         encodeURIComponent(key) + '=' + encodeURIComponent((body as any)[key])
     )
     .join('&')
@@ -55,11 +57,14 @@ export const getDiscordServerRoles = async (serverId: string) => {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json())
-  if (!roles || !roles.length)
+
+  if (!roles || roles.error)
     throw new AuthenticationError(
       `Can't access details for server #${serverId}. Swordy bot may have been removed.`
     )
-  return roles?.filter((role) => role.name !== '@everyone')
+  return roles?.filter(
+    (role) => role.name !== '@everyone' && !role.name.includes('swordy-bot-v2')
+  )
 }
 
 export const getDiscordInviteUrl = async (serverId: string) => {
@@ -70,7 +75,7 @@ export const getDiscordInviteUrl = async (serverId: string) => {
       'Content-Type': 'application/json',
     },
   }).then((res) => res.json())
-  console.log(data)
+  // NOTE: Its possible that there are no invite links for a server!
   if (!data || !data.length)
     throw new AuthenticationError(
       `Can't access details for server #${serverId}. Swordy bot may have been removed.`
@@ -147,7 +152,7 @@ export const addRoleForUser = async (
     }
   ).then((res) => res.text())
   if (response.includes('50013'))
-    throw Error(
+    throw new EnvelopError(
       'The swordy-bot role is not high enough to manage this role. SERVER SETTINGS > ROLES > drag "swordy-bot-v2" role above all the roles you want to manage. Video guide: https://youtu.be/JeM8oJE94zg?t=71'
     )
 }
@@ -157,7 +162,7 @@ export const removeRoleForUser = async (
   roleId: string,
   userId: string
 ) => {
-  const response = await fetch(
+  await fetch(
     `${API_ENDPOINT}/guilds/${serverId}/members/${userId}/roles/${roleId}`,
     {
       method: 'DELETE',
@@ -170,16 +175,13 @@ export const removeRoleForUser = async (
 }
 
 export const deleteMessage = async (channelId: string, messageId: string) => {
-  const response = await fetch(
-    `${API_ENDPOINT}/channels/${channelId}/messages/${messageId}`,
-    {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => res.text())
+  await fetch(`${API_ENDPOINT}/channels/${channelId}/messages/${messageId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bot ${process.env.DISCORD_BOT_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.text())
 }
 
 // Unused
@@ -197,6 +199,7 @@ export const refreshDiscordAccessToken = async (
   const encodedBody = Object.keys(body)
     .map(
       (key) =>
+        /*eslint-disable-next-line @typescript-eslint/no-explicit-any */
         encodeURIComponent(key) + '=' + encodeURIComponent((body as any)[key])
     )
     .join('&')
@@ -233,7 +236,7 @@ export const fetchDiscordAccessToken = async (id) => {
   const discordAuth = await db.user.findUnique({ where: { id } }).discordAuth()
   if (!discordAuth)
     throw new AuthenticationError('User has no Discord Oauth data')
-  const { refreshToken, accessToken, expiration } = discordAuth
+  const { refreshToken, accessToken } = discordAuth
   // TODO: Optimization - first check if current time is past expiration
   const profile = await getDiscordProfile(accessToken)
   if (profile) return accessToken

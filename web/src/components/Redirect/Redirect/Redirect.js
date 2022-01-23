@@ -1,5 +1,5 @@
 import { useMutation } from '@redwoodjs/web'
-import { routes, navigate, useParams } from '@redwoodjs/router'
+import { useParams } from '@redwoodjs/router'
 
 import DefaultLayout from 'src/layouts/DefaultLayout'
 import Loader from 'src/components/Loader'
@@ -48,11 +48,11 @@ const Redirect = ({ type }) => {
         userId,
       },
     })
-  }, [])
+  }, [code, codeGrantMutation, oauthState, signature, type, userId])
 
   const doRedirect = () => {
     if (data?.redirectOptions) {
-      if (data.redirectOptions[0].url.includes('discord.com/invite')) {
+      if (data.redirectOptions[0]?.url.includes('discord.com/invite')) {
         // Return the user back to Discord
         setUnlockSuccess(true)
         return setTimeout(() => {
@@ -62,12 +62,16 @@ const Redirect = ({ type }) => {
 
       // Automatic redirect only if there is only one role option
       if (data.redirectOptions.length === 1)
-        window.location.href = data.redirectOptions[0].url
+        return (window.location.href = data.redirectOptions[0].url)
+
+      // Otherwise, there is no Discord invite url, so just let user close the page
+      if (!data.redirectOptions.length) setUnlockSuccess(true)
     }
   }
 
   React.useEffect(() => {
     doRedirect()
+    /*eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [data])
 
   if (mutationError || error)
@@ -75,17 +79,23 @@ const Redirect = ({ type }) => {
       <DefaultLayout>
         <div className="mt-8 sm:text-center lg:text-left">
           <h1 className="text-l tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            ⛈️ Oops! Something went wrong
+            <span role="img" aria-label="cloud_with_lightning_and_rain">
+              ⛈️
+            </span>{' '}
+            Oops! Something went wrong
           </h1>
           <p className="mt-8 text-s text-grey-600">
             <b className="mt-8 text-s text-blue-600">
-              Please restart by typing "!unlock" in Discord
+              Please restart by typing &quot;!unlock&quot; in Discord
             </b>
             <br />
             <br />
             <ul>
               <li>
-                👾 Using multiple Discord accounts? Be sure you're signed into
+                <span role="img" aria-label="alien invader">
+                  👾
+                </span>
+                Using multiple Discord accounts? Be sure you&apos;re signed into
                 the right one in this browser -{' '}
                 <a href="https://discord.com/login" className="text-blue-600">
                   Discord Login
@@ -104,7 +114,10 @@ const Redirect = ({ type }) => {
       <div className="flex-grow min-w-screen min-h-screen ">
         <div className="mt-16 flex items-center justify-center">
           <CheckmarkIcon width="2rem" height="2rem" color="green" />
-          <p>Success! Taking you back to Discord...</p>
+          <p>
+            Success! Redirecting you back to Discord.... (you can close this
+            page)
+          </p>
         </div>
       </div>
     )

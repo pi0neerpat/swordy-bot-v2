@@ -25,7 +25,7 @@ model DiscordAuth {
 }
 
 model User {
-  id                    String       @id @default(uuid())
+  id                    String       @id
   address               String?      @unique
   authDetail            AuthDetail?  @relation(fields: [authDetailId], references: [id])
   authDetailId          String?
@@ -57,10 +57,11 @@ model Token {
   id              String  @id @default(uuid())
   chainId         String
   contractAddress String
-  type            String // erc721, erc20, loot
-  purchaseUrl     String?
-  balance         String? // Units of wei
+  type            String // erc721, erc20, erc1155, loot
+  purchaseUrl     String? // Deprecated, could delete
+  balance         String  @default("1000000000000000000") // Units of wei
   iconUrl         String?
+  tokenId         Int? // Only used for ERC1155
   Role            Role?   @relation(fields: [roleId], references: [id])
   roleId          String?
 }

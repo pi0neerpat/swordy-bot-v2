@@ -2,6 +2,10 @@
 
 > Open source Ethereum wallet verification service for role-gated Discord servers.
 
+## Help wanted!
+
+This Free and Open Source Software tool has grown rapidly in it's first year (120+ servers!). All contributions are welcome for maintaining this public good. If you'd like to contribute, dive right in to an open issue, or come chat in our [Discord](https://discord.gg/brmPu5z3rx). Bounties are available!
+
 ## Whats included
 
 - **🤖 Discord bot `/bot`**

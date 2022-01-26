@@ -24,6 +24,7 @@
     'XDAI_RPC',
     'INFURA_ID',
     'MATIC_RPC',
+    'OPTIMISM_RPC',
     'MUMBAI_RPC',
     'BSC_MAINNET_RPC',
     'BSC_TESTNET_RPC',

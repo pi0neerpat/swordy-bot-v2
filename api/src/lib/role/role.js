@@ -22,6 +22,7 @@ export const syncUserRole = async ({ user, role }) => {
               chainId,
               contractAddress,
             })
+            if (hasRole) userHasRole = true
           } catch (e) {
             console.log(e)
           }

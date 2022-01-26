@@ -5,6 +5,7 @@ export const EIP_155_NETWORK_SPEC = [
   { name: 'mainnet', chainId: 1 },
   { name: 'xdai', chainId: 100 },
   { name: 'matic', chainId: 137 },
+  { name: 'optimism', chainId: 10 },
   { name: 'bsc-mainnet', chainId: 56 },
   { name: 'ubiq', chainId: 8 },
   { name: 'avalanche', chainId: 43114 },
